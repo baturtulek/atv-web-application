@@ -3,15 +3,19 @@
   "name": "atv-restful-api",
   "version": "0.0.1",
   "description": "Vehicle Towing Automation System Rest API",
+  "license": "ISC",
   "private": "true",
   "author": "Ankara Trafik Vakfı",
   "contributors": [
-    "Alper Yörük",
-    "Ahmet Batur Tülek",
-    "Halil Ibrahim Turan",
-    "Cafer Bahar"
+    { "name" : "Alper Yörük", "email" : "alperyoruk3@gmail.com" },
+    { "name" : "Ahmet Batur Tülek", "email" : "baturtulek97@gmail.com" },
+    { "name" : "Halil Ibrahim Turan", "email" : "halilbrhmtrn@gmail.com" },
+    { "name" : "Cafer Bahar", "email" : "cbahar955@gmail.com" }
   ],
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/baturtulek/atv-restful-api.git"
+  },
   "dependencies": {
     "express": "^4.17.1"
   },
