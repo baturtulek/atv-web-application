@@ -1,0 +1,21 @@
+{
+  "title": "ATV",
+  "name": "atv-restful-api",
+  "version": "0.0.1",
+  "description": "Vehicle Towing Automation System Rest API",
+  "private": "true",
+  "author": "Ankara Trafik Vakfı",
+  "contributors": [
+    "Alper Yörük",
+    "Ahmet Batur Tülek",
+    "Halil Ibrahim Turan",
+    "Cafer Bahar"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start": "node ./src/app.js"
+  }
+}
