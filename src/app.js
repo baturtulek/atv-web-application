@@ -1,14 +1,12 @@
 
 require('dotenv').config();
-const express   = require('express');
-const session   = require('express-session');
-const app       = express();
-const port      = process.env.PORT ;
-const Sequelize = require('sequelize');
-const authRoutes = require('./routes/authRoute');
-const login = require('./controllers/authController');
-
-
+const express     = require('express');
+const session     = require('express-session');
+const app         = express();
+const port        = process.env.PORT ;
+const Sequelize   = require('sequelize');
+const authRoutes  = require('./routes/authRoute');
+const login       = require('./controllers/authController');
 
 const sequelize = new Sequelize(
     process.env.DB_NAME,
