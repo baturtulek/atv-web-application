@@ -1,0 +1,62 @@
+<%- include('../common/header') %>
+
+ 
+  <div class="container h-100">
+    <div class="row align-items-center h-100">
+        <div class="col-6 mx-auto">
+            <div class="jumbotron text-center">
+                <h1 class="display-4">Ankara Trafik Vakfı</h1>
+                <p class="lead">Sayfayı görebilmek için giriş yapmanız gerekiyor.</p>
+                <p class="lead">
+                    <a class="btn btn-primary btn-lg" href="#myModal" id="modalOpener" data-toggle="modal" role="button">Giriş Yap</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog modal-login">
+		<div class="modal-content">
+			<div class="modal-header">				
+				<h4 class="modal-title">Uye Girisi</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form method="POST" action="/auth/login">
+					<div class="form-group">
+						<i class="fa fa-user"></i>
+						<input type="text" class="form-control" placeholder="Kullanıcı Adı" name="name" required="required">
+					</div>
+					<div class="form-group">
+						<i class="fa fa-lock"></i>
+						<input type="password" class="form-control" placeholder="Şifre" name="password" required="required">					
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary btn-block btn-lg" value="Login">
+					</div>
+				</form>				
+				
+			</div>
+      <div class="alert alert-danger jumbotron text-center" role="alert" id="errorMessage" style="display:none;">
+        Kullancı Adı veya Şifre Hatalı. Tekrar Deneyiniz.
+      </div>    
+		</div>
+	</div>
+</div>     
+<script>
+  window.addEventListener('load', function () {
+    if (window.location.search.indexOf('error') > -1) {
+      $('#errorMessage').show();
+      window.setTimeout(() => {
+        $('#myModal').modal('show');
+        console.log($('#myModal'));
+      }, 1000);
+      $('#modalOpener').click(() => {
+        $('#errorMessage').hide();
+      });
+    }
+  });
+</script>
+<%- include('../common/footer') %>
