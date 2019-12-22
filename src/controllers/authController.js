@@ -1,4 +1,4 @@
-const db = require('../models');
+const db = require('../config/db');
 const bcrypt = require('bcrypt');
 
 
@@ -6,7 +6,7 @@ exports.loginGET = (req, res) => {
     if (req.session.user) {
          return res.render('main/main');
     }
-    res.render('auth/login');
+    return res.render('auth/login');
   };
 
 exports.loginPOST = (req, res) => {

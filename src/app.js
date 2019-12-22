@@ -1,12 +1,13 @@
 
 require('dotenv').config();
-const express     = require('express');
-const session     = require('express-session');
-const app         = express();
-const port        = process.env.PORT ;
-const Sequelize   = require('sequelize');
-const authRoutes  = require('./routes/authRoute');
-const login       = require('./controllers/authController');
+const express       = require('express');
+const session       = require('express-session');
+const app           = express();
+const port          = process.env.PORT ;
+const Sequelize     = require('sequelize');
+const authRoutes    = require('./routes/authRoute');
+const vehicleRoutes = require('./routes/vehicleRoute');
+const login         = require('./controllers/authController');
 
 const sequelize = new Sequelize(
     process.env.DB_NAME,
@@ -50,7 +51,10 @@ app.use((req, res, next) => {
 app.get('/', login.loginGET, (req, res) => {
    res.render('main/main');
 });
+
 authRoutes(app);
+vehicleRoutes(app);
+
 app.get('*', (req, res) => { 
   res.render('error/404.ejs');
 }) 
