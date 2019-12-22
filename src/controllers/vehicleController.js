@@ -20,7 +20,18 @@ exports.searchVehicleGET = (req, res) => {
 };
 
 exports.searchVehiclePOST = (req, res) => {
-    return res.json({
-        issued: "searchVehiclePOST request issued."
-    });
+    const vehicle = req.body;
+    console.log(req.body);
+    db.Vehicle.findOne({
+        include: [
+            { all: true, nested: true }
+        ],
+        where: {
+            licensePlate: vehicle.licensePlate
+        }
+    }).then(vehicle => {
+        return res.json(vehicle);
+    }).catch(err => {
+        console.log(err);
+    })
 };

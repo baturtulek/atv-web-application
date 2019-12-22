@@ -5,10 +5,6 @@ module.exports = (Sequelize, DataTypes) =>  {
             primaryKey: true,
             allowNull: false
         },
-        vehiclePlateNo : {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
         type : {
             type: DataTypes.STRING
         },
@@ -25,7 +21,8 @@ module.exports = (Sequelize, DataTypes) =>  {
             type: DataTypes.STRING
         },
     }, {
-        timeStamps: false
+        timestamps: false,
+        freezeTableName: true,
     });
     /*VehicleType.associate = (models) => {
         VehicleType.belongsTo(models.Vehicle, {foreignKey: '', as: ''})

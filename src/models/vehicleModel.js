@@ -25,9 +25,13 @@ module.exports = (Sequelize, DataTypes) => {
         },
         parkingLotId: {
             type: DataTypes.INTEGER
+        },
+        vehicleTypeId: {
+            type: DataTypes.INTEGER
         }
     }, {
-        timeStamps: false
+        timestamps: false,
+        freezeTableName: true,
     });
     return Vehicle;
 }
