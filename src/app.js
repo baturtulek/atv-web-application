@@ -49,7 +49,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/', login.loginGET, (req, res) => {
-   res.render('main/main');
+   res.render('main/main', session);
 });
 
 authRoutes(app);

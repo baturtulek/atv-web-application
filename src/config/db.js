@@ -17,9 +17,19 @@ db.connection = connection;
 db.User = require('../models/userModel')(connection, Sequelize);
 db.Vehicle = require('../models/vehicleModel')(connection, Sequelize);
 db.VehicleType = require('../models/vehicleTypeModel')(connection, Sequelize);
+db.VehicleBrandEnum = require('../models/vehicleBrandEnumModel')(connection, Sequelize);
+db.VehicleColorEnum = require('../models/vehicleColorEnumModel')(connection, Sequelize);
+db.VehicleStateEnum = require('../models/vehicleStateEnumModel')(connection, Sequelize);
+db.ParkingLotTypeEnum = require('../models/parkingLotTypeEnumModel')(connection, Sequelize);
 
 //Relations
+
+db.VehicleBrandEnum.belongsTo(db.VehicleType);
+db.VehicleColorEnum.belongsTo(db.VehicleType);
 db.VehicleType.belongsTo(db.Vehicle);
+db.VehicleStateEnum.belongsTo(db.Vehicle);
+db.ParkingLotTypeEnum.belongsTo(db.Vehicle);
+
 /*
 db.comments.belongsTo(db.posts);
 db.posts.hasMany(db.comments);

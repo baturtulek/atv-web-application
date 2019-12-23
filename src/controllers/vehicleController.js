@@ -8,6 +8,7 @@ exports.addVehicleGET = (req, res) => {
 };
 
 exports.addVehiclePOST = (req, res) => {
+    console.log(req.body);
     return res.json({
         issued: "addVehiclePOST request issued."
     });
