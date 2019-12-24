@@ -25,13 +25,19 @@ exports.searchVehiclePOST = (req, res) => {
     console.log(req.body);
     db.Vehicle.findOne({
         include: [
-            { all: true, nested: true }
+            { model: db.MobileVehicle,
+                as: 'MobileVehicle' },
+            { model: db.VehicleType,
+                as: 'VehicleType'}
         ],
         where: {
             licensePlate: vehicle.licensePlate
         }
     }).then(vehicle => {
-        return res.json(vehicle);
+        
+        res.json(vehicle);
+        //res.render('main/listVehicle',{licensePlate: vehicle.licensePlate, chassisNo: vehicle.chassisNo, engineNo: vehicle.engineNo, trusteeNo: vehicle.trusteeNo});
+
     }).catch(err => {
         console.log(err);
     })

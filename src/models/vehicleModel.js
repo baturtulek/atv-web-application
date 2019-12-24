@@ -28,6 +28,9 @@ module.exports = (Sequelize, DataTypes) => {
         },
         vehicleTypeId: {
             type: DataTypes.INTEGER
+        },
+        mobileVehicleId: {
+            type: DataTypes.INTEGER
         }
     }, {
         timestamps: false,

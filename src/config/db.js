@@ -21,14 +21,36 @@ db.VehicleBrandEnum = require('../models/vehicleBrandEnumModel')(connection, Seq
 db.VehicleColorEnum = require('../models/vehicleColorEnumModel')(connection, Sequelize);
 db.VehicleStateEnum = require('../models/vehicleStateEnumModel')(connection, Sequelize);
 db.ParkingLotTypeEnum = require('../models/parkingLotTypeEnumModel')(connection, Sequelize);
+db.MobileVehicle = require('../models/mobileVehicleModel')(connection,Sequelize);
 
 //Relations
-
-db.VehicleBrandEnum.belongsTo(db.VehicleType);
-db.VehicleColorEnum.belongsTo(db.VehicleType);
-db.VehicleType.belongsTo(db.Vehicle);
-db.VehicleStateEnum.belongsTo(db.Vehicle);
-db.ParkingLotTypeEnum.belongsTo(db.Vehicle);
+//db.VehicleBrandEnum.belongsTo(db.VehicleType);
+//db.VehicleColorEnum.belongsTo(db.VehicleType);
+//db.VehicleType.hasMany(db.VehicleBrandEnum);
+//db.VehicleType.hasMany(db.VehicleColorEnum);
+/*db.MobileVehicle.belongsTo(db.Vehicle,{
+  foreignKey: 'id',
+  sourceKey: 'mobileVehicleId'
+});*/
+db.Vehicle.hasMany(db.MobileVehicle,{
+  foreignKey: 'id',
+  sourceKey: 'mobileVehicleId',
+  as: 'MobileVehicle'
+});
+/*
+db.VehicleType.belongsTo(db.Vehicle,{
+  foreignKey: 'vehicleTypeId',
+  sourceKey: 'id'
+});*/
+db.Vehicle.hasMany(db.VehicleType,{
+  foreignKey: 'id',
+  sourceKey: 'vehicleTypeId',
+  as: 'VehicleType'
+});
+//db.VehicleStateEnum.belongsTo(db.Vehicle);
+//db.Vehicle.hasMany(db.VehicleStateEnum);
+//db.ParkingLotTypeEnum.belongsTo(db.Vehicle);
+//db.Vehicle.hasMany(db.ParkingLotTypeEnum);
 
 /*
 db.comments.belongsTo(db.posts);

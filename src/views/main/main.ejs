@@ -8,10 +8,10 @@
     <link rel="icon" href="../../../../favicon.ico">
 
     <title>ATV SIGNUM</title>
-
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
     <style>
     body {
   font-size: .875rem;
@@ -119,10 +119,9 @@
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Ankara Trafik Vakfı</a>
-      <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="/auth/logout">Çıkış yap (<%= session.user.username %>)</a>
+          <a class="nav-link btn btn-sm btn-dark" href="/auth/logout">Çıkış yap (<%= session.user.name %>)</a>
         </li>
       </ul>
     </nav>
@@ -133,10 +132,6 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link active" href="#">
-                  <span data-feather="home"></span>
-                  BURADASINIZ <span class="sr-only">(current)</span>
-                </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#" id="workAround">
@@ -170,12 +165,7 @@
               </li>
             </ul>
 
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Kayıtlı Raporlar</span>
-              <a class="d-flex align-items-center text-muted" href="#">
-                <span data-feather="plus-circle"></span>
-              </a>
-            </h6>
+          
             <ul class="nav flex-column mb-2">
               <li class="nav-item">
                 <a class="nav-link" href="#">
@@ -207,33 +197,27 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Tuşlar</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
-              <div class="btn-group mr-2">
-                <button class="btn btn-sm btn-outline-secondary">Tuş 1</button>
-                <button class="btn btn-sm btn-outline-secondary">Tuş 2</button>
-              </div>
-              <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                <span data-feather="calendar"></span>
-                Tuşumsu
-              </button>
+             
             </div>
           </div>
-          <div style="display:none;">
+          <div style="display:none;" id="entrance">
             <%- include('../main/entrance') %>
           </div>
         </main>
       </div>
     </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    
-
-    <!-- Icons -->
     <script>
-      //entranceyi buradan degistir
+      $(document).ready(function(){
+  $(".nav-tabs a").click(function(){
+    $(this).tab('show');
+  });
+});
+      $('#workAround').click(function() {
+        $('#entrance').show();
+        $( '#workAround' ).addClass( "active" );
+      });
     </script>
   </body>
 </html>

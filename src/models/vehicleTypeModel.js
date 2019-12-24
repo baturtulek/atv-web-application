@@ -5,16 +5,16 @@ module.exports = (Sequelize, DataTypes) =>  {
             primaryKey: true,
             allowNull: false
         },
-        type : {
+        typeId : {
             type: DataTypes.STRING
         },
         price : {
             type: DataTypes.STRING
         },
-        brand : {
+        brandId : {
             type: DataTypes.STRING
         },
-        color : {
+        colorId : {
             type: DataTypes.STRING
         },
         year : {

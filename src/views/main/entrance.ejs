@@ -1,63 +1,114 @@
-<%- include('../common/header') %>
 
-<div class="col-lg-12">
-                <section id="tab-container" class="panel tab-panel">
-                        <header class="tab-header panel-heading tab-bg-dark-navy-blue navbar-big">
-                                <ul id="tab-tabs" class="nav navbar-nav">
-                                        <li class="wht-color navbar-brand navbar-icon">
-                                                <i class="fa fa-chevron-right"></i>
-                                        </li>
-                                        <li class="active">
-                                                <a href="#section-list" data-toggle="tab"><i class="fa-list"></i> Listele</a>
-                                        </li>
-                                                                                
-                                                                                <li class="">
-                                                <a href="#section-add" data-toggle="tab"><i class="fa-plus"></i> Ekle</a>
-                                        </li>
-                                                                        </ul>
-                        <ul class="auto-page-title-ul nav navbar-nav navbar-right"><li class="menu-auto-page-title"><a href="javascript:;">Araç Giriş/Çıkış İşlemleri</a></li></ul></header>
-                        <div class="panel-body tab-body">
-                                <div class="tab-content">
-                                        <div class="tab-pane search-fields active" id="section-list">
-                                                <form id="form-search-fields" class="form-horizontal vh_vehiclepark" data-module="vh_vehiclepark">
-<div class="row">
-	<div class="col-sm-4">
-		      <div class="form-group" data-group-name="vh_vehiclepark_vehiclecodeList"><label class="col-sm-4 control-label">Plaka</label><div class="col-sm-8"> <input type="text" name="vh_vehiclepark_vehiclecodeList" id="vh_vehiclepark_vehiclecodeList" value="" class="form-control" data-inputmask-regex="^[A-Za-z0-9']+([A-Za-z0-9']+)*$"></div></div>
-              <div class="form-group" data-group-name="vh_vehiclepark_code"><label class="col-sm-4 control-label">Yed'i Emin No</label><div class="col-sm-8"> <input type="text" name="vh_vehiclepark_code" id="vh_vehiclepark_code" value="" class="form-control"></div></div>
+<div class="container mt-3">
+        <h2>Araç Giriş İşlemleri</h2>
+        <br>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link" href="#menu1">Listele</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#menu2">Ekle</a>
+          </li>
+        </ul>
+      
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div id="menu1" class="container tab-pane active"><br>
+                <form method="POST" action="/vehicle/search">
+                <div class="col-lg-12">
+                        <div class="row">
+                                <div class="col-sm-4">
+                                        <div class="form-group">
+                                                <label class="col-sm-2 control-label">Plaka</label>
+                                                <div class="col-sm-4">
+                                                        <input type="text" name="licensePlate" id="licensePlate" value=""
+                                                                class="form-control"
+                                                                data-inputmask-regex="^[A-Za-z0-9']+([A-Za-z0-9']+)*$"
+                                                                style="text-transform: uppercase;">
+                                                </div>
+                                        </div>
+                                </div>
+                                
+                        </div>
+                        <div class="row">
+                                <div class="col-sm-2">
+                                        <div class="form-group">
+                                                <input type="submit" class="btn btn-primary btn-block btn-sm" value="Ara">
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+                </form>
           </div>
-          <div class="col-sm-4">
-            <div class="form-group" data-group-name="vh_vehiclepark_sasino"><label class="col-sm-4 control-label">Şasi</label><div class="col-sm-8"> <input type="text" name="vh_vehiclepark_sasino" id="vh_vehiclepark_sasino" value="" class="form-control" data-inputmask-regex="^[A-Za-z0-9']+([A-Za-z0-9']+)*$"></div></div>
-            <div class="form-group" data-group-name="entryDate1"><label class="col-sm-4 control-label">Parka Giriş Tarihi Başlangıç</label><div class="col-sm-8"><div class="input-group date form_datetime-windesk"><span class="input-group-addon input-icon-group input-action-group"><i class="fa fa-calendar date-set"></i></span> <input type="text" name="entryDate1" id="entryDate1" class="form-control" data-type="datetime"></div></div></div>
-			<div class="form-group" data-group-name="entryDate2"><label class="col-sm-4 control-label">Parka Giriş Tarihi Bitiş</label><div class="col-sm-8"><div class="input-group date form_datetime-windesk"><span class="input-group-addon input-icon-group input-action-group"><i class="fa fa-calendar date-set"></i></span> <input type="text" name="entryDate2" id="entryDate2" class="form-control" data-type="datetime"></div></div></div>
-			 <input type="hidden" name="vh_vehiclepark_entrydatetime" id="vh_vehiclepark_entrydatetime">
+          <div id="menu2" class="container tab-pane fade"><br>
+                <form method="POST" action="/vehicle/add">
+                        <div class="col-lg-12">
+                                <div class="row">
+                                        <div class="col-sm-4">
+                                                <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Plaka</label>
+                                                        <div class="col-sm-8">
+                                                                <input type="text" name="licensePlate" id="licensePlate" value=""
+                                                                        class="form-control"
+                                                                        data-inputmask-regex="^[A-Za-z0-9']+([A-Za-z0-9']+)*$"
+                                                                        style="text-transform: uppercase;">
+                                                                        
+                                                        </div>
+                                                </div>
+                                                <div class="form-group"><label class="col-sm-4 control-label">Yed'i
+                                                                Emin No</label>
+                                                        <div class="col-sm-8">
+                                                                <input type="text" name="trusteeNo" id="trusteeNo" value=""
+                                                                        class="form-control">
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                                <div class="form-group"><label class="col-sm-4 control-label">Şasi No</label>
+                                                        <div class="col-sm-8">
+                                                                <input type="text" name="chassisNo" id="chassisNo" value="" class="form-control"
+                                                                        data-inputmask-regex="^[A-Za-z0-9']+([A-Za-z0-9']+)*$">
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                                <div class="form-group"><label class="col-sm-4 control-label">Durum</label>
+                                                        <div class="col-sm-8">
+                                                                <select name="status" id="status" class="form-control">
+                                                                        <option value="" selected="selected">
+                                                                        </option>
+                                                                        <option value="Otoparkta">
+                                                                                Otoparkta</option>
+                                                                        <option value="Transfer">
+                                                                                Transfer Halinde
+                                                                        </option>
+                                                                        <option value="cikisbekliyor">
+                                                                                Çıkış Onayı Bekliyor
+                                                                        </option>
+                                                                        <option value="cikis">Çıkış
+                                                                                Yaptı</option>
+                                                                        <option value="indirimOnay">
+                                                                                İndirim Onayına
+                                                                                Gönderildi</option>
+                                                                        <option value="indirimOnaylandi">
+                                                                                İndirim Onaylandı
+                                                                        </option>
+                                                                        <option value="satistancikis">
+                                                                                Satıştan Çıkış</option>
+                                                                </select>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <div class="row">
+                                                <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                                <input type="submit" class="btn btn-primary btn-block btn-sm" value="Ekle">
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                </form>
           </div>
-          <div class="col-sm-4">
-            <div class="form-group" data-group-name="vh_vehiclepark_status"><label class="col-sm-4 control-label">Durum</label><div class="col-sm-8"> <select name="vh_vehiclepark_status" id="vh_vehiclepark_status" class="form-control"><option value="" selected="selected"></option><option value="Otoparkta">Otoparkta</option><option value="Transfer">Transfer Halinde</option><option value="cikisbekliyor">Çıkış Onayı Bekliyor</option><option value="cikis">Çıkış Yaptı</option><option value="indirimOnay">İndirim Onayına Gönderildi</option><option value="indirimOnaylandi">İndirim Onaylandı</option><option value="satistancikis">Satıştan Çıkış</option></select></div></div>
-            <div class="form-group" data-group-name="checkOutDate1"><label class="col-sm-4 control-label">Parktan Çıkış Tarihi Başlangıç</label><div class="col-sm-8"><div class="input-group date form_datetime-windesk"><span class="input-group-addon input-icon-group input-action-group"><i class="fa fa-calendar date-set"></i></span> <input type="text" name="checkOutDate1" id="checkOutDate1" class="form-control" data-type="datetime"></div></div></div>
-			<div class="form-group" data-group-name="checkOutDate2"><label class="col-sm-4 control-label">Parktan Çıkış Tarihi Bitiş</label><div class="col-sm-8"><div class="input-group date form_datetime-windesk"><span class="input-group-addon input-icon-group input-action-group"><i class="fa fa-calendar date-set"></i></span> <input type="text" name="checkOutDate2" id="checkOutDate2" class="form-control" data-type="datetime"></div></div></div>
-			 <input type="hidden" name="vh_vehiclepark_checkoutdatetime" id="vh_vehiclepark_checkoutdatetime">
-          </div>
-           <input type="hidden" name="vh_vehiclepark_active" id="vh_vehiclepark_active" value="1">
-           <input type="hidden" name="vh_vehiclepark_parkcode" id="vh_vehiclepark_parkcode" value="">
-               
         </div>
-	<footer clas<s="row">
-		<div class="col-sm-12">
-			<div class="btn pull-right">
-				<button class="btn btn-info" type="reset">
-					<i class="fa fa-refresh"></i> Sıfırla
-				</button>
-				<button class="btn btn-danger form-search-submit" type="button" style="display:none">
-					<i class="fa fa-search"></i> Ara
-				</button>
-                                <button class="btn btn-danger form-search-submitButton" type="button">
-					<i class="fa fa-search"></i> Ara
-				</button>
-                            
-			</div>
-		</div>
-	</footer>    
-
-
-<%- include('../common/footer') %>
-
+      </div>

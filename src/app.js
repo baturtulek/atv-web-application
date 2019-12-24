@@ -59,6 +59,6 @@ vehicleRoutes(app);
 app.get('*', (req, res) => { 
   res.render('error/404.ejs');
 }) 
-app.listen(8001, (err) => {
+app.listen(3000, (err) => {
     console.log(`Server started at port : ${port}`);
 });
