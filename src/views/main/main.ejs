@@ -122,7 +122,7 @@
       <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="/auth/logout">Çıkış yap (<%= req.session.user.username %>)</a>
+          <a class="nav-link" href="/auth/logout">Çıkış yap (<%= session.user.username %>)</a>
         </li>
       </ul>
     </nav>
@@ -139,7 +139,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="#" id="workAround">
                   <span data-feather="file"></span>
                   Araç Giriş İşlemleri
                 </a>
@@ -219,6 +219,9 @@
               </button>
             </div>
           </div>
+          <div style="display:none;">
+            <%- include('../main/entrance') %>
+          </div>
         </main>
       </div>
     </div>
@@ -229,9 +232,8 @@
     
 
     <!-- Icons -->
-    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
     <script>
-      feather.replace()
+      //entranceyi buradan degistir
     </script>
   </body>
 </html>

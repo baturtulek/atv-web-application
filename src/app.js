@@ -10,12 +10,13 @@ const vehicleRoutes = require('./routes/vehicleRoute');
 const login         = require('./controllers/authController');
 
 const sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASS,
+    process.env.DB_NAME || 'ATV',
+    process.env.DB_USER || 'root',
+    process.env.DB_PASS || 'root',
     {
-      host: process.env.DB_HOST,
-      dialect: 'mysql' 
+      host: process.env.DB_HOST || '35.223.173.124' ,
+      dialect: 'mysql',
+      port: 3306 
     }
   );
 
@@ -58,6 +59,6 @@ vehicleRoutes(app);
 app.get('*', (req, res) => { 
   res.render('error/404.ejs');
 }) 
-app.listen(port, (err) => {
+app.listen(8001, (err) => {
     console.log(`Server started at port : ${port}`);
 });

@@ -11,7 +11,6 @@ exports.loginGET = (req, res) => {
 
 exports.loginPOST = (req, res) => {
     const credentials = req.body;
-    console.log(credentials);
 
     db.User.findOne({where: { name: credentials.name}}).then(user => {
         if (!user) {
@@ -19,7 +18,6 @@ exports.loginPOST = (req, res) => {
           }    
         bcrypt.compare(credentials.password, user.password).then(result => {
           if(result) {
-            console.log(user);
             req.session.user = user;
             return res.redirect('/');
           }
@@ -36,7 +34,6 @@ exports.loginPOST = (req, res) => {
   };
 
 exports.logout = (req, res) => {
-    console.log("asdfjsadfjjadfs");
     delete req.session.user;
     res.redirect('/');
 };
