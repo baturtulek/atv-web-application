@@ -2,19 +2,49 @@ const db = require('../config/db');
 
 
 exports.addVehicleGET = (req, res) => {
+    if (req.session.user) {
+        return res.render('main/main');
+   }
     return res.json({
         issued: "addVehicleGet request issued."
     });
 };
 
 exports.addVehiclePOST = (req, res) => {
-    console.log(req.body);
-    return res.json({
-        issued: "addVehiclePOST request issued."
+    const vehicle = req.body;
+    console.log(vehicle);
+
+    db.MobileVehicle.findOne({
+        where: {
+            plate: vehicle.licensePlate
+        }
+    }).then(mobilVehicle => {
+        if(!mobilVehicle)
+            return res.json({
+                cannotBeIssued: `There is no record with the licensePlateNo = ${vehicle.licensePlate} added by tow driver`
+            });
+        db.Vehicle.create({
+            licensePlate: vehicle.licensePlate,
+            chassisNo: vehicle.chassisNo,
+            engineNo: vehicle.engineNo,
+            trusteeNo: vehicle.trusteeNo,
+            stateId: vehicle.status,
+            parkingLotId: mobilVehicle.parkingLot,
+            mobileVehicleId: mobilVehicle.id
+        }).then(newVehicle => {
+            return res.json({
+                Issued: `Record has been added with the licensePlateNo = ${newVehicle.licensePlate}`
+            });
+        }).catch(err => {
+            console.log(err);
+        })
     });
 };
 
 exports.searchVehicleGET = (req, res) => {
+    if (req.session.user) {
+        return res.render('main/main');
+   }
     return res.json({
         issued: "searchVehicleGET request issued."
     });
