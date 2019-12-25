@@ -28,6 +28,7 @@ exports.addVehiclePOST = (req, res) => {
             chassisNo: vehicle.chassisNo,
             engineNo: vehicle.engineNo,
             trusteeNo: vehicle.trusteeNo,
+            entranceDate: new Date(vehicle.entranceDate),
             stateId: vehicle.status,
             parkingLotId: mobilVehicle.parkingLot,
             mobileVehicleId: mobilVehicle.id
@@ -52,7 +53,6 @@ exports.searchVehicleGET = (req, res) => {
 
 exports.searchVehiclePOST = (req, res) => {
     const vehicle = req.body;
-    console.log(req.body);
     db.Vehicle.findOne({
         include: [
             { model: db.MobileVehicle,
@@ -63,8 +63,11 @@ exports.searchVehiclePOST = (req, res) => {
         where: {
             licensePlate: vehicle.licensePlate
         }
-    }).then(vehicle => {
-        
+    }).then(a => {
+        console.log('vehicle info:');
+       // console.log(vehicle.dataValues);
+        const vehicle = a.dataValues;
+        return res.render('main/tableVehicle', {vehicle});
         res.json(vehicle);
         //res.render('main/listVehicle',{licensePlate: vehicle.licensePlate, chassisNo: vehicle.chassisNo, engineNo: vehicle.engineNo, trusteeNo: vehicle.trusteeNo});
 
