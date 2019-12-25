@@ -5,9 +5,11 @@ exports.addVehicleGET = (req, res) => {
     if (req.session.user) {
         return res.render('main/main');
    }
-    return res.json({
-        issued: "addVehicleGet request issued."
-    });
+   const result = {
+    message: `addVehicleGET request issued.`, 
+    success: true
+    };
+    return res.render('main/bootstrapMessage',{result});
 };
 
 exports.addVehiclePOST = (req, res) => {
@@ -19,10 +21,13 @@ exports.addVehiclePOST = (req, res) => {
             plate: vehicle.licensePlate
         }
     }).then(mobilVehicle => {
-        if(!mobilVehicle)
-            return res.json({
-                cannotBeIssued: `There is no record with the licensePlateNo = ${vehicle.licensePlate} added by tow driver`
-            });
+        if(!mobilVehicle) {
+            const result = {
+                message: `There is no record with the licensePlateNo = ${vehicle.licensePlate} added by tow driver`, 
+                success: false
+            };
+        return res.render('main/bootstrapMessage',{result});
+        }
         db.Vehicle.create({
             licensePlate: vehicle.licensePlate,
             chassisNo: vehicle.chassisNo,
@@ -33,9 +38,11 @@ exports.addVehiclePOST = (req, res) => {
             parkingLotId: mobilVehicle.parkingLot,
             mobileVehicleId: mobilVehicle.id
         }).then(newVehicle => {
-            return res.json({
-                Issued: `Record has been added with the licensePlateNo = ${newVehicle.licensePlate}`
-            });
+            const result = {
+                            message: `Record has been added with the licensePlateNo = ${newVehicle.licensePlate}`, 
+                            success: true
+                        };
+            return res.render('main/bootstrapMessage',{result});
         }).catch(err => {
             console.log(err);
         })
@@ -46,9 +53,12 @@ exports.searchVehicleGET = (req, res) => {
     if (req.session.user) {
         return res.render('main/main');
    }
-    return res.json({
-        issued: "searchVehicleGET request issued."
-    });
+   const result = {
+    message: `searchVehicleGET request issued.`, 
+    success: true
+    };
+    return res.render('main/bootstrapMessage',{result});
+    
 };
 
 exports.searchVehiclePOST = (req, res) => {
@@ -67,8 +77,15 @@ exports.searchVehiclePOST = (req, res) => {
         console.log('vehicle info:');
        // console.log(vehicle.dataValues);
         const vehicle = a.dataValues;
+        if(!vehicle) {
+            const result = {
+                message: `Please enter necessary information`, 
+                success: false
+                };
+                return res.render('main/bootstrapMessage',{result});
+        }
         return res.render('main/tableVehicle', {vehicle});
-        res.json(vehicle);
+        //res.json(vehicle);
         //res.render('main/listVehicle',{licensePlate: vehicle.licensePlate, chassisNo: vehicle.chassisNo, engineNo: vehicle.engineNo, trusteeNo: vehicle.trusteeNo});
 
     }).catch(err => {
