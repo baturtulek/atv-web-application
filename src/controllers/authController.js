@@ -1,22 +1,29 @@
+
 const db = require('../config/db');
 const bcrypt = require('bcrypt');
 
 
-exports.loginGET = (req, res) => {
+exports.loginView = (req, res) => {
     if (req.session.user) {
-         return res.render('main/main');
+         return  res.status(200).json({
+          message: `You're logged in. this should show main view`
+        });
     }
-    return res.render('auth/login');
+    return res.status(401).json({
+      message: `You're not logged in. this should show auth view`
+    });
   };
 
-exports.loginPOST = (req, res) => {
+exports.login = async (req, res) => {
     const credentials = req.body;
 
-    db.User.findOne({where: { name: credentials.name}}).then(user => {
+    const user = await db.User.findOne({where: { name: credentials.name}});
         if (!user) {
-            return res.redirect('/auth/login?error=invalid_credentials');
+            return res.status(403).json({
+              message: `User not found this sould redirect to invalid credentials View`
+            });
           }    
-        bcrypt.compare(credentials.password, user.password).then(result => {
+    const result = await bcrypt.compare(credentials.password, user.password);
           if(result) {
             req.session.user = user;
             return res.redirect('/');
@@ -27,13 +34,11 @@ exports.loginPOST = (req, res) => {
               username: 'Auth Failed',
             }); 
           }
-        })
-    }).catch(err => {
-        console.log(err);
-    })
   };
 
 exports.logout = (req, res) => {
     delete req.session.user;
-    res.redirect('/');
+    return res.status(403).json({
+      message: `user logged out ` // redirect to appropiate view
+    });
 };

@@ -1,26 +1,22 @@
+/* eslint-disable no-undef */
 
 require('dotenv').config();
+const compression   = require('compression');
 const express       = require('express');
 const session       = require('express-session');
 const app           = express();
-const port          = process.env.PORT ;
-const Sequelize     = require('sequelize');
 const authRoutes    = require('./routes/authRoute');
 const vehicleRoutes = require('./routes/vehicleRoute');
-const login         = require('./controllers/authController');
+const auth          = require('./controllers/authController');
+const db            = require('./config/db');
+const path          = require('path');
+const hbs           = require('express-handlebars');
+const helmet        = require('helmet');
+const morgan        = require('morgan');
+const winston       = require('./config/winston');
 
-const sequelize = new Sequelize(
-    process.env.DB_NAME || 'ATV',
-    process.env.DB_USER || 'root',
-    process.env.DB_PASS || 'root',
-    {
-      host: process.env.DB_HOST || '35.223.173.124' ,
-      dialect: 'mysql',
-      port: 3306 
-    }
-  );
 
-sequelize
+db.connection
   .authenticate()
   .then(() => {
     console.log('Connection has been established successfully.');
@@ -29,14 +25,25 @@ sequelize
     console.error('Unable to connect to the database:', err);
 });
 
+//app.use(morgan('combined'), { stream: winston.stream });
+app.use(compression());
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
 
-app.use(express.static('src/public'));
-app.set('views', 'src/views');
-app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.engine('hbs', hbs({
+    extname: '.hbs',
+    defaultLayout: 'auth',
+    layoutDir: __dirname + '/views/layouts',
+    partialsDir: __dirname + '/views/partials'
+}));
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(session({
     secret: 'ATV',
@@ -49,16 +56,22 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/', login.loginGET, (req, res) => {
-   res.render('main/main', session);
+app.get('/', auth.loginView, (req, res) => {
+   res.status(200).json({
+     message: `You're logged in. this should show main view`
+   });
 });
 
 authRoutes(app);
 vehicleRoutes(app);
 
-app.get('*', (req, res) => { 
-  res.render('error/404.ejs');
+app.get('*', (req, res) => {
+  const error = `Error 404 view should be here.`;
+  res.status(404).json({
+    error
+  });
+  //winston.error(error);
 }) 
-app.listen(3000, (err) => {
-    console.log(`Server started at port : ${port}`);
+app.listen(process.env.PORT, () => {
+    console.log(`Server started at port : ${process.env.PORT}`);
 });

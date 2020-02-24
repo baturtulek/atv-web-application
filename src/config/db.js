@@ -1,61 +1,78 @@
+/* eslint-disable no-undef */
 'use strict'
 
 const Sequelize = require('sequelize');
-const connection = new Sequelize(process.env.DB_NAME  || 'ATV', process.env.DB_USER || 'root', process.env.DB_PASS || 'root', {
-  host: process.env.DB_HOST || '35.223.173.124',
-  dialect: 'mysql'
+const connection = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
+  host: process.env.DB_HOST,
+  dialect: process.env.DB_DIALECT,
+  port: process.env.DB_PORT
 });
 
-// Connect all the models/tables in the database to a db object,
-//so everything is accessible via one object
+//having a single db object to access all models and connection
 const db = {};
-
+Sequelize
 db.Sequelize = Sequelize;
 db.connection = connection;
 
 //Models/tables
-db.User = require('../models/userModel')(connection, Sequelize);
-db.Vehicle = require('../models/vehicleModel')(connection, Sequelize);
-db.VehicleType = require('../models/vehicleTypeModel')(connection, Sequelize);
-db.VehicleBrandEnum = require('../models/vehicleBrandEnumModel')(connection, Sequelize);
-db.VehicleColorEnum = require('../models/vehicleColorEnumModel')(connection, Sequelize);
-db.VehicleStateEnum = require('../models/vehicleStateEnumModel')(connection, Sequelize);
-db.ParkingLotTypeEnum = require('../models/parkingLotTypeEnumModel')(connection, Sequelize);
-db.MobileVehicle = require('../models/mobileVehicleModel')(connection,Sequelize);
+db.User = require('../models/USER')(connection, Sequelize);
+db.UserRole = require('../models/USER_ROLE')(connection, Sequelize);
+db.Competency = require('../models/COMPETENCY')(connection, Sequelize);
+db.ParkingLot = require('../models/PARKING_LOT')(connection, Sequelize);
+db.ParkingType = require('../models/PARKING_TYPE')(connection, Sequelize);
+db.RegistrationType = require('../models/REGISTRATION_TYPE')(connection, Sequelize);
+db.RoleCompetency = require('../models/ROLE_COMPETENCY')(connection, Sequelize);
+db.TowedVehicle = require('../models/TOWED_VEHICLE')(connection, Sequelize);
+db.Vehicle = require('../models/VEHICLE')(connection, Sequelize);
+db.VehicleBrand = require('../models/VEHICLE_BRAND')(connection, Sequelize);
+db.VehicleType = require('../models/VEHICLE_TYPE')(connection, Sequelize);
+db.VehicleState = require('../models/VEHICLE_STATE')(connection, Sequelize);
+db.VehicleColor = require('../models/VEHICLE_COLOR')(connection, Sequelize);
+db.VehicleBodyStyle = require('../models/VEHICLE_BODY_STYLE')(connection, Sequelize);
 
-//Relations
-//db.VehicleBrandEnum.belongsTo(db.VehicleType);
-//db.VehicleColorEnum.belongsTo(db.VehicleType);
-//db.VehicleType.hasMany(db.VehicleBrandEnum);
-//db.VehicleType.hasMany(db.VehicleColorEnum);
-/*db.MobileVehicle.belongsTo(db.Vehicle,{
+db.TowedVehicle.hasOne(db.User,{
   foreignKey: 'id',
-  sourceKey: 'mobileVehicleId'
-});*/
-db.Vehicle.hasMany(db.MobileVehicle,{
-  foreignKey: 'id',
-  sourceKey: 'mobileVehicleId',
-  as: 'MobileVehicle'
+  sourceKey: 'staffId'
 });
-/*
-db.VehicleType.belongsTo(db.Vehicle,{
-  foreignKey: 'vehicleTypeId',
-  sourceKey: 'id'
-});*/
-db.Vehicle.hasMany(db.VehicleType,{
+db.TowedVehicle.hasOne(db.ParkingLot, {
   foreignKey: 'id',
-  sourceKey: 'vehicleTypeId',
-  as: 'VehicleType'
+  sourceKey: 'parkingLotId'
 });
-//db.VehicleStateEnum.belongsTo(db.Vehicle);
-//db.Vehicle.hasMany(db.VehicleStateEnum);
-//db.ParkingLotTypeEnum.belongsTo(db.Vehicle);
-//db.Vehicle.hasMany(db.ParkingLotTypeEnum);
-
-/*
-db.comments.belongsTo(db.posts);
-db.posts.hasMany(db.comments);
-db.posts.belongsTo(db.users);
-db.users.hasMany(db.posts);*/
+db.TowedVehicle.hasOne(db.VehicleState, {
+  foreignKey: 'id',
+  sourceKey: 'stateId'
+});
+db.ParkingLot.hasOne(db.User,{
+  foreignKey: 'id',
+  sourceKey: 'staffId'
+});
+db.ParkingLot.hasOne(db.ParkingType,{
+  foreignKey: 'id',
+  sourceKey: 'parkingTypeId'
+});
+db.RoleCompetency.hasMany(db.UserRole,{
+  foreignKey: 'id',
+  sourceKey: 'roleId'
+});
+db.RoleCompetency.hasMany(db.Competency,{
+  foreignKey: 'id',
+  sourceKey: 'competencyNo'
+});
+db.Vehicle.hasOne(db.VehicleType, {
+  foreignKey: 'id',
+  sourceKey: 'vehicleTypeId'
+});
+db.Vehicle.hasOne(db.VehicleColor, {
+  foreignKey: 'id',
+  sourceKey: 'colorId'
+});
+db.Vehicle.hasOne(db.VehicleBodyStyle, {
+  foreignKey: 'id',
+  sourceKey: 'bodyTypeId'
+});
+db.Vehicle.hasOne(db.VehicleBrand, {
+  foreignKey: 'id',
+  sourceKey: 'brandId'
+});
 
 module.exports = db;
