@@ -16,24 +16,23 @@ exports.loginView = (req, res) => {
 
 exports.login = async (req, res) => {
     const credentials = req.body;
-
-    const user = await db.User.findOne({where: { name: credentials.name}});
-        if (!user) {
-            return res.status(403).json({
-              message: `User not found this sould redirect to invalid credentials View`
-            });
-          }    
+    const user = await db.User.findOne({where: { username: credentials.username}});
+    if (!user) {
+    return res.status(403).json({
+        message: `User not found this sould redirect to invalid credentials View`
+    });
+    }
     const result = await bcrypt.compare(credentials.password, user.password);
-          if(result) {
-            req.session.user = user;
-            return res.redirect('/');
-          }
-          else {
-            console.log("Authfailed");
-            return res.status(401).json({ // If password is not correct, this return will work
-              username: 'Auth Failed',
-            }); 
-          }
+    if(result) {
+      req.session.user = user;
+      return res.redirect('/');
+    }
+    else {
+      console.log("Authfailed");
+      return res.status(401).json({ // If password is not correct, this return will work
+        username: 'Auth Failed',
+      }); 
+    }
   };
 
 exports.logout = (req, res) => {
