@@ -37,18 +37,17 @@ app.use(
   })
 );
 
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "/views"));
 app.engine(
   "hbs",
   hbs({
     extname: ".hbs",
-    defaultLayout: "auth",
+    // defaultLayout: 'auth',
     layoutDir: __dirname + "/views/layouts",
     partialsDir: __dirname + "/views/partials"
   })
 );
 
-app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -75,7 +74,7 @@ authRoutes(app);
 vehicleRoutes(app);
 competencyRoutes(app);
 userRoleRoutes(app);
-app.use("parkinglot", parkingLotRoutes);
+app.use("/parkinglot", parkingLotRoutes);
 
 app.get("*", (req, res) => {
   const error = `Error 404 view should be here.`;
