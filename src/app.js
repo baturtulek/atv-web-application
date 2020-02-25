@@ -7,6 +7,7 @@ const session       = require('express-session');
 const app           = express();
 const authRoutes    = require('./routes/authRoute');
 const vehicleRoutes = require('./routes/vehicleRoute');
+const competencyRoutes = require('./routes/competencyRoute');
 const auth          = require('./controllers/authController');
 const db            = require('./config/db');
 const path          = require('path');
@@ -64,6 +65,8 @@ app.get('/', auth.loginView, (req, res) => {
 
 authRoutes(app);
 vehicleRoutes(app);
+competencyRoutes(app);
+
 
 app.get('*', (req, res) => {
   const error = `Error 404 view should be here.`;

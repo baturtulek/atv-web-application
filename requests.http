@@ -3,7 +3,7 @@ POST http://localhost:3000/auth/login
 content-type: application/json
 
 {
-    "name": "cafer",
+    "username": "cafer",
     "password": "12345"
 }
 ###
@@ -39,4 +39,23 @@ content-type: application/json
 
 {
     "plate": "VV"
+}
+###
+GET http://localhost:3000/competency/add
+###
+POST http://localhost:3000/competency/add
+content-type: application/json
+
+{
+    "description": "sokusabilir"
+}
+
+###
+GET http://localhost:3000/competency/list
+###
+POST http://localhost:3000/competency/delete
+content-type: application/json
+
+{
+    "description": "sikisebilir"
 }
