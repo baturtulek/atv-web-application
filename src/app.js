@@ -8,6 +8,7 @@ const app           = express();
 const authRoutes    = require('./routes/authRoute');
 const vehicleRoutes = require('./routes/vehicleRoute');
 const competencyRoutes = require('./routes/competencyRoute');
+const parkingLotRoutes = require('./routes/parkingLotRoute');
 const auth          = require('./controllers/authController');
 const db            = require('./config/db');
 const path          = require('path');
@@ -66,7 +67,7 @@ app.get('/', auth.loginView, (req, res) => {
 authRoutes(app);
 vehicleRoutes(app);
 competencyRoutes(app);
-
+app.use('parkinglot', parkingLotRoutes);
 
 app.get('*', (req, res) => {
   const error = `Error 404 view should be here.`;
