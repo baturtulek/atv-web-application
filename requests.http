@@ -59,3 +59,21 @@ content-type: application/json
 {
     "description": "sikisebilir"
 }
+
+###
+GET http://localhost:3000/role/list
+###
+POST http://localhost:3000/role/add
+content-type: application/json
+
+{
+    "role": "terbiyesizlesebilir"
+}
+
+###
+POST http://localhost:3000/role/delete
+content-type: application/json
+
+{
+    "role": "terbiyesizlesebilir"
+}

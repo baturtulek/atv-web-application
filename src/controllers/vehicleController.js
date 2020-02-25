@@ -72,6 +72,7 @@ exports.searchVehicle = async (req, res) => {
         where: {
           plate: plate
         },
+        raw: true,
         include: [
           {
             model: db.User

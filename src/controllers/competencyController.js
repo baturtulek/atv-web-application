@@ -17,7 +17,8 @@ exports.addCompetency = async (req, res) => {
       const found = await db.Competency.findOne({
         where: {
           description
-        }
+        },
+        raw: true
       });
 
       if (!found) {
@@ -65,7 +66,7 @@ exports.listCompetency = async (req, res) => {
 exports.competencyDeleteView = (req, res) => {
   if (helper.IsAuthorized(req, res)) {
     return res.status(httpStatus.OK).json({
-      message: `You're logged in. this should show competencyDeleteView` // return searchVehicleView
+      message: `You're logged in. this should show competencyDeleteView`
     });
   }
 };

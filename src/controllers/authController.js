@@ -15,7 +15,8 @@ exports.login = async (req, res) => {
   const credentials = req.body;
   try {
     const user = await db.User.findOne({
-      where: { username: credentials.username }
+      where: { username: credentials.username },
+      raw: true
     });
     if (!user) {
       return res.status(httpStatus.NOT_FOUND).json({
