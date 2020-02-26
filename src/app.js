@@ -78,7 +78,6 @@ competencyRoutes(app);
 userRoleRoutes(app);
 parkingLotRoutes(app);
 
-
 app.get('*', (req, res) => {
   const error = 'Error 404 view should be here.';
   res.status(404).json({

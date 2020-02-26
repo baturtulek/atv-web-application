@@ -153,7 +153,7 @@ a.header-logo span {
 #sidebar {
   display: flex;
   flex-direction: column;
-  width: 240px;
+  min-width: 230px;
   height: calc(100vh - 60px);
   overflow: hidden;
   background-color: #2a3542;
@@ -178,9 +178,27 @@ a.header-logo span {
   font-weight: 300;
 }
 
+#sidebar ul {
+  padding: 10px 5px;
+}
+
 #sidebar ul li {
   display: block;
   position: relative;
+}
+
+.active,
+#sidebar ul li a:hover {
+  background-color: #005ce6;
+  text-decoration: none;
+}
+
+#sidebar ul li.active i {
+  transform: rotate(90deg);
+}
+
+ars {
+  background-color: white;
 }
 
 #sidebar ul li::before {
@@ -194,4 +212,8 @@ a.header-logo span {
   padding: 10px 25px;
   display: block;
   vertical-align: middle;
+}
+
+#sidebar ul li a:hover {
+  text-decoration: none;
 }
