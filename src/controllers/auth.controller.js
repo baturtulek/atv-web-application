@@ -6,7 +6,7 @@ exports.loginView = (req, res) => {
   if (res.locals.session.user) {
     return res.redirect('/parkinglot/list');
   }
-  return res.render('layouts/main', { partialName: 'login' });
+  res.render('layouts/auth', { layout: 'auth' });
 };
 
 exports.login = async (req, res) => {
