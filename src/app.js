@@ -1,62 +1,64 @@
 /* eslint-disable no-undef */
 
-require("dotenv").config();
-const compression = require("compression");
-const express = require("express");
-const session = require("express-session");
+require('dotenv').config();
+const compression = require('compression');
+const express = require('express');
+const session = require('express-session');
+const helmet = require('helmet');
+const path = require('path');
+const hbs = require('express-handlebars');
+const morgan = require('morgan');
+const authRoutes = require('./routes/auth.route');
+const vehicleRoutes = require('./routes/vehicle.route');
+const competencyRoutes = require('./routes/competency.route');
+const userRoleRoutes = require('./routes/userRole.route');
+const parkingLotRoutes = require('./routes/parkingLot.route');
+const auth = require('./controllers/auth.controller');
+const db = require('./config/db');
+
 const app = express();
-const authRoutes = require("./routes/authRoute");
-const vehicleRoutes = require("./routes/vehicleRoute");
-const competencyRoutes = require("./routes/competencyRoute");
-const userRoleRoutes = require("./routes/userRoleRoute");
-const parkingLotRoutes = require("./routes/parkingLotRoute");
-const auth = require("./controllers/authController");
-const db = require("./config/db");
-const path = require("path");
-const hbs = require("express-handlebars");
-const helmet = require("helmet");
-const morgan = require("morgan");
-const winston = require("./config/winston");
+
 
 db.connection
   .authenticate()
   .then(() => {
-    console.log("Connection has been established successfully.");
+    console.log('Connection has been established successfully.');
   })
-  .catch(err => {
-    console.error("Unable to connect to the database:", err);
+  .catch((err) => {
+    console.error('Unable to connect to the database:', err);
   });
 
-//app.use(morgan('combined'), { stream: winston.stream });
+app.use(morgan('dev'));
 app.use(compression());
 app.use(helmet());
 app.use(express.json());
 app.use(
   express.urlencoded({
-    extended: true
-  })
+    extended: true,
+  }),
 );
 
-app.set("views", path.join(__dirname, "/views"));
+app.set('views', path.join(__dirname, '/views'));
 app.engine(
-  "hbs",
+  'hbs',
   hbs({
-    extname: ".hbs",
-    // defaultLayout: 'auth',
-    layoutDir: __dirname + "/views/layouts",
-    partialsDir: __dirname + "/views/partials"
-  })
+    extname: '.hbs',
+    layoutDir: `${__dirname}/views/layouts`,
+    partialsDir: `${__dirname}/views/partials`,
+  }),
 );
 
-app.set("view engine", "hbs");
-app.use(express.static(path.join(__dirname, "public")));
+app.set('view engine', 'hbs');
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use(
   session({
-    secret: "ATV",
+    key: 'sid',
+    secret: 'ATV',
     resave: false,
-    saveUninitialized: true
-  })
+    saveUninitialized: true,
+  }),
 );
 
 app.use((req, res, next) => {
@@ -64,9 +66,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", auth.loginView, (req, res) => {
+app.get('/', auth.loginView, (req, res) => {
   res.status(200).json({
-    message: `You're logged in. this should show main view`
+    message: 'You\'re logged in. this should show main view',
   });
 });
 
@@ -74,14 +76,14 @@ authRoutes(app);
 vehicleRoutes(app);
 competencyRoutes(app);
 userRoleRoutes(app);
-app.use("/parkinglot", parkingLotRoutes);
+parkingLotRoutes(app);
 
-app.get("*", (req, res) => {
-  const error = `Error 404 view should be here.`;
+
+app.get('*', (req, res) => {
+  const error = 'Error 404 view should be here.';
   res.status(404).json({
-    error
+    error,
   });
-  //winston.error(error);
 });
 app.listen(process.env.PORT, () => {
   console.log(`Server started at port : ${process.env.PORT}`);

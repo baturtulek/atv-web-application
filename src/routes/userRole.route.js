@@ -1,13 +1,13 @@
-const userRoleController = require("../controllers/userRoleController");
+const userRoleController = require('../controllers/userRole.controller');
 
-const routes = app => {
+const routes = (app) => {
   app
-    .route("/role/add")
+    .route('/role/add')
     .get(userRoleController.userRoleView)
     .post(userRoleController.addUserRole);
-  app.route("/role/list").get(userRoleController.listUserRoles);
+  app.route('/role/list').get(userRoleController.listUserRoles);
   app
-    .route("/role/delete")
+    .route('/role/delete')
     .get(userRoleController.userRoleDeleteView)
     .post(userRoleController.deleteUserRole);
 };

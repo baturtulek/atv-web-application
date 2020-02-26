@@ -1,4 +1,4 @@
-const db = require("../config/db");
+const db = require('../config/db');
 
 exports.listParkingLots = async (req, res) => {
   const parkinglot = await db.ParkingLot.findAll({
@@ -6,27 +6,32 @@ exports.listParkingLots = async (req, res) => {
     include: [
       {
         model: db.ParkingType,
-        attributes: ["description"]
-      }
-    ]
+        attributes: ['description'],
+      },
+    ],
   });
-  res.render("partials/listParkingLots", { parkinglot: parkinglot });
+  res.render('layouts/main', { partialName: 'listParkingLots', parkinglot });
 };
 
 exports.addParkingLotView = async (req, res) => {
   const parkingLotType = await db.ParkingType.findAll({
-    raw: true
+    raw: true,
   });
   const parkingLotUsers = await db.User.findAll({
     where: {
-      roleId: 2
+      roleId: 2,
     },
-    raw: true
+    raw: true,
   });
   console.log(parkingLotUsers);
-  res.render("partials/addParkingLots", {
-    parkingLotType: parkingLotType,
-    parkingLotUsers: parkingLotUsers
+  // res.render("partials/addParkingLots", {
+  //   parkingLotType: parkingLotType,
+  //   parkingLotUsers: parkingLotUsers
+  // });
+  res.render('layouts/main', {
+    partialName: 'addParkingLots',
+    parkingLotType,
+    parkingLotUsers,
   });
 };
 
@@ -36,11 +41,11 @@ exports.addNewParkingLot = async (req, res) => {
     const newParkingLot = await db.ParkingLot.create({
       description,
       staffId,
-      parkingTypeId
+      parkingTypeId,
     });
     if (newParkingLot) {
       const result = {
-        message: `Parking Lot added!`
+        message: 'Parking Lot added!',
       };
       return res.status(201).json(result);
     }

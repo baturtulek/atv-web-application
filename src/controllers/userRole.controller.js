@@ -1,11 +1,11 @@
-const db = require("../config/db");
-const httpStatus = require("http-status");
-const helper = require("../shared/helper");
+const httpStatus = require('http-status');
+const db = require('../config/db');
+const helper = require('../shared/helper');
 
 exports.userRoleView = async (req, res) => {
   if (helper.IsAuthorized(req, res)) {
     return res.status(httpStatus.OK).json({
-      message: `You're logged in. this should show userRoleView` // return searchVehicleView
+      message: 'You\'re logged in. this should show userRoleView', // return searchVehicleView
     });
   }
 };
@@ -16,44 +16,46 @@ exports.addUserRole = async (req, res) => {
     try {
       const found = await db.UserRole.findOne({
         where: {
-          role
-        }
+          role,
+        },
       });
 
       if (!found) {
         const createdRole = await db.UserRole.create({
-          role: role
+          role,
         });
         if (createdRole) {
           const result = {
             message: `Record has been added role = ${role}`,
-            success: true
+            success: true,
           };
           return res.status(httpStatus.CREATED).json(result); // return the appropiate view that confirms vehicle has been added
         }
       } else {
         return res.status(httpStatus.CONFLICT).json({
-          message: `there is already a record role = ${role}`
+          message: `there is already a record role = ${role}`,
         });
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 
+// eslint-disable-next-line consistent-return
 exports.listUserRoles = async (req, res) => {
   if (helper.IsAuthorized(req, res)) {
     try {
       const allUserRoles = await db.UserRole.findAll({
-        raw: true
+        raw: true,
       });
       if (allUserRoles) {
         console.log(allUserRoles);
         return JSON.stringify(allUserRoles);
-      } else {
-        return res.status(httpStatus.NOT_FOUND).json({
-          message: `there is no record to show`
-        });
       }
+      return res.status(httpStatus.NOT_FOUND).json({
+        message: 'there is no record to show',
+      });
     } catch (exception) {
       console.log(exception);
     }
@@ -63,7 +65,7 @@ exports.listUserRoles = async (req, res) => {
 exports.userRoleDeleteView = async (req, res) => {
   if (helper.IsAuthorized(req, res)) {
     return res.status(httpStatus.OK).json({
-      message: `You're logged in. this should show userRoleDeleteView`
+      message: 'You\'re logged in. this should show userRoleDeleteView',
     });
   }
 };
@@ -74,21 +76,21 @@ exports.deleteUserRole = async (req, res) => {
     try {
       const found = await db.UserRole.findOne({
         where: {
-          role
-        }
+          role,
+        },
       });
       if (!found) {
         return res.status(httpStatus.NOT_FOUND).json({
-          message: `UserRole not found with the role of ${role}`
+          message: `UserRole not found with the role of ${role}`,
         });
       }
       await db.UserRole.destroy({
         where: {
-          role
-        }
+          role,
+        },
       });
       return res.status(httpStatus.OK).json({
-        message: `competency deleted with the role of ${role}`
+        message: `competency deleted with the role of ${role}`,
       });
     } catch (ex) {
       console.log(ex);

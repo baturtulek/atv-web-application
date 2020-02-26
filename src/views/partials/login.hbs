@@ -2,11 +2,11 @@
     <div class="middle d-flex">
         <div id="login">
 
-            <form action="javascript:void(0);" method="get">
+            <form action="/auth/login" method="POST">
                 <fieldset>
 
-                    <p><span class="fa fa-user"></span><input type="text" Placeholder="Kullanıcı Adı" required></p>
-                    <p><span class="fa fa-lock"></span><input type="password" Placeholder="Şifre" required></p>
+                    <p><span class="fa fa-user"></span><input type="text" name="username" Placeholder="Kullanıcı Adı" required></p>
+                    <p><span class="fa fa-lock"></span><input type="password" name="password" Placeholder="Şifre" required></p>
 
                     <div>
                         <span style="width:48%; text-align:left;  display: inline-block;"><a class="small-text"

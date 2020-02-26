@@ -1,12 +1,12 @@
-const vehicleController = require("../controllers/vehicleController");
+const vehicleController = require('../controllers/vehicle.controller');
 
-const routes = app => {
+const routes = (app) => {
   app
-    .route("/vehicle/add")
+    .route('/vehicle/add')
     .get(vehicleController.addVehicleView)
     .post(vehicleController.addVehicle);
   app
-    .route("/vehicle/search")
+    .route('/vehicle/search')
     .get(vehicleController.searchVehicleView)
     .post(vehicleController.searchVehicle);
 };
