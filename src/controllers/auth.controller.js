@@ -2,6 +2,13 @@ const bcrypt = require('bcrypt');
 const httpStatus = require('http-status');
 const db = require('../config/db');
 
+exports.defaultView = (req, res) => {
+  if (res.locals.session.user) {
+    return res.redirect('/parkinglot/list');
+  }
+  return res.redirect('/auth/login');
+};
+
 exports.loginView = (req, res) => {
   if (res.locals.session.user) {
     return res.redirect('/parkinglot/list');
@@ -11,7 +18,6 @@ exports.loginView = (req, res) => {
 
 exports.login = async (req, res) => {
   const credentials = req.body;
-  console.log(credentials);
   try {
     const user = await db.User.findOne({
       where: { username: credentials.username },
@@ -37,7 +43,5 @@ exports.login = async (req, res) => {
 
 exports.logout = (req, res) => {
   delete req.session.user;
-  return res.status(httpStatus.OK).json({
-    message: 'user logged out ', // redirect to appropiate view
-  });
+  return res.redirect('/auth/login');
 };

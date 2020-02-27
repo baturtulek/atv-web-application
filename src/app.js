@@ -18,7 +18,6 @@ const db = require('./config/db');
 
 const app = express();
 
-
 db.connection
   .authenticate()
   .then(() => {
@@ -51,7 +50,6 @@ app.engine(
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.use(
   session({
     key: 'sid',
@@ -66,10 +64,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', auth.loginView, (req, res) => {
-  res.status(200).json({
-    message: 'You\'re logged in. this should show main view',
-  });
+app.get('/', auth.defaultView, (req, res, next) => {
+  next();
 });
 
 authRoutes(app);
@@ -84,6 +80,5 @@ app.get('*', (req, res) => {
     error,
   });
 });
-app.listen(process.env.PORT, () => {
-  console.log(`Server started at port : ${process.env.PORT}`);
-});
+
+module.exports = app;
