@@ -28,4 +28,26 @@ exports.listVehicleType = async (req, res) => {
   }
 };
 
+exports.deleteVehicleType = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const type = await db.VehicleType.findOne({
+      where: {
+        id,
+      },
+    });
+    if (!type) {
+      return res.redirect('/vehicletype/list');
+    }
+    await db.VehicleType.destroy({
+      where: {
+        id,
+      },
+    });
+    return res.redirect('/vehicletype/list');
+  } catch (error) {
+    return res.redirect('/vehicletype/list');
+  }
+};
+
 exports.addVehicleTypeView = async (req, res) => res.render('layouts/main', { partialName: 'addVehicleType' });

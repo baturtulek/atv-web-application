@@ -1,3 +1,8 @@
+{{#if result}}
+      <div class="alert alert-success" role="alert">
+        Silme işlemi başarılı
+      </div>
+{{/if}}
 <div class="table-responsive fixed-table-body">
 <table class="table table-striped">
   <thead>
@@ -16,7 +21,10 @@
       <td>{{this.name}}</td>
       <td>{{this.description}}</td>
       <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-      <td><i class="fa fa-trash" aria-hidden="true"></i></td>
+      <td><a href="/vehicletype/delete/{{this.id}}" onclick="return confirm('Silmek istediğinize emin misiniz ?');">
+            <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+          </a>
+      </td>
     </tr>
     {{/each}}
   </tbody>

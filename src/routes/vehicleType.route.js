@@ -15,7 +15,14 @@ const routes = (app) => {
   app
     .route('/vehicletype/list')
     .get(
+      validateUserAndNavigate,
       vehicleTypeController.listVehicleType,
+    );
+  app
+    .route('/vehicletype/delete/:id?')
+    .get(
+      validateUserAndNavigate,
+      vehicleTypeController.deleteVehicleType,
     );
 };
 
