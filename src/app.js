@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* eslint-disable no-undef,linebreak-style */
 
 require('dotenv').config();
 const compression = require('compression');

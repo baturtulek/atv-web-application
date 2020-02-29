@@ -17,7 +17,7 @@ exports.listParkingLots = async (req, res) => {
 };
 
 exports.addParkingLotView = async (req, res) => {
-  if (res.locals.session.user) { 
+  if (res.locals.session.user) {
     const parkingLotType = await db.ParkingType.findAll({
       raw: true,
     });
