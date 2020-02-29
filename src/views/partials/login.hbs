@@ -1,10 +1,11 @@
 <div class="container d-flex">
   <div class="middle d-flex">
     <div id="login">
-
       <form action="/login" method="POST">
         <fieldset>
-
+          <div class="alert alert-danger" role="alert" id="errorMessage" style="display:none;">
+            Invalid credentials!
+          </div>
           <p><span class="fa fa-user"></span><input type="text" name="username" Placeholder="Kullanıcı Adı" required></p>
           <p><span class="fa fa-lock"></span><input type="password" name="password" Placeholder="Şifre" required></p>
 
@@ -20,6 +21,13 @@
     <div class="logo">
       WINDESK
     </div>
-
   </div>
 </div>
+
+<script>
+  window.addEventListener('load', function () {
+    if (window.location.search.indexOf('error') > -1) {
+      $('#errorMessage').show();
+    }
+  });
+</script>

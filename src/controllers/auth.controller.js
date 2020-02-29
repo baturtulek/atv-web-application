@@ -1,13 +1,5 @@
 const bcrypt = require('bcrypt');
-const httpStatus = require('http-status');
 const db = require('../config/db');
-
-exports.defaultView = (req, res) => {
-  if (res.locals.session.user) {
-    return res.redirect('/parkinglot/list');
-  }
-  return res.redirect('/login');
-};
 
 exports.loginView = (req, res) => {
   if (res.locals.session.user) {
@@ -19,25 +11,20 @@ exports.loginView = (req, res) => {
 exports.login = async (req, res) => {
   const credentials = req.body;
   try {
-    const user = await db.User.findOne({
+    const dbUser = await db.User.findOne({
       where: { username: credentials.username },
       raw: true,
     });
-    if (!user) {
-      return res.status(httpStatus.NOT_FOUND).json({
-        message: 'User not found this sould redirect to invalid credentials View',
-      });
+    if (dbUser) {
+      const result = await bcrypt.compare(credentials.password, dbUser.password);
+      if (result) {
+        req.session.user = dbUser;
+        return res.redirect('/');
+      }
     }
-    const result = await bcrypt.compare(credentials.password, user.password);
-    if (result) {
-      req.session.user = user;
-      return res.redirect('/');
-    }
-    return res.status(httpStatus.UNAUTHORIZED).json({
-      username: 'Auth Failed',
-    });
-  } catch (exception) {
-    console.log(exception);
+    return res.redirect('/login?error=invalid_credentials');
+  } catch (error) {
+    console.log(error);
   }
 };
 

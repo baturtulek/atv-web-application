@@ -48,7 +48,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
   session({
-    key: 'sid',
+    key: 'SID',
     secret: 'ATV',
     resave: false,
     saveUninitialized: true,
@@ -68,10 +68,7 @@ userRoleRoutes(app);
 parkingLotRoutes(app);
 
 app.get('*', (req, res) => {
-  const error = 'Error 404 view should be here.';
-  res.status(404).json({
-    error,
-  });
+  return res.render('layouts/main', { layout: 'error', partialName: 'listParkingLots' });
 });
 
 module.exports = app;
