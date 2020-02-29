@@ -68,7 +68,7 @@ userRoleRoutes(app);
 parkingLotRoutes(app);
 
 app.get('*', (req, res) => {
-  return res.render('layouts/main', { layout: 'error', partialName: 'listParkingLots' });
+  return res.render('layouts/main', { layout: 'error', partialName: '404' });
 });
 
 module.exports = app;

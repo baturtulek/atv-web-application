@@ -221,3 +221,31 @@ a.header-logo span {
 .grid-button-group i {
   margin-right: 5px;
 }
+
+.error {
+  font-family: "Lato", sans-serif;
+  color: #888888;
+  margin: 0;
+  display: table;
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+}
+.errorContent {
+  display: table-cell;
+  vertical-align: middle;
+}
+.errorContent h1 {
+  font-size: 70px;
+  display: inline-block;
+  padding-right: 12px;
+  margin: 0;
+}
+.errorContent p {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+.errorContent a {
+  font-size: 17px;
+  color: deepskyblue;
+}
