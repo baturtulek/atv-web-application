@@ -1,0 +1,37 @@
+<div style="display: flex;flex-grow: 1;">
+  <div style="flex: 1; margin: 12px 24px;">
+    {{#if success}}
+      <div class="alert alert-success" role="alert">
+        Araç Tipi Eklendi
+      </div>
+    {{/if}}
+    {{#if fail}}
+      <div class="alert alert-danger" role="alert">
+        Maalesef işlem başarılı değil
+      </div>
+    {{/if}}
+    <form class="border border-light" action="/vehicletype/add" method="POST">
+      
+      <div class="form-group row row-cols-2">
+        <div class="col">
+          <label class="col-sm-2 col-form-label">Adı</label>
+          <input name="name" type="text" class="form-control" placeholder="Araç Tipi">
+        </div>
+        <div class="col">
+          <label class="col-sm-2 col-form-label">Açıklama</label>
+          <input name="description" type="text" class="form-control" placeholder="Açıklama">
+        </div>
+      </div>
+      
+      <div class="form-group row row-cols-2">
+        <div class="col mr-auto">
+
+        </div>
+        <div class="col-auto grid-button-group">
+          <button type="button" class="btn-info"><i class="fa fa-refresh"></i>Sıfırla</button>
+          <button type="button submit" class="btn-success"><i class="fa fa-save"></i>Ekle</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -14,6 +14,8 @@ const vehicleRoutes = require('./routes/vehicle.route');
 const competencyRoutes = require('./routes/competency.route');
 const userRoleRoutes = require('./routes/userRole.route');
 const parkingLotRoutes = require('./routes/parkingLot.route');
+const vehicleTypeRoutes = require('./routes/vehicleType.route');
+
 const db = require('./config/db');
 
 const app = express();
@@ -66,6 +68,7 @@ vehicleRoutes(app);
 competencyRoutes(app);
 userRoleRoutes(app);
 parkingLotRoutes(app);
+vehicleTypeRoutes(app);
 
 app.get('*', (req, res) => {
   return res.render('layouts/main', { layout: 'error', partialName: '404' });

@@ -1,0 +1,24 @@
+<div class="table-responsive fixed-table-body">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Adı</th>
+      <th scope="col">Açıklaması</th>
+      <th scope="col">Düzenle</th>
+      <th scope="col">Sil</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each vehicleTypes}}
+    <tr>
+      <th scope="row">{{@index}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.description}}</td>
+      <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+      <td><i class="fa fa-trash" aria-hidden="true"></i></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+</div>
