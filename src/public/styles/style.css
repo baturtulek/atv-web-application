@@ -189,16 +189,12 @@ a.header-logo span {
 
 .active,
 #sidebar ul li a:hover {
-  background-color: #005ce6;
+  color: #FF6C60; 
   text-decoration: none;
 }
 
 #sidebar ul li.active i {
   transform: rotate(90deg);
-}
-
-ars {
-  background-color: white;
 }
 
 #sidebar ul li::before {
@@ -216,4 +212,12 @@ ars {
 
 #sidebar ul li a:hover {
   text-decoration: none;
+}
+
+.grid-button-group {
+  align-self: flex-end;
+}
+
+.grid-button-group i {
+  margin-right: 5px;
 }

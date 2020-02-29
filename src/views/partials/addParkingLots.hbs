@@ -1,30 +1,43 @@
-<div>
-  <form class="text-center border border-light" action="add" method="POST"> 
-    <p class="h4 mb-4">Otopark Ekle</p>
-    
-    <div class="form-group" data-validate="Otopark adini yaziniz">
-      <label>OTOPARK ADI</label>
-      <input class="form-control" type="text" name="description" placeholder="Otopark Adı">
-    </div>
-    
-    <div class="form-group" data-validate="Otopark adini yaziniz">
-      <label>OTOPARK TİPİ *</label>
-      <select class="browser-default custom-select" name="parkingTypeId">
-        {{#each parkingLotType}}
-          <option value="{{this.id}}">{{this.description}}</option>
-        {{/each}}
-      </select>
-    </div>
-
-    <div class="form-group" data-validate="Otopark adini yaziniz">
-      <label>OTOPARK TİPİ *</label>
-      <select class="browser-default custom-select" name="staffId">
-        {{#each parkingLotUsers}}
-          <option value="{{this.id}}">{{this.name}} {{this.surname}}</option>
-        {{/each}}
-      </select>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+<div style="display: flex;flex-grow: 1;">
+  <div style="flex: 2; margin: 12px 24px;">
+    <form class="border border-light" action="add" method="POST">
+      
+      <div class="form-group row row-cols-3">
+        <div class="col">
+          <label class="col-sm-2 col-form-label">Adı</label>
+          <input type="text" class="form-control" placeholder="Otopark Adı">
+        </div>
+        
+        <div class="col">
+          <label class="col-form-label">Yetkili</label>
+          <select class="browser-default custom-select" name="staffId">
+            {{#each parkingLotUsers}}
+              <option value="{{this.id}}">{{this.name}} {{this.surname}}</option>
+            {{/each}}
+          </select>
+        </div>
+        
+        <div class="col" data-validate="Otopark adini yaziniz">
+          <label class="col-sm-2 col-form-label">Tip</label>
+          <select class="browser-default custom-select" name="parkingTypeId">
+            {{#each parkingLotType}}
+              <option value="{{this.id}}">{{this.description}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-group row row-cols-3">
+        
+        <div class="col mr-auto" data-validate="Otopark adini yaziniz">
+          <label class="col-sm-2 col-form-label">Açıklama</label>
+          <textarea class="form-control" rows="2"></textarea>
+        </div>
+        <div class="col-auto grid-button-group">
+          <button type="button" class="btn-info"><i class="fa fa-refresh"></i>Sıfırla</button>
+          <button type="button" class="btn-success"><i class="fa fa-save"></i>Ekle</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
