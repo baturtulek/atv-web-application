@@ -72,5 +72,9 @@ db.Vehicle.hasOne(db.VehicleBrand, {
   foreignKey: 'id',
   sourceKey: 'brandId',
 });
+db.User.hasOne(db.UserRole, {
+  foreignKey: 'id',
+  sourceKey: 'roleId',
+});
 
 module.exports = db;

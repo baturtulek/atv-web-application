@@ -1,0 +1,47 @@
+<div style="display: flex;flex-grow: 1;">
+  <div style="flex: 2; margin: 12px 24px;">
+    <form class="border border-light" action="/user/add" method="POST">
+
+      <div class="col">
+          <label class="col-sm-2 col-form-label">Rol</label>
+          <select class="browser-default custom-select" name="roleId">
+            {{#each userRole}}
+              <option value="{{this.id}}">{{this.role}}</option>
+            {{/each}}
+          </select>
+      
+          <label class="col-sm-2 col-form-label">Adı</label>
+          <input type="text" class="form-control" name="name" placeholder="Adı">
+
+          <label class="col-sm-2 col-form-label">Soyadı</label>
+          <input type="text" class="form-control" name="surname" placeholder="Soyadı">
+
+          <label class="col-sm-2 col-form-label">Kullanıcı Adı</label>
+          <input type="text" class="form-control" name="username" placeholder="Kullanıcı Adı">
+
+          <label class="col-sm-2 col-form-label">Kayıt Türü</label>
+          <select class="browser-default custom-select" name="registrationTypeId">
+            {{#each registrationType}}
+              <option value="{{this.id}}">{{this.description}}</option>
+            {{/each}}
+          </select>
+
+          <label class="col-sm-2 col-form-label">TC No</label>
+          <input type="text" class="form-control" name="tcNo" placeholder="TC No">
+        
+          <label class="col-sm-2 col-form-label">Email</label>
+          <input type="text" class="form-control" name="email" placeholder="Email">
+
+          <label class="col-sm-2 col-form-label">Şifre</label>
+          <input type="password" class="form-control" name="password" placeholder="Şifre">
+      </div>
+      <div class="form-group row row-cols-3">
+        <div class="col-auto grid-button-group">
+          <button type="button" class="btn-info"><i class="fa fa-refresh"></i>Sıfırla</button>
+          <button type="submit" class="btn-success"><i class="fa fa-save"></i>Ekle</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
