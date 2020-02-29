@@ -1,15 +1,34 @@
 const userRoleController = require('../controllers/userRole.controller');
+const { validateUserAndNavigate } = require('../utils/authentication');
 
 const routes = (app) => {
   app
     .route('/role/add')
-    .get(userRoleController.userRoleView)
-    .post(userRoleController.addUserRole);
-  app.route('/role/list').get(userRoleController.listUserRoles);
+    .get(
+      validateUserAndNavigate,
+      userRoleController.userRoleView,
+    )
+    .post(
+      validateUserAndNavigate,
+      userRoleController.addUserRole,
+    );
+
+  app
+    .route('/role/list')
+    .get(
+      validateUserAndNavigate,
+      userRoleController.listUserRoles,
+    );
   app
     .route('/role/delete')
-    .get(userRoleController.userRoleDeleteView)
-    .post(userRoleController.deleteUserRole);
+    .get(
+      validateUserAndNavigate,
+      userRoleController.userRoleDeleteView,
+    )
+    .post(
+      validateUserAndNavigate,
+      userRoleController.deleteUserRole,
+    );
 };
 
 module.exports = routes;
