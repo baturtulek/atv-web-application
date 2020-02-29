@@ -16,7 +16,7 @@ const routes = (app) => {
     )
     .post(
       validateUserAndNavigate,
-      parkingLotController.addParkingLotView,
+      parkingLotController.addNewParkingLot,
     );
 };
 

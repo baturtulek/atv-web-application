@@ -5,7 +5,7 @@ exports.loginView = (req, res) => {
   if (res.locals.session.user) {
     return res.redirect('/parkinglot/list');
   }
-  res.render('layouts/auth', { layout: 'auth' });
+  res.render('layouts/auth', { layout: 'auth', invalidCredentialsError: false });
 };
 
 exports.login = async (req, res) => {
@@ -22,7 +22,7 @@ exports.login = async (req, res) => {
         return res.redirect('/');
       }
     }
-    return res.redirect('/login?error=invalid_credentials');
+    res.render('layouts/auth', { layout: 'auth', invalidCredentialsError: true });
   } catch (error) {
     console.log(error);
   }

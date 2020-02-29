@@ -1,11 +1,10 @@
 <div style="display: flex;flex-grow: 1;">
   <div style="flex: 2; margin: 12px 24px;">
-    <form class="border border-light" action="add" method="POST">
-      
+    <form class="border border-light" action="/parkinglot/add" method="POST">
       <div class="form-group row row-cols-3">
         <div class="col">
           <label class="col-sm-2 col-form-label">Adı</label>
-          <input type="text" class="form-control" placeholder="Otopark Adı">
+          <input type="text" class="form-control" name="description" placeholder="Otopark Adı">
         </div>
         
         <div class="col">
@@ -35,7 +34,7 @@
         </div>
         <div class="col-auto grid-button-group">
           <button type="button" class="btn-info"><i class="fa fa-refresh"></i>Sıfırla</button>
-          <button type="button" class="btn-success"><i class="fa fa-save"></i>Ekle</button>
+          <button type="submit" class="btn-success"><i class="fa fa-save"></i>Ekle</button>
         </div>
       </div>
     </form>

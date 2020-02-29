@@ -1,5 +1,4 @@
 /* eslint-disable no-undef,linebreak-style */
-
 require('dotenv').config();
 const compression = require('compression');
 const express = require('express');
@@ -11,7 +10,6 @@ const morgan = require('morgan');
 const db = require('./config/db');
 
 const app = express();
-
 
 db.connection
   .authenticate()
@@ -58,7 +56,7 @@ app.use((req, res, next) => {
 require('./routes')(app);
 
 app.get('*', (req, res) => {
-  return res.render('layouts/main', { layout: 'error', partialName: '404' });
+  return res.render('layouts/error', { layout: 'error', partialName: '404' });
 });
 
 module.exports = app;
