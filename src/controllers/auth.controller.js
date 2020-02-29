@@ -6,7 +6,7 @@ exports.defaultView = (req, res) => {
   if (res.locals.session.user) {
     return res.redirect('/parkinglot/list');
   }
-  return res.redirect('/auth/login');
+  return res.redirect('/login');
 };
 
 exports.loginView = (req, res) => {
@@ -43,5 +43,5 @@ exports.login = async (req, res) => {
 
 exports.logout = (req, res) => {
   delete req.session.user;
-  return res.redirect('/auth/login');
+  return res.redirect('/login');
 };

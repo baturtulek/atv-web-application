@@ -1,20 +1,19 @@
 /* eslint-disable no-undef */
-'use strict'
-
 const Sequelize = require('sequelize');
+
 const connection = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
   host: process.env.DB_HOST,
   dialect: process.env.DB_DIALECT,
-  port: process.env.DB_PORT
+  port: process.env.DB_PORT,
 });
 
-//having a single db object to access all models and connection
+// having a single db object to access all models and connection
 const db = {};
-Sequelize
+Sequelize;
 db.Sequelize = Sequelize;
 db.connection = connection;
 
-//Models/tables
+// Models/tables
 db.User = require('../models/USER')(connection, Sequelize);
 db.UserRole = require('../models/USER_ROLE')(connection, Sequelize);
 db.Competency = require('../models/COMPETENCY')(connection, Sequelize);
@@ -30,49 +29,49 @@ db.VehicleState = require('../models/VEHICLE_STATE')(connection, Sequelize);
 db.VehicleColor = require('../models/VEHICLE_COLOR')(connection, Sequelize);
 db.VehicleBodyStyle = require('../models/VEHICLE_BODY_STYLE')(connection, Sequelize);
 
-db.TowedVehicle.hasOne(db.User,{
+db.TowedVehicle.hasOne(db.User, {
   foreignKey: 'id',
-  sourceKey: 'staffId'
+  sourceKey: 'staffId',
 });
 db.TowedVehicle.hasOne(db.ParkingLot, {
   foreignKey: 'id',
-  sourceKey: 'parkingLotId'
+  sourceKey: 'parkingLotId',
 });
 db.TowedVehicle.hasOne(db.VehicleState, {
   foreignKey: 'id',
-  sourceKey: 'stateId'
+  sourceKey: 'stateId',
 });
-db.ParkingLot.hasOne(db.User,{
+db.ParkingLot.hasOne(db.User, {
   foreignKey: 'id',
-  sourceKey: 'staffId'
+  sourceKey: 'staffId',
 });
-db.ParkingLot.hasOne(db.ParkingType,{
+db.ParkingLot.hasOne(db.ParkingType, {
   foreignKey: 'id',
-  sourceKey: 'parkingTypeId'
+  sourceKey: 'parkingTypeId',
 });
-db.RoleCompetency.hasMany(db.UserRole,{
+db.RoleCompetency.hasMany(db.UserRole, {
   foreignKey: 'id',
-  sourceKey: 'roleId'
+  sourceKey: 'roleId',
 });
-db.RoleCompetency.hasMany(db.Competency,{
+db.RoleCompetency.hasMany(db.Competency, {
   foreignKey: 'id',
-  sourceKey: 'competencyNo'
+  sourceKey: 'competencyNo',
 });
 db.Vehicle.hasOne(db.VehicleType, {
   foreignKey: 'id',
-  sourceKey: 'vehicleTypeId'
+  sourceKey: 'vehicleTypeId',
 });
 db.Vehicle.hasOne(db.VehicleColor, {
   foreignKey: 'id',
-  sourceKey: 'colorId'
+  sourceKey: 'colorId',
 });
 db.Vehicle.hasOne(db.VehicleBodyStyle, {
   foreignKey: 'id',
-  sourceKey: 'bodyTypeId'
+  sourceKey: 'bodyTypeId',
 });
 db.Vehicle.hasOne(db.VehicleBrand, {
   foreignKey: 'id',
-  sourceKey: 'brandId'
+  sourceKey: 'brandId',
 });
 
 module.exports = db;

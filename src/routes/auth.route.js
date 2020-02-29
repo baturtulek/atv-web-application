@@ -1,13 +1,17 @@
 const authController = require('../controllers/auth.controller');
+const { validateUserAndNavigate } = require('../utils/authentication');
 
 const routes = (app) => {
   app
-    .route('/auth/login')
+    .route('/login')
     .get(authController.loginView)
     .post(authController.login);
   app
-    .route('/auth/logout')
-    .get(authController.logout);
+    .route('/logout')
+    .get(
+      validateUserAndNavigate,
+      authController.logout,
+    );
 };
 
 module.exports = routes;
