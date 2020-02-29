@@ -13,7 +13,7 @@ const routes = (app) => {
     .route('/competency/add')
     .get(
       validateUserAndNavigate,
-      competencyController.competencyView,
+      competencyController.addCompetencyView,
     )
     .post(
       validateUserAndNavigate,
@@ -21,10 +21,10 @@ const routes = (app) => {
     );
 
   app
-    .route('/competency/delete')
+    .route('/competency/delete/:id?')
     .get(
       validateUserAndNavigate,
-      competencyController.competencyDeleteView,
+      competencyController.deleteCompetency,
     )
     .post(
       validateUserAndNavigate,

@@ -9,7 +9,6 @@ const connection = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proce
 
 // having a single db object to access all models and connection
 const db = {};
-Sequelize;
 db.Sequelize = Sequelize;
 db.connection = connection;
 

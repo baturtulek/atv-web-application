@@ -1,12 +1,31 @@
 const httpStatus = require('http-status');
 const db = require('../config/db');
 
-exports.competencyView = (req, res) => {
-  return res.status(httpStatus.OK).json({
-    message: 'You\'re logged in. this should show competencyView', // return searchVehicleView
-  });
+exports.listCompetency = async (req, res) => {
+  if (res.locals.session.user) {
+    try {
+      const competencies = await db.Competency.findAll({
+        raw: true,
+      });
+      if (competencies) {
+        return res.render('layouts/main', { partialName: 'listCompetencies', competencies });
+      }
+      return res.status(httpStatus.NOT_FOUND).json({
+        message: 'there is no record to show',
+      });
+    } catch (exception) {
+      console.log(exception);
+    }
+  }
+  return res.redirect('/auth/login');
 };
 
+exports.addCompetencyView = async (req, res) => {
+  if (res.locals.session.user) {
+    return res.render('layouts/main', { partialName: 'addCompetency' });
+  }
+  return res.redirect('/auth/login');
+};
 exports.addCompetency = async (req, res) => {
   const { description } = req.body;
   try {
@@ -38,51 +57,62 @@ exports.addCompetency = async (req, res) => {
   }
 };
 
-exports.listCompetency = async (req, res) => {
-  try {
-    const allCompetencies = await db.Competency.findAll({
-      raw: true,
-    });
-    if (allCompetencies) {
-      console.log(allCompetencies);
-      return JSON.stringify(allCompetencies);
-    }
-    return res.status(httpStatus.NOT_FOUND).json({
-      message: 'there is no record to show',
-    });
-  } catch (exception) {
-    console.log(exception);
-  }
-};
-
-exports.competencyDeleteView = (req, res) => {
-  return res.status(httpStatus.OK).json({
-    message: 'You\'re logged in. this should show competencyDeleteView',
-  });
-};
-
 exports.deleteCompetency = async (req, res) => {
-  const { description } = req.body;
-  try {
-    const found = await db.Competency.findOne({
-      where: {
-        description,
-      },
-    });
-    if (!found) {
+  if (res.locals.session.user) {
+    const { description } = req.body;
+    const { id } = req.params;
+
+    if (description) {
+      try {
+        const found = await db.Competency.findOne({
+          where: {
+            description,
+          },
+        });
+        if (!found) {
+          return res.status(httpStatus.NOT_FOUND).json({
+            message: `competency not found with the description of ${description}`,
+          });
+        }
+        await db.Competency.destroy({
+          where: {
+            description,
+          },
+        });
+        return res.status(httpStatus.OK).json({
+          message: `competency deleted with the description of ${description}`,
+        });
+      } catch (ex) {
+        console.log(ex);
+      }
+    } else if (id) {
+      try {
+        const found = await db.Competency.findOne({
+          where: {
+            id,
+          },
+        });
+        if (!found) {
+          return res.status(httpStatus.NOT_FOUND).json({
+            message: `competency not found with the id of ${id}`,
+          });
+        }
+        await db.Competency.destroy({
+          where: {
+            id,
+          },
+        });
+        return res.status(httpStatus.OK).json({
+          message: `competency deleted with the description of ${id}`,
+        });
+      } catch (ex) {
+        console.log(ex);
+      }
+    } else {
       return res.status(httpStatus.NOT_FOUND).json({
-        message: `competency not found with the description of ${description}`,
+        message: 'no such competency found with given parameter',
       });
     }
-    await db.Competency.destroy({
-      where: {
-        description,
-      },
-    });
-    return res.status(httpStatus.OK).json({
-      message: `competency deleted with the description of ${description}`,
-    });
-  } catch (ex) {
-    console.log(ex);
   }
+  return res.redirect('/auth/login');
 };
