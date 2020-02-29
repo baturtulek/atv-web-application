@@ -8,12 +8,12 @@ const helmet = require('helmet');
 const path = require('path');
 const hbs = require('express-handlebars');
 const morgan = require('morgan');
+const defaultRoute = require('./routes/default.route');
 const authRoutes = require('./routes/auth.route');
 const vehicleRoutes = require('./routes/vehicle.route');
 const competencyRoutes = require('./routes/competency.route');
 const userRoleRoutes = require('./routes/userRole.route');
 const parkingLotRoutes = require('./routes/parkingLot.route');
-const auth = require('./controllers/auth.controller');
 const db = require('./config/db');
 
 const app = express();
@@ -60,10 +60,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', auth.defaultView, (req, res, next) => {
-  next();
-});
-
+defaultRoute(app);
 authRoutes(app);
 vehicleRoutes(app);
 competencyRoutes(app);
