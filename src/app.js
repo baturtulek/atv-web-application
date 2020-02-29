@@ -8,17 +8,10 @@ const helmet = require('helmet');
 const path = require('path');
 const hbs = require('express-handlebars');
 const morgan = require('morgan');
-const defaultRoute = require('./routes/default.route');
-const authRoutes = require('./routes/auth.route');
-const vehicleRoutes = require('./routes/vehicle.route');
-const competencyRoutes = require('./routes/competency.route');
-const userRoleRoutes = require('./routes/userRole.route');
-const parkingLotRoutes = require('./routes/parkingLot.route');
-const vehicleTypeRoutes = require('./routes/vehicleType.route');
-
 const db = require('./config/db');
 
 const app = express();
+
 
 db.connection
   .authenticate()
@@ -62,13 +55,7 @@ app.use((req, res, next) => {
   next();
 });
 
-defaultRoute(app);
-authRoutes(app);
-vehicleRoutes(app);
-competencyRoutes(app);
-userRoleRoutes(app);
-parkingLotRoutes(app);
-vehicleTypeRoutes(app);
+require('./routes')(app);
 
 app.get('*', (req, res) => {
   return res.render('layouts/main', { layout: 'error', partialName: '404' });
