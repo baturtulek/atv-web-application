@@ -1,14 +1,36 @@
+/* eslint-disable consistent-return */
+/* eslint-disable max-len */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-restricted-syntax */
 const httpStatus = require('http-status');
 const db = require('../config/db');
 
-exports.userRoleView = async (req, res) => {
-  return res.status(httpStatus.OK).json({
-    message: 'You\'re logged in. this should show userRoleView', // return searchVehicleView
-  });
+exports.addUserRoleView = async (req, res) => {
+  try {
+    const competencies = await db.Competency.findAll({
+      raw: true,
+    });
+    if (competencies) {
+      return res.render('layouts/main', { partialName: 'addUserRole', competencies });
+    }
+    return res.status(httpStatus.NOT_FOUND).json({
+      message: 'there is no record to show',
+    });
+  } catch (exception) {
+    console.log(exception);
+  }
 };
 
 exports.addUserRole = async (req, res) => {
-  const { role } = req.body;
+  console.log(req.body);
+  // eslint-disable-next-line prefer-const
+  let { role, ...competencyIds } = req.body;
+  competencyIds = Object.keys(competencyIds);
+  competencyIds.forEach((element, index) => {
+    // eslint-disable-next-line radix
+    competencyIds[index] = parseInt(element);
+  });
   try {
     const found = await db.UserRole.findOne({
       where: {
@@ -16,10 +38,19 @@ exports.addUserRole = async (req, res) => {
       },
     });
 
-    if (!found) {
+    if (!found && role !== '') {
       const createdRole = await db.UserRole.create({
         role,
       });
+
+      for (const id of competencyIds) {
+        if (!isNaN(id)) {
+          await db.RoleCompetency.create({
+            roleId: createdRole.id,
+            competencyNo: id,
+          });
+        }
+      }
       if (createdRole) {
         const result = {
           message: `Record has been added role = ${role}`,
@@ -55,11 +86,9 @@ exports.listUserRoles = async (req, res) => {
   }
 };
 
-exports.userRoleDeleteView = async (req, res) => {
-  return res.status(httpStatus.OK).json({
-    message: 'You\'re logged in. this should show userRoleDeleteView',
-  });
-};
+exports.userRoleDeleteView = async (req, res) => res.status(httpStatus.OK).json({
+  message: 'You\'re logged in. this should show userRoleDeleteView',
+});
 
 exports.deleteUserRole = async (req, res) => {
   const { role } = req.body;

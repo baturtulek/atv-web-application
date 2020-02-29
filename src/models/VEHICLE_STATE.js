@@ -1,25 +1,25 @@
 /* jshint indent: 2 */
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    "VEHICLE_STATE",
+    'VEHICLE_STATE',
     {
       id: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       description: {
         type: DataTypes.STRING(255),
         allowNull: false,
-        defaultValue: ""
-      }
+        defaultValue: '',
+      },
     },
     {
       timestamps: false,
       freezeTableName: true,
-      tableName: "VEHICLE_STATE"
-    }
+      tableName: 'VEHICLE_STATE',
+    },
   );
 };

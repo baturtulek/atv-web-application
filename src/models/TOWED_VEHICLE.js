@@ -1,51 +1,51 @@
 /* jshint indent: 2 */
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    "TOWED_VEHICLE",
+    'TOWED_VEHICLE',
     {
       plate: {
         type: DataTypes.STRING(12),
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
       },
       towedDate: {
         type: DataTypes.STRING(45),
-        allowNull: false
+        allowNull: false,
       },
       note: {
         type: DataTypes.STRING(255),
-        allowNull: true
+        allowNull: true,
       },
       staffId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         references: {
-          model: "USER",
-          key: "id"
-        }
+          model: 'USER',
+          key: 'id',
+        },
       },
       parkingLotId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         references: {
-          model: "PARKING_LOT",
-          key: "id"
-        }
+          model: 'PARKING_LOT',
+          key: 'id',
+        },
       },
       stateId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         references: {
-          model: "VEHICLE_STATE",
-          key: "id"
-        }
-      }
+          model: 'VEHICLE_STATE',
+          key: 'id',
+        },
+      },
     },
     {
       timestamps: false,
       freezeTableName: true,
-      tableName: "TOWED_VEHICLE"
-    }
+      tableName: 'TOWED_VEHICLE',
+    },
   );
 };

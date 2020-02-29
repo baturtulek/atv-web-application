@@ -6,7 +6,7 @@ const routes = (app) => {
     .route('/role/add')
     .get(
       validateUserAndNavigate,
-      userRoleController.userRoleView,
+      userRoleController.addUserRoleView,
     )
     .post(
       validateUserAndNavigate,

@@ -1,0 +1,21 @@
+<div>
+  <form class="text-center border border-light" action="/role/add" method="POST"> 
+    <p class="h4 mb-4">Kullanıcı tipi ekle</p>
+    
+    <div class="form-group" data-validate="Kullanıcı tipini yazınız.">
+      <label>Kullanıcı tipi adı</label>
+      <input class="form-control" type="text" name="role" placeholder="Kullanıcı tipi açıklaması">
+    </div>
+    <p class="h4 mb-4">Kullanıcı tipinin yetkilerini seçiniz.</p>
+        {{#each competencies}}
+        <input class="form-control" type="text" placeholder="{{this.description}}" readonly>
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="switch{{this.id}}" name="{{this.id}}">
+            <label class="custom-control-label" for="switch{{this.id}}">Bu yetkinliği ekle</label>
+        </div>
+        {{/each}}
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+
