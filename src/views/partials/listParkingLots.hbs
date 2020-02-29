@@ -3,15 +3,19 @@
   <tr>
     <th scope="col">#</th>
     <th scope="col">Adı</th>
+    <th scope="col">Açıklama</th>
     <th scope="col">Tipi</th>
+    <th scope="col">Yetkili</th>
   </tr>
   </thead>
   <tbody>
-  {{#each parkinglot}}
+  {{#each parkinglotList}}
     <tr class="">
       <td class="column1"> {{@index}}</td>
+      <td class="column2"> {{this.name}} </td>
       <td class="column2"> {{this.description}} </td>
       <td class="column3"> {{this.[PARKING_TYPE.description]}} </td>
+      <td class="column3"> {{this.[USER.name]}}  {{this.[USER.surname]}}</td>
     </tr>
   {{/each}}
   </tbody>

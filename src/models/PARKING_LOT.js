@@ -10,9 +10,12 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
         autoIncrement: true,
       },
-      description: {
+      name: {
         type: DataTypes.STRING(255),
         allowNull: false,
+      },
+      description: {
+        type: DataTypes.STRING(255),
       },
       staffId: {
         type: DataTypes.INTEGER(11),

@@ -1,16 +1,20 @@
 const db = require('../config/db');
 
 exports.listParkingLots = async (req, res) => {
-  const parkinglot = await db.ParkingLot.findAll({
+  const parkinglotList = await db.ParkingLot.findAll({
     raw: true,
     include: [
       {
         model: db.ParkingType,
         attributes: ['description'],
       },
+      {
+        model: db.User,
+        attributes: ['name', 'surname'],
+      },
     ],
   });
-  return res.render('layouts/main', { partialName: 'listParkingLots', parkinglot });
+  return res.render('layouts/main', { partialName: 'listParkingLots', parkinglotList });
 };
 
 exports.addParkingLotView = async (req, res) => {
@@ -31,18 +35,18 @@ exports.addParkingLotView = async (req, res) => {
 };
 
 exports.addNewParkingLot = async (req, res) => {
-  const { description, staffId, parkingTypeId } = req.body;
+  const {
+    name, description, staffId, parkingTypeId,
+  } = req.body;
   try {
     const newParkingLot = await db.ParkingLot.create({
+      name,
       description,
       staffId,
       parkingTypeId,
     });
     if (newParkingLot) {
-      const result = {
-        message: 'Parking Lot added!',
-      };
-      return res.status(201).json(result);
+      return res.redirect('/parkinglot/list');
     }
   } catch (error) {
     console.log(error);
