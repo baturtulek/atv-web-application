@@ -18,6 +18,8 @@ exports.addVehicleType = async (req, res) => {
   }
 };
 
+exports.addVehicleTypeView = async (req, res) => res.render('layouts/main', { partialName: 'addVehicleType' });
+
 exports.listVehicleType = async (req, res) => {
   const vehicleTypes = await db.VehicleType.findAll({
     raw: true,
@@ -25,6 +27,26 @@ exports.listVehicleType = async (req, res) => {
 
   if (vehicleTypes) {
     return res.render('layouts/main', { partialName: 'listVehicleTypes', vehicleTypes });
+  }
+};
+
+exports.updateVehicleType = async (req, res) => {
+  const { id } = req.params;
+  const { name, description } = req.body;
+
+  try {
+    await db.VehicleType.update(
+      { name, description },
+      { where: { id } },
+    );
+
+    return res.status(200).json({
+      message: 'ok',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: 'error',
+    });
   }
 };
 
@@ -49,5 +71,3 @@ exports.deleteVehicleType = async (req, res) => {
     return res.redirect('/vehicletype/list');
   }
 };
-
-exports.addVehicleTypeView = async (req, res) => res.render('layouts/main', { partialName: 'addVehicleType' });

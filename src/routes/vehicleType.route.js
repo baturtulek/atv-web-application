@@ -24,6 +24,12 @@ const routes = (app) => {
       validateUserAndNavigate,
       vehicleTypeController.deleteVehicleType,
     );
+  app
+    .route('/vehicletype/update/:id')
+    .post(
+      validateUserAndNavigate,
+      vehicleTypeController.updateVehicleType,
+    );
 };
 
 module.exports = routes;
