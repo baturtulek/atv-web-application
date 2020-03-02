@@ -1,6 +1,6 @@
-<div id="sidebar">
-  <ul class="nav navbar-nav">
-
+<div id="sidebar" class="collapse in" data-toggle="collapse">
+  <ul class="nav navbar-nav nav-collapse">
+    
     <li><a href="#"><i class="fa fa-angle-right"></i> Ateştaş</a></li>
     <li><a href="#"><i class="fa fa-angle-right"></i> Raporlar</a></li>
     <li><a href="/parkinglot/add"><i class="fa fa-angle-right"></i> Otopark Ekle</a></li>
@@ -39,7 +39,7 @@
     $('#sidebar .navbar-nav li a').on('click', function () {
       $('#sidebar .navbar-nav').find('li.active').removeClass('active');
       $(this).parent('li').addClass('active');
-    })  
+    });
   </script>
 </div>
 

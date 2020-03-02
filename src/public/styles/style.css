@@ -135,6 +135,17 @@ width: 50px;
   border-bottom: 1px solid #f1f2f7;
 }
 
+.header nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.header nav div:first-of-type {
+  cursor: pointer;
+}
+
 .header-logo {
   font-weight: 400;
 }
