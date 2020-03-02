@@ -3,7 +3,7 @@
     <div id="login">
       <form action="/login" method="POST">
         <fieldset>
-          {{#if invalidCredentialsError}}
+          {{#if isCredentialsInvalid}}
             <div class="alert alert-danger" role="alert">
               Kullanıcı adı veya şifre hatalı!
             </div>

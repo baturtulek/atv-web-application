@@ -42,7 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   session({
     key: 'SID',
-    secret: 'ATV',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
   }),

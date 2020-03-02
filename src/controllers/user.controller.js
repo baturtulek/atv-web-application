@@ -1,5 +1,5 @@
-const bcrypt = require('bcrypt');
 const db = require('../config/db');
+const authentication = require('../utils/authentication');
 
 exports.listUserView = async (req, res) => {
   const userList = await db.User.findAll({
@@ -35,7 +35,7 @@ exports.addUser = async (req, res) => {
     raw: true,
   });
   if (isUsernameExists.length === 0) {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await authentication.hashPassword(password);
     try {
       const newUser = await db.User.create({
         name,

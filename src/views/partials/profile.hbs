@@ -1,0 +1,42 @@
+<div style="display: flex;flex-grow: 1;">
+  <div style="flex: 2; margin: 12px 24px;">
+    <div class="mt-1 bg-light">
+      <h3>Profilim</h3>
+      <label class="col-sm-4 col-form-label">Kullanıcı Adı</label>
+      <input type="text" class="form-control" value="{{user.username}}" disabled>
+      <label class="col-sm-4 col-form-label">Kullanıcı Rolü</label>
+      <input type="text" class="form-control" value="{{user.role}}" disabled>
+    </div>
+
+    <form class="border border-light" action="/profile/info" method="POST">
+      <div class="mt-4 bg-light">
+        <h3>Temel Bilgiler</h3>
+        <label class="col-sm-4 col-form-label">Adı</label>
+        <input type="text" class="form-control" name="name" placeholder="Adı" value="{{user.name}}">
+        <label class="col-sm-4 col-form-label">Soyadı</label>
+        <input type="text" class="form-control" name="surname" placeholder="Soyadı" value="{{user.surname}}">
+        <label class="col-sm-4 col-form-label">E-Mail</label>
+        <input type="text" class="form-control" name="email" placeholder="E-mail" value="{{user.email}}">
+        <label class="col-sm-4 col-form-label">Telefon Numarası</label>
+        <input type="text" class="form-control" name="phoneNumber" placeholder="Telefon Numarası"
+          value="{{user.phoneNumber}}">
+        <label class="col-sm-4 col-form-label">Adres</label>
+        <input type="text" class="form-control" name="address" placeholder="Adres" value="{{user.address}}">
+        <button type="submit" class="btn-success my-2"><i class="fa fa-save"></i>Kaydet</button>
+      </div>
+    </form>
+
+    <form class="border border-light" action="/profile/password" method="POST">
+      <div class="mt-4 bg-light">
+        <h3>Parola</h3>
+        <label class="col-sm-4 col-form-label">Geçerli Parola</label>
+        <input type="password" class="form-control" name="oldpassword" placeholder="Geçerli Parola">
+        <label class="col-sm-4 col-form-label">Yeni Parola</label>
+        <input type="password" class="form-control" name="newpassword1" placeholder="Yeni Parola">
+        <label class="col-sm-4 col-form-label">Yeni Parola (Tekrar)</label>
+        <input type="password" class="form-control" name="newpassword2" placeholder="Yeni Parola (Tekrar)">
+        <button type="submit" class="btn-success my-2"><i class="fa fa-save"></i>Kaydet</button>
+      </div>
+    </form>
+  </div>
+</div>

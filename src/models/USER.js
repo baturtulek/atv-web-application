@@ -50,11 +50,11 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER(11),
         allowNull: true,
       },
-      adress: {
+      address: {
         type: DataTypes.STRING(45),
         allowNull: true,
       },
-      salt: {
+      ipAddress: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
