@@ -15,6 +15,7 @@ db.connection = connection;
 // Models/tables
 db.User = require('../models/USER')(connection, Sequelize);
 db.UserRole = require('../models/USER_ROLE')(connection, Sequelize);
+db.UserLastLogin = require('../models/USER_LAST_LOGIN')(connection, Sequelize);
 db.Competency = require('../models/COMPETENCY')(connection, Sequelize);
 db.ParkingLot = require('../models/PARKING_LOT')(connection, Sequelize);
 db.ParkingType = require('../models/PARKING_TYPE')(connection, Sequelize);
@@ -75,6 +76,10 @@ db.Vehicle.hasOne(db.VehicleBrand, {
 db.User.hasOne(db.UserRole, {
   foreignKey: 'id',
   sourceKey: 'roleId',
+});
+db.UserLastLogin.hasOne(db.User, {
+  foreignKey: 'id',
+  sourceKey: 'userId',
 });
 
 module.exports = db;

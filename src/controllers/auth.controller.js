@@ -9,7 +9,7 @@ exports.loginView = (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const ipAddress = req.connection.remoteAddress;
+  const ipAddress = getCallerIp(req);
   const credentials = req.body;
   try {
     const dbUser = await db.User.findOne({
@@ -19,7 +19,7 @@ exports.login = async (req, res) => {
     if (dbUser) {
       const result = await bcrypt.compare(credentials.password, dbUser.password);
       if (result) {
-        insertIpAddress(credentials.username, ipAddress);
+        updateUserLastLogin(dbUser.id, ipAddress);
         req.session.user = dbUser;
         return res.redirect('/');
       }
@@ -35,9 +35,25 @@ exports.logout = (req, res) => {
   return res.redirect('/login');
 };
 
-const insertIpAddress = (username, ipAddress) => {
-  db.User.update(
-    { ipAddress },
-    { where: { username } },
-  );
+const getCallerIp = (req) => {
+  let clientIp = req.connection.remoteAddress;
+  if (clientIp.substr(0, 7) === '::ffff:') {
+    clientIp = clientIp.substr(7);
+  }
+  return clientIp;
+};
+
+const updateUserLastLogin = (userId, ip) => {
+  db.UserLastLogin.upsert({
+    userId,
+    ip,
+    lastLogin: getCurrentTimeStamp(),
+  });
+};
+
+const getCurrentTimeStamp = () => {
+  const today = new Date();
+  const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+  return `${date} ${time}`;
 };
