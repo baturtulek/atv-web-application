@@ -3,11 +3,6 @@
     <div id="login">
       <form action="/login" method="POST">
         <fieldset>
-          {{#if isCredentialsInvalid}}
-            <div class="alert alert-danger" role="alert">
-              Kullanıcı adı veya şifre hatalı!
-            </div>
-          {{/if}}
           <p>
             <span class="fa fa-user"></span>
             <input type="text" name="username" Placeholder="Kullanıcı Adı" required pattern=".*\S+.*"
@@ -20,6 +15,11 @@
               oninvalid="this.setCustomValidity('Lütfen şifrenizi girin.')"
               oninput="setCustomValidity('')">
           </p>
+          {{#if isCredentialsInvalid}}
+            <div class="alert alert-danger" role="alert">
+              Kullanıcı adı veya şifre hatalı!
+            </div>
+          {{/if}}
           <div>
             <span style="width:48%; text-align:left;  display: inline-block;"><a class="small-text" href="#">Şifremi Unuttum</a></span>
             <span style="width:50%; text-align:right;  display: inline-block;"><input type="submit" value="Giriş Yap"></span>
