@@ -59,12 +59,12 @@ exports.addNewParkingLot = async (req, res) => {
     return res.render('layouts/main', {
       partialName: 'addParkingLots',
       endPoint: 'add',
+      success: 'Otopark başarıyla eklendi.',
       parkingLotType,
       parkingLotUsers,
-      success: 'Otopark başarıyla eklendi.',
     });
   } catch (error) {
-    return res.render('layouts/main', { partialName: 'addParkingLots', fail: true });
+    return res.render('layouts/main', { partialName: 'addParkingLots', fail: 'Otopark eklenirken hata oluştu.' });
   }
 };
 
@@ -100,20 +100,20 @@ exports.updateParkingLotView = async (req, res) => {
 };
 
 exports.updateParkingLot = async (req, res) => {
-  const {
-    id, name, address, description, staffId, parkingTypeId,
-  } = req.body;
+  const parkingLot = req.body;
   try {
     await db.ParkingLot.update(
       {
-        name,
-        address,
-        description,
-        staffId,
-        parkingTypeId,
+        name: parkingLot.name,
+        address: parkingLot.address,
+        description: parkingLot.description,
+        staffId: parkingLot.staffId,
+        parkingTypeId: parkingLot.parkingTypeId,
       },
       {
-        where: { id },
+        where: {
+          id: parkingLot.id,
+        },
         raw: true,
       },
     );
@@ -129,12 +129,13 @@ exports.updateParkingLot = async (req, res) => {
     return res.render('layouts/main', {
       partialName: 'addParkingLots',
       endPoint: 'update',
+      success: 'Otopark başarıyla güncellendi.',
       parkingLotType,
       parkingLotUsers,
-      success: 'Otopark başarıyla güncellendi.',
+      parkingLot,
     });
   } catch (error) {
-    return res.render('layouts/main', { partialName: 'addParkingLots', fail: true });
+    return res.render('layouts/main', { partialName: 'addParkingLots', fail: 'Otopark güncellenirken hata oluştu.' });
   }
 };
 

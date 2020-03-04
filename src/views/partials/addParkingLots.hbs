@@ -7,7 +7,7 @@
     {{/if}}
     {{#if fail}}
       <div class="alert alert-danger" role="alert">
-        Maalesef işlem başarılı değil
+        {{fail}}
       </div>
     {{/if}}
     <form class="border border-light" action="/parkinglot/{{endPoint}}" method="POST">
@@ -25,10 +25,11 @@
           <select class="browser-default custom-select" name="staffId" id="staff" required>
             {{#each parkingLotUsers}}
               <option value="{{this.id}}"
-              {{#ifEquals this.id "{{parkingLot.staffId}}" }}
-              selected
-              {{/ifEquals}}
-              >{{this.name}} {{this.surname}} {{parkingLot.staffId}}</option>
+                {{#ifEquals this.id ../parkingLot.staffId}}
+                selected
+                {{/ifEquals}}
+              >
+              {{this.name}} {{this.surname}}</option>
             {{/each}}
           </select>
         </div>
@@ -38,14 +39,14 @@
           <select class="browser-default custom-select" name="parkingTypeId" id="parkingType" required>
             {{#each parkingLotType}}
               <option value="{{this.id}}"
-              {{#ifEquals this.id "{{parkingLot.parkingTypeId}}" }}
-              selected
-              {{/ifEquals}}
+                {{#ifEquals 2 ../parkingLot.parkingTypeId}}
+                selected
+                {{/ifEquals}}
               >
-                {{this.description}}
+              {{this.description}}
               </option>
-            {{/each}}
-          </select>
+              {{/each}}
+              </select>
         </div>
       </div>
       
@@ -62,7 +63,13 @@
         </div>
         <div class="col-auto grid-button-group">
           <button type="button" class="btn-info" id="resetButton"><i class="fa fa-refresh"></i>Sıfırla</button>
-          <button type="submit" class="btn-success" id="submitButton"><i class="fa fa-save"></i>Ekle</button>
+          <button type="submit" class="btn-success" id="submitButton"><i class="fa fa-save"></i>
+          {{#ifEquals "add" endPoint}}
+            Ekle
+          {{else}}
+            Güncelle
+          {{/ifEquals}}
+          </button>
         </div>
       </div>
     </form>
