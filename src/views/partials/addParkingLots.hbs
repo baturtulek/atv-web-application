@@ -29,7 +29,8 @@
                 selected
                 {{/ifEquals}}
               >
-              {{this.name}} {{this.surname}}</option>
+                {{this.name}} {{this.surname}}
+              </option>
             {{/each}}
           </select>
         </div>
@@ -39,14 +40,14 @@
           <select class="browser-default custom-select" name="parkingTypeId" id="parkingType" required>
             {{#each parkingLotType}}
               <option value="{{this.id}}"
-                {{#ifEquals 2 ../parkingLot.parkingTypeId}}
+                {{#ifEquals this.id ../parkingLot.parkingTypeId}}
                 selected
                 {{/ifEquals}}
               >
-              {{this.description}}
+                {{this.description}}
               </option>
-              {{/each}}
-              </select>
+            {{/each}}
+          </select>
         </div>
       </div>
       
