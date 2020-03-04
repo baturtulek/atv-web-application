@@ -9,8 +9,8 @@ exports.loginView = (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const ipAddress = getCallerIp(req);
   const credentials = req.body;
+  const ipAddress = getClientIpAddress(req);
   try {
     const dbUser = await db.User.findOne({
       where: { username: credentials.username },
@@ -35,8 +35,12 @@ exports.logout = (req, res) => {
   return res.redirect('/login');
 };
 
-const getCallerIp = (req) => {
-  let clientIp = req.connection.remoteAddress;
+const getClientIpAddress = (request) => {
+  let clientIp = (request.headers['x-forwarded-for'] || '').split(',').pop()
+    || request.connection.remoteAddress
+    || request.socket.remoteAddress
+    || request.connection.socket.remoteAddress;
+
   if (clientIp.substr(0, 7) === '::ffff:') {
     clientIp = clientIp.substr(7);
   }

@@ -1,46 +1,101 @@
 <div id="sidebar" class="collapse in" data-toggle="collapse">
   <ul class="nav navbar-nav nav-collapse">
     
-    <li><a href="#"><i class="fa fa-angle-right"></i> Ateştaş</a></li>
-    <li><a href="#"><i class="fa fa-angle-right"></i> Raporlar</a></li>
-    <li><a href="/parkinglot/add"><i class="fa fa-angle-right"></i> Otopark Ekle</a></li>
-    <li><a href="/parkinglot/list"><i class="fa fa-angle-right"></i> Otopark Listele</a></li>
-    <li><a href="/competency/add"><i class="fa fa-angle-right"></i> Yetkinlik Ekle</a></li>
-    <li><a href="/competency/list"><i class="fa fa-angle-right"></i> Yetkinlik Listele</a></li>
-    <li><a href="/role/add"><i class="fa fa-angle-right"></i> Role Ekle</a></li>
-    <li><a href="/role/list"><i class="fa fa-angle-right"></i> Role Listele</a></li>
-    <li><a href="/user/list"><i class="fa fa-angle-right"></i> Kullanici Listele</a></li>
-    <li><a href="/user/add"><i class="fa fa-angle-right"></i> Kullanici Ekle</a></li>
-    <li><a href="/vehicletype/add"><i class="fa fa-angle-right"></i> Arac Tipi Ekle</a></li>
-    <li><a href="/vehicletype/list"><i class="fa fa-angle-right"></i> Arac Tipi Listele</a></li>
-    <li><a href="#"><i class="fa fa-angle-right"></i> Teknik Yönetim</a></li>
-
-    <!-- Dropdown-->
+    <!-- Atestaş -->
     <li class="panel panel-default" id="dropdown">
-      <a data-toggle="collapse" href="#dropdown-lvl1">
-        <i class="fa fa-angle-right"></i> submenulu olan li
+      <a data-toggle="collapse" href="#atestas">
+        <i class="fa fa-angle-right"></i> Atestaş
       </a>
-      <!-- Dropdown level 1 -->
-      <div id="dropdown-lvl1" class="panel-collapse collapse">
+      <div id="atestas" class="panel-collapse collapse">
         <div class="panel-body">
           <ul class="nav navbar-nav">
-            <li><a href="#">Elma</a></li>
-            <li><a href="#">Armut</a></li>
-            <li><a href="#">Seftali</a></li>
-            <li><a href="#">Karpuz</a></li>
+            <li class="panel panel-default" id="dropdown">
+              <a data-toggle="collapse" href="#parkingLotOperations">
+                <i class="fa fa-angle-right"></i> Otopark İşlemleri
+              </a>
+              <div id="parkingLotOperations" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <ul class="nav navbar-nav">
+                    <li><a href="/parkinglot/add"><i class="fa fa-circle"></i> Otopark Ekle</a></li>
+                    <li><a href="/parkinglot/list"><i class="fa fa-circle"></i> Otopark Listele</a></li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            
+            <li class="panel panel-default" id="dropdown">
+              <a data-toggle="collapse" href="#carTypeOperations">
+                <i class="fa fa-angle-right"></i> Araç Tipi İşlemleri
+              </a>
+              <div id="carTypeOperations" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <ul class="nav navbar-nav">
+                    <li><a href="/vehicletype/add"><i class="fa fa-circle" ></i> Arac Tipi Ekle</a></li>
+                    <li><a href="/vehicletype/list"><i class="fa fa-circle"></i> Arac Tipi Listele</a></li>
+                  </ul>
+                </div>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
     </li>
 
-    <li><a href="#"><span class="fa fa-angle-right"></span> Link</a></li>
+    <!-- Raporlar -->
+    <li class="panel panel-default" id="dropdown">
+      <a data-toggle="collapse" href="#reports">
+        <i class="fa fa-angle-right"></i> Raporlar
+      </a>
+    </li>
+
+    <!-- Teknik Yönetim -->
+    <li class="panel panel-default" id="dropdown">
+      <a data-toggle="collapse" href="#technicalManagement">
+        <i class="fa fa-angle-right"></i> Teknik Yönetim
+      </a>
+
+      <div id="technicalManagement" class="panel-collapse collapse">
+        <div class="panel-body">
+          <ul class="nav navbar-nav">
+
+            <li class="panel panel-default" id="dropdown">
+                <a data-toggle="collapse" href="#userOperations">
+                  <i class="fa fa-angle-right"></i> Personel İşlemleri
+                </a>
+
+                <div id="userOperations" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <ul class="nav navbar-nav">
+                      <li><a href="/user/add"><i class="fa fa-circle"></i> Personel Ekle</a></li>
+                      <li><a href="/user/list"><i class="fa fa-circle"></i> Personel Listele</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+
+              <li class="panel panel-default" id="dropdown">
+                <a data-toggle="collapse" href="#roleOperations">
+                  <i class="fa fa-angle-right"></i> Profil İşlemleri
+                </a>
+                <div id="roleOperations" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <ul class="nav navbar-nav">
+                      <li><a href="/role/add"><i class="fa fa-circle"></i> Profil Ekle</a></li>
+                      <li><a href="/role/list"><i class="fa fa-circle"></i> Profil Listele</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+          </ul>
+        </div>
+      </div>
+    </li>
   </ul>
-  <script>
-      $('#sidebar .navbar-nav li a').on('click', function () {
-        $('#sidebar .navbar-nav').find('li.active').removeClass('active');
-        $(this).parent('li').addClass('active');
-      });
-  </script>
 </div>
 
-
+<script>
+  $('#sidebar .navbar-nav li a').on('click', function () {
+    $('#sidebar .navbar-nav').find('li.active').removeClass('active');
+    $(this).parent('li').addClass('active');
+  });
+</script>

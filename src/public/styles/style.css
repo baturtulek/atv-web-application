@@ -190,8 +190,16 @@ a.header-logo span {
 
 #sidebar li a .fa {
   margin-right: 8px;
-  font-size: 16px;
   font-weight: 300;
+}
+
+#sidebar li a .fa-angle-right {
+  font-size: 16px;
+}
+
+#sidebar li a .fa-circle {
+  font-size: 8px;
+  margin-left: 10px;
 }
 
 #sidebar ul {
@@ -247,6 +255,8 @@ a.header-logo span {
   flex: 1;
   margin: 12px 16px;
 }
+
+/* ---------- 404 Page ---------- */
 
 .error {
   font-family: "Lato", sans-serif;
