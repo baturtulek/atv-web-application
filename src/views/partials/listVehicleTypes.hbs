@@ -5,20 +5,20 @@
         <th scope="col">#</th>
         <th scope="col">Adı</th>
         <th scope="col">Açıklaması</th>
-        <th scope="col">Düzenle</th>
-        <th scope="col">Sil</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
       {{#each vehicleTypes}}
       <tr>
-        <th scope="row">{{@index}}</th>
-        <td>{{this.name}}</td>
-        <td>{{this.description}}</td>
-        <td><i class="fa fa-pencil-square-o btn btn-primary" aria-hidden="true" ></i></td>
-        <td><a href="/vehicletype/delete/{{this.id}}" onclick="return confirm('Silmek istediğinize emin misiniz ?');">
-              <i class="fa fa-trash fa-lg btn btn-danger" aria-hidden="true"></i>
-            </a>
+        <th class="column1">{{@index}}</th>
+        <td class="column2">{{this.name}}</td>
+        <td class="column3">{{this.description}}</td>
+        <td class="column4" style="text-align:center; width:85px;">
+          <i class="fa fa-pencil-square-o fa-m btn btn-primary" aria-hidden="true" ></i>
+          <a href="/vehicletype/delete/{{this.id}}" onclick="return confirm('Silmek istediğinize emin misiniz ?');">
+            <i class="fa fa-trash fa-m btn btn-danger" aria-hidden="true"></i>
+          </a>
         </td>
       </tr>
       {{/each}}

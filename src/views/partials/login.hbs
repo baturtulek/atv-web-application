@@ -10,7 +10,7 @@
           {{/if}}
           <p>
             <span class="fa fa-user"></span>
-            <input type="text" name="username" Placeholder="Kullanıcı Adı" required 
+            <input type="text" name="username" Placeholder="Kullanıcı Adı" required pattern=".*\S+.*"
               oninvalid="this.setCustomValidity('Lütfen kullanıcı adınızı girin.')"
               oninput="setCustomValidity('')">
           </p>

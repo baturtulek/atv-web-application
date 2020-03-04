@@ -30,6 +30,12 @@ app.set('views', path.join(__dirname, '/views'));
 app.engine(
   'hbs',
   hbs({
+    helpers: {
+      // eslint-disable-next-line func-names
+      ifEquals(arg1, arg2, options) {
+        return (arg1 === arg2) ? options.fn(this) : options.inverse(this);
+      },
+    },
     extname: '.hbs',
     layoutDir: `${__dirname}/views/layouts`,
     partialsDir: `${__dirname}/views/partials`,

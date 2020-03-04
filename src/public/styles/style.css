@@ -49,6 +49,10 @@ p {
   justify-content: center;
 }
 
+.col-form-label {
+  font-size: 16px;
+}
+
 /* ---------- LOGIN ---------- */
 
 #login form {
@@ -240,6 +244,7 @@ a.header-logo span {
 
 .grid-button-group {
   align-self: flex-end;
+  margin-right: 15px;
 }
 
 .grid-button-group i {
@@ -254,6 +259,11 @@ a.header-logo span {
 .form-container {
   flex: 1;
   margin: 12px 16px;
+}
+
+tr td .fa-pencil-square-o,
+tr td .fa-trash {
+  font-size: 12px;
 }
 
 /* ---------- 404 Page ---------- */

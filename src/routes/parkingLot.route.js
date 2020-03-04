@@ -18,6 +18,22 @@ const routes = (app) => {
       validateUserAndNavigate,
       parkingLotController.addNewParkingLot,
     );
+  app
+    .route('/parkinglot/update/:id?')
+    .get(
+      validateUserAndNavigate,
+      parkingLotController.updateParkingLotView,
+    )
+    .post(
+      validateUserAndNavigate,
+      parkingLotController.updateParkingLot,
+    );
+  app
+    .route('/parkinglot/delete/:id?')
+    .get(
+      validateUserAndNavigate,
+      parkingLotController.deleteParkingLots,
+    );
 };
 
 module.exports = routes;
