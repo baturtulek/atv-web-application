@@ -1,5 +1,8 @@
-const bcrypt = require('bcrypt');
 const db = require('../config/db');
+const { comparePasswords } = require('../utils/authentication');
+
+const INVALID_USER_CREDENTIALS = 'Kullanıcı adı veya şifre hatalı!';
+const INSUFICIENT_USER_PRIVILEGES = 'Sistemi kullanmaya yetkiniz yok.';
 
 exports.loginView = (req, res) => {
   if (res.locals.session.user) {
@@ -10,35 +13,31 @@ exports.loginView = (req, res) => {
 
 exports.login = async (req, res) => {
   const credentials = req.body;
-  const ipAddress = getClientIpAddress(req);
+  const clientIpAddress = getClientIpAddress(req);
   try {
-    const dbUser = await db.User.findOne({
-      where: { username: credentials.username },
-      raw: true,
-    });
+    const dbUser = await getUserFromDb(credentials.username);
     if (dbUser) {
-      console.log(dbUser);
-      if (dbUser.isActive) {
-        const result = await bcrypt.compare(credentials.password, dbUser.password);
-        if (result) {
-          updateUserLastLogin(dbUser.id, ipAddress);
+      const isPasswordValid = await comparePasswords(credentials.password, dbUser.password);
+      if (isPasswordValid) {
+        if (dbUser.isActive) {
+          updateUserLastLogin(dbUser.id, clientIpAddress);
           req.session.user = dbUser;
           return res.redirect('/');
         }
+        return res.render('layouts/auth', {
+          layout: 'auth',
+          isCredentialsInvalid: true,
+          message: INSUFICIENT_USER_PRIVILEGES,
+        });
       }
-      return res.render('layouts/auth', {
-        layout: 'auth',
-        isCredentialsInvalid: true,
-        message: 'Sistemi kullanmaya yetkiniz yok.',
-      });
     }
     return res.render('layouts/auth', {
       layout: 'auth',
       isCredentialsInvalid: true,
-      message: 'Kullanıcı adı veya şifre hatalı!',
+      message: INVALID_USER_CREDENTIALS,
     });
   } catch (error) {
-    console.log(error);
+    return res.redirect('/login');
   }
 };
 
@@ -57,6 +56,14 @@ const getClientIpAddress = (request) => {
     clientIp = clientIp.substr(7);
   }
   return clientIp;
+};
+
+const getUserFromDb = async (username) => {
+  const user = await db.User.findOne({
+    where: { username },
+    raw: true,
+  });
+  return user;
 };
 
 const updateUserLastLogin = (userId, ip) => {

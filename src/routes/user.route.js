@@ -19,6 +19,24 @@ const routes = (app) => {
       validateUserAndNavigate,
       userController.addUser,
     );
+
+  app
+    .route('/user/update/:id?')
+    .get(
+      validateUserAndNavigate,
+      userController.updateUserView,
+    )
+    .post(
+      validateUserAndNavigate,
+      userController.updateUser,
+    );
+
+  app
+    .route('/user/delete/:id?')
+    .get(
+      validateUserAndNavigate,
+      userController.deleteUser,
+    );
 };
 
 module.exports = routes;

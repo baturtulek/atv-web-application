@@ -2,17 +2,17 @@
   <div style="flex: 2; margin: 12px 24px;">
     {{#if success}}
       <div class="alert alert-success" role="alert">
-        {{message}}
+        {{success}}
       </div>
     {{/if}}
-    {{#if fail}}
+    {{#if error}}
       <div class="alert alert-danger" role="alert">
-        {{message}}
+        {{error}}
       </div>
     {{/if}}
     <form class="border border-light" action="/parkinglot/{{endPoint}}" method="POST">
       <div class="form-group row row-cols-3">
-         <input type="hidden"  name="id" value="{{parkingLot.id}}">
+        <input type="hidden" name="id" value="{{parkingLot.id}}">
         <div class="col">
           <label class="col-sm-2 col-form-label">Adı</label>
           <input type="text" class="form-control" name="name" id="name" required pattern=".*\S+.*" value="{{parkingLot.name}}"

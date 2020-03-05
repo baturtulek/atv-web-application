@@ -32,7 +32,7 @@ const routes = (app) => {
     .route('/parkinglot/delete/:id?')
     .get(
       validateUserAndNavigate,
-      parkingLotController.deleteParkingLots,
+      parkingLotController.deleteParkingLot,
     );
 };
 

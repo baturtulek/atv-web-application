@@ -1,7 +1,9 @@
 const db = require('../config/db');
 const authentication = require('../utils/authentication');
+const { getMessage } = require('../messages/messageCodes');
 
 exports.listUserView = async (req, res) => {
+  const { errorMessage, successMessage } = getMessage(req.query);
   const userList = await db.User.findAll({
     raw: true,
     include: [
@@ -11,19 +13,25 @@ exports.listUserView = async (req, res) => {
       },
     ],
   });
-  return res.render('layouts/main', { partialName: 'listUsers', userList });
+  return res.render('layouts/main', {
+    partialName: 'listUsers',
+    userList,
+    success: successMessage,
+    error: errorMessage,
+  });
 };
 
 exports.addUserView = async (req, res) => {
+  const { errorMessage, successMessage } = getMessage(req.query);
   const userRole = await db.UserRole.findAll({
     raw: true,
   });
   return res.render('layouts/main', {
     partialName: 'addUser',
+    endPoint: 'add',
     userRole,
-    success: req.session.success,
-    fail: req.session.fail,
-    message: req.session.message,
+    error: errorMessage,
+    success: successMessage,
   });
 };
 
@@ -36,13 +44,11 @@ exports.addUser = async (req, res) => {
     raw: true,
   });
   if (dbUser.length !== 0) {
-    req.session.fail = true;
-    req.session.message = 'Kullanıcı adı sistemde zaten kayıtlı. Başka bir kullanıcı adı seçin.';
-    return res.redirect('/user/add');
+    return res.redirect('/user/add?error=username_in_use');
   }
   try {
     const hashedPassword = await authentication.hashPassword(user.password);
-    const newUser = await db.User.create({
+    await db.User.create({
       name: user.name,
       surname: user.surname,
       username: user.username,
@@ -51,12 +57,80 @@ exports.addUser = async (req, res) => {
       password: hashedPassword,
       isActive: user.isActive == undefined ? 0 : 1,
     });
-    console.log(newUser);
-    if (newUser) {
+    return res.redirect('/user/add?success=user_added');
+  } catch (error) {
+    return res.redirect('/user/add?error=user_add_error');
+  }
+};
+
+exports.updateUserView = async (req, res) => {
+  const { errorMessage, successMessage } = getMessage(req.query);
+  const { id } = req.params;
+  const userRole = await db.UserRole.findAll({
+    raw: true,
+  });
+  try {
+    const user = await db.User.findOne({
+      where: { id },
+      raw: true,
+    });
+    if (!user) {
       return res.redirect('/user/list');
     }
+    return res.render('layouts/main', {
+      partialName: 'addUser',
+      endPoint: 'update',
+      userRole,
+      user,
+      error: errorMessage,
+      success: successMessage,
+    });
+  } catch (error) {
+    return res.redirect('/user/list');
+  }
+};
+
+exports.updateUser = async (req, res) => {
+  const user = req.body;
+  try {
+    await db.User.update(
+      {
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+        roleId: user.roleId,
+        phoneNumber: user.phoneNumber == '' ? null : user.phoneNumber,
+        address: user.address,
+        isActive: user.isActive == undefined ? 0 : 1,
+      },
+      {
+        where: {
+          id: user.id,
+        },
+        raw: true,
+      },
+    );
+    return res.redirect(`/user/update/${user.id}?success=user_updated`);
   } catch (error) {
     console.log(error);
+    return res.redirect(`/user/update/${user.id}?error=user_update_error`);
   }
-  return res.redirect('/user/add');
+};
+
+exports.deleteUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await db.User.findOne({
+      where: { id },
+    });
+    if (!user) {
+      return res.redirect('/user/list');
+    }
+    await db.User.destroy({
+      where: { id },
+    });
+    return res.redirect('/user/list?success=user_deleted');
+  } catch (error) {
+    return res.redirect('/user/list?error=user_delete_error');
+  }
 };

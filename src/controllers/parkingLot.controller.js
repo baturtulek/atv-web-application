@@ -1,6 +1,8 @@
+const { getMessage } = require('../messages/messageCodes');
 const db = require('../config/db');
 
 exports.listParkingLots = async (req, res) => {
+  const { errorMessage, successMessage } = getMessage(req.query);
   const parkinglotList = await db.ParkingLot.findAll({
     raw: true,
     include: [
@@ -17,13 +19,13 @@ exports.listParkingLots = async (req, res) => {
   return res.render('layouts/main', {
     partialName: 'listParkingLots',
     parkinglotList,
-    success: req.session.success,
-    fail: req.session.fail,
-    message: req.session.message,
+    success: successMessage,
+    error: errorMessage,
   });
 };
 
 exports.addParkingLotView = async (req, res) => {
+  const { errorMessage, successMessage } = getMessage(req.query);
   const parkingLotType = await db.ParkingType.findAll({
     raw: true,
   });
@@ -38,9 +40,8 @@ exports.addParkingLotView = async (req, res) => {
     endPoint: 'add',
     parkingLotType,
     parkingLotUsers,
-    success: req.session.success,
-    fail: req.session.fail,
-    message: req.session.message,
+    success: successMessage,
+    error: errorMessage,
   });
 };
 
@@ -54,17 +55,14 @@ exports.addNewParkingLot = async (req, res) => {
       staffId: parkingLot.staffId,
       parkingTypeId: parkingLot.parkingTypeId,
     });
-    req.session.success = true;
-    req.session.message = 'Otopark başarıyla eklendi.';
-    return res.redirect('/parkinglot/add');
+    return res.redirect('/parkinglot/add?success=parkinglot_added');
   } catch (error) {
-    req.session.fail = true;
-    req.session.message = 'Otopark eklenirken hata oluştu.';
-    return res.redirect('/parkinglot/add');
+    return res.redirect('/parkinglot/add?error=parkinglot_add_error');
   }
 };
 
 exports.updateParkingLotView = async (req, res) => {
+  const { errorMessage, successMessage } = getMessage(req.query);
   const { id } = req.params;
   const parkingLotType = await db.ParkingType.findAll({
     raw: true,
@@ -89,8 +87,8 @@ exports.updateParkingLotView = async (req, res) => {
       parkingLotType,
       parkingLotUsers,
       parkingLot,
-      fail: req.session.fail,
-      message: req.session.message,
+      error: errorMessage,
+      success: successMessage,
     });
   } catch (error) {
     return res.redirect('/parkinglot/list');
@@ -115,15 +113,13 @@ exports.updateParkingLot = async (req, res) => {
         raw: true,
       },
     );
-    return res.redirect('/parkinglot/list');
+    return res.redirect(`/parkinglot/update/${parkingLot.id}?success=parkinglot_updated`);
   } catch (error) {
-    req.session.fail = true;
-    req.session.message = 'Otopark güncellenirken hata oluştu.';
-    return res.redirect(`/parkinglot/update/${parkingLot.id}`);
+    return res.redirect(`/parkinglot/update/${parkingLot.id}?error=parkinglot_update_error`);
   }
 };
 
-exports.deleteParkingLots = async (req, res) => {
+exports.deleteParkingLot = async (req, res) => {
   const { id } = req.params;
   try {
     const parkingLot = await db.ParkingLot.findOne({
@@ -135,12 +131,8 @@ exports.deleteParkingLots = async (req, res) => {
     await db.ParkingLot.destroy({
       where: { id },
     });
-    req.session.success = true;
-    req.session.message = 'Otopark başarıyla silindi.';
-    return res.redirect('/parkinglot/list');
+    return res.redirect('/parkinglot/list?success=parkinglot_deleted');
   } catch (error) {
-    req.session.fail = true;
-    req.session.message = 'Otopark silinirken hata oluştu.';
-    return res.redirect('/parkinglot/list');
+    return res.redirect('/parkinglot/list?error=parkinglot_delete_error');
   }
 };

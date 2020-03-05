@@ -33,6 +33,7 @@ app.engine(
   hbs({
     helpers: {
       ifEquals: hbsHelpers.ifEquals,
+      ifNotEquals: hbsHelpers.ifNotEquals,
       incrementByOne: hbsHelpers.incrementByOne,
     },
     extname: '.hbs',
