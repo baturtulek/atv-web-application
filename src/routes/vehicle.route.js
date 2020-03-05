@@ -5,9 +5,11 @@ const routes = (app) => {
   app
     .route('/vehicle/add')
     .get(
+      validateUserAndNavigate,
       vehicleController.addVehicleView,
     )
     .post(
+      validateUserAndNavigate,
       vehicleController.addVehicle,
     );
 

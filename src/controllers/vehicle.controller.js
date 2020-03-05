@@ -5,6 +5,9 @@ const db = require('../config/db');
 exports.addVehicleView = async (req, res) => {
   const vehiclePlates = await db.TowedVehicle.findAll({
     raw: true,
+    where: {
+      stateId: 2,
+    },
   });
 
   const vehicleTypes = await db.VehicleType.findAll({
@@ -23,6 +26,10 @@ exports.addVehicleView = async (req, res) => {
     raw: true,
   });
 
+  const vehicleStates = await db.VehicleState.findAll({
+    raw: true,
+  });
+
   return res.render('layouts/main', {
     partialName: 'entranceVehicle',
     vehiclePlates,
@@ -30,12 +37,12 @@ exports.addVehicleView = async (req, res) => {
     vehicleColors,
     vehicleBodyTypes,
     vehicleBrands,
+    vehicleStates,
   });
 };
 
 exports.addVehicle = async (req, res) => {
   const vehicle = req.body;
-  console.log(vehicle);
   try {
     const towedVehicle = await db.TowedVehicle.findOne({
       where: {
@@ -47,7 +54,8 @@ exports.addVehicle = async (req, res) => {
         message: `There is no record with the plate = ${vehicle.plate} added by tow driver`,
         success: false,
       };
-      return res.status(httpStatus.NOT_FOUND).json(result); // return no record with given plate view
+      // return no record with given plate view
+      return res.status(httpStatus.NOT_FOUND).json(result);
     }
 
     const createdVehicle = await db.Vehicle.create({
@@ -62,15 +70,17 @@ exports.addVehicle = async (req, res) => {
       brandId: parseInt(vehicle.brandId),
       ownerProfileId: parseInt(vehicle.ownerProfileId),
     });
+
     if (createdVehicle) {
-      const result = {
-        message: `Record has been added with the licensePlateNo = ${createdVehicle.plate}`,
-        success: true,
-      };
-      return res.status(httpStatus.OK).json(result); // return the appropiate view that confirms vehicle has been added
+      await db.TowedVehicle.update(
+        { stateId: vehicle.stateId },
+        { where: { stateId: 2, plate: vehicle.plate } },
+      );
+      // return the appropiate view that confirms vehicle has been added
+      return res.redirect('/vehicle/add');
     }
   } catch (exception) {
-    console.log(exception);
+    return res.redirect('/vehicle/add');
   }
 };
 

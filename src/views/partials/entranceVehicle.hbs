@@ -1,7 +1,16 @@
 <div style="display: flex;flex-grow: 4;">
   <div style="flex: 1; margin: 12px 24px;">
+    {{#if success}}
+      <div class="alert alert-success" role="alert">
+        Araç Kaydı Başarılı
+      </div>
+    {{/if}}
+    {{#if fail}}
+      <div class="alert alert-success" role="alert">
+        Araç Kaydı Maalesef Başarılı Değil
+      </div>
+    {{/if}}
     <form class="border border-light" action="" method="POST">
-      
       <div class="form-group row row-cols-3">
         <div class="col">
           <label class="col-form-label">Plaka</label>
@@ -33,7 +42,7 @@
         </div>
         <div class="col">
           <label class="col-form-label">Şasi No</label>
-          <input name="description" type="text" class="form-control" placeholder="Açıklama">
+          <input name="chassisNo" type="text" class="form-control" placeholder="Şasi No">
         </div>
       </div>
 
@@ -54,7 +63,7 @@
         </div>
         <div class="col">
           <label class="col-form-label">Model Yılı</label>
-          <input name="description" type="text" class="form-control" placeholder="Açıklama">
+          <input name="modelYear" type="text" class="form-control" placeholder="Model">
         </div>
         <div class="col">
           <label class="col-form-label">Kasa Tipi</label>
@@ -89,10 +98,21 @@
         </div>
         <div class="col">
           <label class="col-form-label">Motor No</label>
-          <input name="description" type="text" class="form-control" placeholder="Açıklama">
+          <input name="engineNo" type="text" class="form-control" placeholder="Motor No">
         </div>
         <div class="col">
-         
+         <label class="col-form-label">Transfer Durumu</label>
+          <select class="browser-default custom-select" name="stateId" id="stateId" required>
+            {{#each vehicleStates}}
+              <option value="{{this.id}}"
+                {{#ifEquals this.id ../vehicleColors.stateId}}
+                selected
+                {{/ifEquals}}
+              >
+                {{this.description}}
+              </option>
+            {{/each}}
+          </select>
       </div>
       </div>
       
