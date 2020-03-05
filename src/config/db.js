@@ -19,7 +19,6 @@ db.UserLastLogin = require('../models/USER_LAST_LOGIN')(connection, Sequelize);
 db.Competency = require('../models/COMPETENCY')(connection, Sequelize);
 db.ParkingLot = require('../models/PARKING_LOT')(connection, Sequelize);
 db.ParkingType = require('../models/PARKING_TYPE')(connection, Sequelize);
-db.RegistrationType = require('../models/REGISTRATION_TYPE')(connection, Sequelize);
 db.RoleCompetency = require('../models/ROLE_COMPETENCY')(connection, Sequelize);
 db.TowedVehicle = require('../models/TOWED_VEHICLE')(connection, Sequelize);
 db.Vehicle = require('../models/VEHICLE')(connection, Sequelize);

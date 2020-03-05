@@ -1,35 +1,65 @@
 <div style="display: flex;flex-grow: 1;">
   <div class="form-container">
+    {{#if success}}
+      <div class="alert alert-success" role="alert">
+        {{message}}
+      </div>
+    {{/if}}
+    {{#if fail}}
+      <div class="alert alert-danger" role="alert">
+        {{message}}
+      </div>
+    {{/if}}
     <form class="border border-light" action="/user/add" method="POST">
       <div class="form-inside-container">
-          <label class="col-form-label">Rol</label>
-          <select class="browser-default custom-select" name="roleId">
+
+        <label class="col-form-label">Kullanıcı Adı</label>
+        <input type="text" class="form-control" name="username" id="username" placeholder="">
+
+          <label class="col-form-label">Profil</label>
+          <select class="browser-default custom-select" name="roleId" id="roleId">
             {{#each userRole}}
               <option value="{{this.id}}">{{this.role}}</option>
             {{/each}}
           </select>
-      
+
           <label class="col-form-label">Adı</label>
-          <input type="text" class="form-control" name="name" placeholder="">
+          <input type="text" class="form-control" name="name" id="name" placeholder="">
 
-          <label class="col-form-label">Soyadı</label>
-          <input type="text" class="form-control" name="surname" placeholder="">
-
-          <label class="col-form-label">Kullanıcı Adı</label>
-          <input type="text" class="form-control" name="username" placeholder="">
-        
           <label class="col-form-label">Email</label>
-          <input type="text" class="form-control" name="email" placeholder="">
+          <input type="text" class="form-control" name="email" id="email" placeholder="">
+
+           <label class="col-form-label">Soyadı</label>
+          <input type="text" class="form-control" name="surname" id="surname" placeholder="">
 
           <label class="col-form-label">Şifre</label>
-          <input type="password" class="form-control" name="password" placeholder="">
+          <input type="password" class="form-control" name="password" id="password" placeholder="">
+          
+          <label class="col-form-label">Aktif</label>
+          <label class="switch">
+            <input type="checkbox" name="isActive" id="isActive" checked>
+            <div class="slider round"></div>
+          </label>
       </div>
       
-      <div class="form-group">
-          <button type="button" class="btn-info"><i class="fa fa-refresh"></i>Sıfırla</button>
-          <button type="submit" class="btn-success"><i class="fa fa-save"></i>Ekle</button>
-      </div>
-
+      <div class="form-group row row-cols-3">
+        <div class="col-auto grid-button-group ml-auto">
+            <button type="button" class="btn-info" id="resetButton"><i class="fa fa-refresh"></i>Sıfırla</button>
+            <button type="submit" class="btn-success"><i class="fa fa-save"></i>Ekle</button>
+        </div>
+    </div>
     </form>
   </div>
 </div>
+
+<script>
+  $('#resetButton').on('click', function () {
+    $('#name').val('');
+    $('#surname').val('');
+    $('#username').val('');
+    $('#email').val('');
+    $('#password').val('');
+    $('#roleId').prop('selectedIndex', 0);
+    $("#isActive").prop("checked", true);
+  });
+</script>

@@ -26,15 +26,7 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(90),
         allowNull: false,
       },
-      tcNo: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-      },
       roleId: {
-        type: DataTypes.INTEGER(11),
-        allowNull: false,
-      },
-      registrationTypeId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
       },
@@ -53,6 +45,10 @@ module.exports = function (sequelize, DataTypes) {
       address: {
         type: DataTypes.STRING(45),
         allowNull: true,
+      },
+      isActive: {
+        type: DataTypes.INTEGER(1),
+        allowNull: false,
       },
     },
     {

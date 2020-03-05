@@ -18,41 +18,45 @@ exports.addUserView = async (req, res) => {
   const userRole = await db.UserRole.findAll({
     raw: true,
   });
-  const registrationType = await db.RegistrationType.findAll({
-    raw: true,
+  return res.render('layouts/main', {
+    partialName: 'addUser',
+    userRole,
+    success: req.session.success,
+    fail: req.session.fail,
+    message: req.session.message,
   });
-  return res.render('layouts/main', { partialName: 'addUser', userRole, registrationType });
 };
 
 exports.addUser = async (req, res) => {
-  const {
-    name, surname, username, tcNo, roleId, registrationTypeId, password, email,
-  } = req.body;
-  const isUsernameExists = await db.User.findAll({
+  const user = req.body;
+  const dbUser = await db.User.findAll({
     where: {
-      username,
+      username: user.username,
     },
     raw: true,
   });
-  if (isUsernameExists.length === 0) {
-    const hashedPassword = await authentication.hashPassword(password);
-    try {
-      const newUser = await db.User.create({
-        name,
-        surname,
-        username,
-        email,
-        tcNo,
-        roleId,
-        registrationTypeId,
-        password: hashedPassword,
-      });
-      if (newUser) {
-        return res.redirect('/user/list');
-      }
-    } catch (error) {
-      console.log(error);
+  if (dbUser.length !== 0) {
+    req.session.fail = true;
+    req.session.message = 'Kullanıcı adı sistemde zaten kayıtlı. Başka bir kullanıcı adı seçin.';
+    return res.redirect('/user/add');
+  }
+  try {
+    const hashedPassword = await authentication.hashPassword(user.password);
+    const newUser = await db.User.create({
+      name: user.name,
+      surname: user.surname,
+      username: user.username,
+      email: user.email,
+      roleId: user.roleId,
+      password: hashedPassword,
+      isActive: user.isActive == undefined ? 0 : 1,
+    });
+    console.log(newUser);
+    if (newUser) {
+      return res.redirect('/user/list');
     }
+  } catch (error) {
+    console.log(error);
   }
   return res.redirect('/user/add');
 };

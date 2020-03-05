@@ -17,14 +17,26 @@ exports.login = async (req, res) => {
       raw: true,
     });
     if (dbUser) {
-      const result = await bcrypt.compare(credentials.password, dbUser.password);
-      if (result) {
-        updateUserLastLogin(dbUser.id, ipAddress);
-        req.session.user = dbUser;
-        return res.redirect('/');
+      console.log(dbUser);
+      if (dbUser.isActive) {
+        const result = await bcrypt.compare(credentials.password, dbUser.password);
+        if (result) {
+          updateUserLastLogin(dbUser.id, ipAddress);
+          req.session.user = dbUser;
+          return res.redirect('/');
+        }
       }
+      return res.render('layouts/auth', {
+        layout: 'auth',
+        isCredentialsInvalid: true,
+        message: 'Sistemi kullanmaya yetkiniz yok.',
+      });
     }
-    return res.render('layouts/auth', { layout: 'auth', isCredentialsInvalid: true });
+    return res.render('layouts/auth', {
+      layout: 'auth',
+      isCredentialsInvalid: true,
+      message: 'Kullanıcı adı veya şifre hatalı!',
+    });
   } catch (error) {
     console.log(error);
   }
