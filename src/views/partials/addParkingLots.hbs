@@ -2,12 +2,12 @@
   <div style="flex: 2; margin: 12px 24px;">
     {{#if success}}
       <div class="alert alert-success" role="alert">
-        {{success}}
+        {{message}}
       </div>
     {{/if}}
     {{#if fail}}
       <div class="alert alert-danger" role="alert">
-        {{fail}}
+        {{message}}
       </div>
     {{/if}}
     <form class="border border-light" action="/parkinglot/{{endPoint}}" method="POST">

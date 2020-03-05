@@ -32,39 +32,29 @@ exports.addParkingLotView = async (req, res) => {
     endPoint: 'add',
     parkingLotType,
     parkingLotUsers,
+    success: req.session.success,
+    fail: req.session.fail,
+    message: req.session.message,
   });
 };
 
 exports.addNewParkingLot = async (req, res) => {
-  const {
-    name, description, staffId, parkingTypeId, address,
-  } = req.body;
+  const parkingLot = req.body;
   try {
     await db.ParkingLot.create({
-      name,
-      address,
-      description,
-      staffId,
-      parkingTypeId,
+      name: parkingLot.name,
+      address: parkingLot.address,
+      description: parkingLot.description,
+      staffId: parkingLot.staffId,
+      parkingTypeId: parkingLot.parkingTypeId,
     });
-    const parkingLotType = await db.ParkingType.findAll({
-      raw: true,
-    });
-    const parkingLotUsers = await db.User.findAll({
-      where: {
-        roleId: 2,
-      },
-      raw: true,
-    });
-    return res.render('layouts/main', {
-      partialName: 'addParkingLots',
-      endPoint: 'add',
-      success: 'Otopark başarıyla eklendi.',
-      parkingLotType,
-      parkingLotUsers,
-    });
+    req.session.success = true;
+    req.session.message = 'Otopark başarıyla eklendi.';
+    return res.redirect('/parkinglot/add');
   } catch (error) {
-    return res.render('layouts/main', { partialName: 'addParkingLots', fail: 'Otopark eklenirken hata oluştu.' });
+    req.session.fail = true;
+    req.session.message = 'Otopark eklenirken hata oluştu.';
+    return res.redirect('/parkinglot/add');
   }
 };
 
