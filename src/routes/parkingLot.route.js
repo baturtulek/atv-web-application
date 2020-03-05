@@ -3,7 +3,7 @@ const { validateUserAndNavigate } = require('../utils/authentication');
 
 const routes = (app) => {
   app
-    .route('/parkinglot/list')
+    .route(['/parkinglot/list', '/parkinglot'])
     .get(
       validateUserAndNavigate,
       parkingLotController.listParkingLots,

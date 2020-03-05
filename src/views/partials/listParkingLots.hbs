@@ -1,5 +1,15 @@
 <div class="table-container">
   <table class="table table-striped">
+    {{#if success}}
+      <div class="alert alert-success" role="alert">
+        {{message}}
+      </div>
+    {{/if}}
+    {{#if fail}}
+      <div class="alert alert-danger" role="alert">
+        {{message}}
+      </div>
+    {{/if}}
     <thead>
     <tr>
       <th scope="col">#</th>
@@ -14,7 +24,7 @@
     <tbody>
     {{#each parkinglotList}}
       <tr>
-        <td class="column1"> {{@index}}</td>
+        <td class="column1"> {{incrementByOne @index}}</td>
         <td class="column2"> {{this.name}} </td>
         <td class="column3"> {{this.address}} </td>
         <td class="column4"> {{this.description}} </td>

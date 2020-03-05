@@ -22,7 +22,7 @@
         
         <div class="col">
           <label class="col-form-label">Yetkili</label>
-          <select class="browser-default custom-select" name="staffId" id="staff" required>
+          <select class="browser-default custom-select" name="staffId" id="staffId" required>
             {{#each parkingLotUsers}}
               <option value="{{this.id}}"
                 {{#ifEquals this.id ../parkingLot.staffId}}
@@ -37,7 +37,7 @@
         
         <div class="col">
           <label class="col-sm-2 col-form-label">Tip</label>
-          <select class="browser-default custom-select" name="parkingTypeId" id="parkingType" required>
+          <select class="browser-default custom-select" name="parkingTypeId" id="parkingTypeId" required>
             {{#each parkingLotType}}
               <option value="{{this.id}}"
                 {{#ifEquals this.id ../parkingLot.parkingTypeId}}
@@ -82,5 +82,7 @@
     $('#name').val('');
     $('#address').val('');
     $('#description').val('');
+    $('#staffId').prop('selectedIndex', 0);
+    $('#parkingTypeId').prop('selectedIndex', 0);
   });
 </script>

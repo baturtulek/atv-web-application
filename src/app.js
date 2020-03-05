@@ -8,6 +8,7 @@ const path = require('path');
 const hbs = require('express-handlebars');
 const morgan = require('morgan');
 const db = require('./config/db');
+const hbsHelpers = require('./utils/hbsHelpers');
 
 const app = express();
 
@@ -31,10 +32,8 @@ app.engine(
   'hbs',
   hbs({
     helpers: {
-      // eslint-disable-next-line func-names
-      ifEquals(arg1, arg2, options) {
-        return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
-      },
+      ifEquals: hbsHelpers.ifEquals,
+      incrementByOne: hbsHelpers.incrementByOne,
     },
     extname: '.hbs',
     layoutDir: `${__dirname}/views/layouts`,

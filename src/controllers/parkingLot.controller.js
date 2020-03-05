@@ -14,7 +14,13 @@ exports.listParkingLots = async (req, res) => {
       },
     ],
   });
-  return res.render('layouts/main', { partialName: 'listParkingLots', parkinglotList });
+  return res.render('layouts/main', {
+    partialName: 'listParkingLots',
+    parkinglotList,
+    success: req.session.success,
+    fail: req.session.fail,
+    message: req.session.message,
+  });
 };
 
 exports.addParkingLotView = async (req, res) => {
@@ -83,6 +89,8 @@ exports.updateParkingLotView = async (req, res) => {
       parkingLotType,
       parkingLotUsers,
       parkingLot,
+      fail: req.session.fail,
+      message: req.session.message,
     });
   } catch (error) {
     return res.redirect('/parkinglot/list');
@@ -107,25 +115,11 @@ exports.updateParkingLot = async (req, res) => {
         raw: true,
       },
     );
-    const parkingLotType = await db.ParkingType.findAll({
-      raw: true,
-    });
-    const parkingLotUsers = await db.User.findAll({
-      where: {
-        roleId: 2,
-      },
-      raw: true,
-    });
-    return res.render('layouts/main', {
-      partialName: 'addParkingLots',
-      endPoint: 'update',
-      success: 'Otopark başarıyla güncellendi.',
-      parkingLotType,
-      parkingLotUsers,
-      parkingLot,
-    });
+    return res.redirect('/parkinglot/list');
   } catch (error) {
-    return res.render('layouts/main', { partialName: 'addParkingLots', fail: 'Otopark güncellenirken hata oluştu.' });
+    req.session.fail = true;
+    req.session.message = 'Otopark güncellenirken hata oluştu.';
+    return res.redirect(`/parkinglot/update/${parkingLot.id}`);
   }
 };
 
@@ -141,8 +135,12 @@ exports.deleteParkingLots = async (req, res) => {
     await db.ParkingLot.destroy({
       where: { id },
     });
+    req.session.success = true;
+    req.session.message = 'Otopark başarıyla silindi.';
     return res.redirect('/parkinglot/list');
   } catch (error) {
+    req.session.fail = true;
+    req.session.message = 'Otopark silinirken hata oluştu.';
     return res.redirect('/parkinglot/list');
   }
 };

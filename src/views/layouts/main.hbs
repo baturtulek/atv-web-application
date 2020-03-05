@@ -14,9 +14,9 @@
         <link rel="stylesheet"  href="/styles/style.css">        
     </head>
     <body>
-      {{> header }}
+      {{> components/header }}
         <div style="display: flex;">
-          {{> sidebar }}
+          {{> components/sidebar }}
           {{> (lookup . 'partialName')}}
         </div>
     </body>
