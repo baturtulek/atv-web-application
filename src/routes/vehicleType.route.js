@@ -27,6 +27,7 @@ const routes = (app) => {
   app
     .route('/vehicletype/update/:id?')
     .get(
+      validateUserAndNavigate,
       vehicleTypeController.updateVehicleTypeView,
     )
     .post(

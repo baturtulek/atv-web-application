@@ -2,9 +2,34 @@
 const httpStatus = require('http-status');
 const db = require('../config/db');
 
-exports.addVehicleView = (req, res) => {
-  return res.status(httpStatus.OK).json({
-    message: 'You\'re logged in. this should show addVehicleView', // return searchVehicleView
+exports.addVehicleView = async (req, res) => {
+  const vehiclePlates = await db.TowedVehicle.findAll({
+    raw: true,
+  });
+
+  const vehicleTypes = await db.VehicleType.findAll({
+    raw: true,
+  });
+
+  const vehicleColors = await db.VehicleColor.findAll({
+    raw: true,
+  });
+
+  const vehicleBodyTypes = await db.VehicleBodyStyle.findAll({
+    raw: true,
+  });
+
+  const vehicleBrands = await db.VehicleBrand.findAll({
+    raw: true,
+  });
+
+  return res.render('layouts/main', {
+    partialName: 'entranceVehicle',
+    vehiclePlates,
+    vehicleTypes,
+    vehicleColors,
+    vehicleBodyTypes,
+    vehicleBrands,
   });
 };
 
