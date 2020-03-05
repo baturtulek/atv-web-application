@@ -1,4 +1,14 @@
 <div class="table-container">
+  {{#if success}}
+  <div class="alert alert-success" role="alert">
+    {{message}}
+  </div>
+{{/if}}
+  {{#if fail}}
+    <div class="alert alert-danger" role="alert">
+      {{message}}
+    </div>
+{{/if}}
   <table class="table table-striped">
     <thead>
       <tr>
@@ -15,7 +25,9 @@
         <td class="column2">{{this.name}}</td>
         <td class="column3">{{this.description}}</td>
         <td class="column4" style="text-align:center; width:85px;">
-          <i class="fa fa-pencil-square-o fa-m btn btn-primary" aria-hidden="true" ></i>
+          <a href="/vehicletype/update/{{this.id}}">
+            <i class="fa fa-pencil-square-o fa-m btn btn-primary" aria-hidden="true" ></i>
+          </a>
           <a href="/vehicletype/delete/{{this.id}}" onclick="return confirm('Silmek istediğinize emin misiniz ?');">
             <i class="fa fa-trash fa-m btn btn-danger" aria-hidden="true"></i>
           </a>
