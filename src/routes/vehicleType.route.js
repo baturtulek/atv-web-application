@@ -13,7 +13,7 @@ const routes = (app) => {
       vehicleTypeController.addVehicleType,
     );
   app
-    .route('/vehicletype/list')
+    .route(['/vehicletype', '/vehicletype/list'])
     .get(
       validateUserAndNavigate,
       vehicleTypeController.listVehicleType,
@@ -25,7 +25,10 @@ const routes = (app) => {
       vehicleTypeController.deleteVehicleType,
     );
   app
-    .route('/vehicletype/update/:id')
+    .route('/vehicletype/update/:id?')
+    .get(
+      vehicleTypeController.updateVehicleTypeView,
+    )
     .post(
       validateUserAndNavigate,
       vehicleTypeController.updateVehicleType,
