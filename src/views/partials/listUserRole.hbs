@@ -1,0 +1,38 @@
+<div class="table-container">
+  <table class="table table-striped">
+    {{#if success}}
+      <div class="alert alert-success" role="alert">
+        {{success}}
+      </div>
+    {{/if}}
+    {{#if error}}
+      <div class="alert alert-danger" role="alert">
+        {{error}}
+      </div>
+    {{/if}}
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Role</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each userRoleList}}
+      <tr>
+        <td class="column1"> {{incrementByOne @index}}</td>
+        <td class="column2"> {{this.role}} </td>
+        <td class="column3" style="text-align:center; width:85px;">
+          <a href="/role/update/{{this.id}}">
+            <i class="fa fa-pencil-square-o fa-m btn btn-success" aria-hidden="true" ></i>
+          </a>
+          <a href="/role/delete/{{this.id}}" onclick="return confirm('Silmek istediğinize emin misiniz ?');">
+            <i class="fa fa-trash fa-m btn btn-danger" aria-hidden="true"></i>
+          </a>
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+
+</div>

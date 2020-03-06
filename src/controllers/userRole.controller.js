@@ -1,21 +1,43 @@
+/* eslint-disable prefer-const */
 /* eslint-disable consistent-return */
 /* eslint-disable max-len */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-restricted-syntax */
-const httpStatus = require('http-status');
+const { Op } = require('sequelize');
 const db = require('../config/db');
+const { getMessage } = require('../messages/messageCodes');
+
+exports.listUserRoles = async (req, res) => {
+  const { errorMessage, successMessage } = getMessage(req.query);
+  try {
+    const userRoleList = await db.UserRole.findAll({
+      raw: true,
+    });
+    return res.render('layouts/main', {
+      partialName: 'listUserRole',
+      userRoleList,
+      success: successMessage,
+      error: errorMessage,
+    });
+  } catch (exception) {
+    console.log(exception);
+  }
+};
 
 exports.addUserRoleView = async (req, res) => {
+  const { errorMessage, successMessage } = getMessage(req.query);
   try {
     const competencies = await db.Competency.findAll({
       raw: true,
     });
-    if (competencies) {
-      return res.render('layouts/main', { partialName: 'addUserRole', competencies });
-    }
-    return res.status(httpStatus.NOT_FOUND).json({
-      message: 'there is no record to show',
+
+    return res.render('layouts/main', {
+      partialName: 'addUserRole',
+      endPoint: 'add',
+      competencies,
+      success: successMessage,
+      error: errorMessage,
     });
   } catch (exception) {
     console.log(exception);
@@ -23,12 +45,9 @@ exports.addUserRoleView = async (req, res) => {
 };
 
 exports.addUserRole = async (req, res) => {
-  console.log(req.body);
-  // eslint-disable-next-line prefer-const
   let { role, ...competencyIds } = req.body;
   competencyIds = Object.keys(competencyIds);
   competencyIds.forEach((element, index) => {
-    // eslint-disable-next-line radix
     competencyIds[index] = parseInt(element);
   });
   try {
@@ -51,67 +70,87 @@ exports.addUserRole = async (req, res) => {
           });
         }
       }
-      if (createdRole) {
-        const result = {
-          message: `Record has been added role = ${role}`,
-          success: true,
-        };
-        return res.status(httpStatus.CREATED).json(result); // return the appropiate view that confirms vehicle has been added
-      }
-    } else {
-      return res.status(httpStatus.CONFLICT).json({
-        message: `there is already a record role = ${role}`,
-      });
+      return res.redirect('/role/add?success=role_added');
     }
+    return res.redirect('/role/add?error=role_inuse');
   } catch (error) {
     console.log(error);
+    return res.redirect('/role/add?error=role_add_error');
   }
 };
 
-// eslint-disable-next-line consistent-return
-exports.listUserRoles = async (req, res) => {
+exports.userRoleUpdateView = async (req, res) => {
+  const { errorMessage, successMessage } = getMessage(req.query);
+  const { id } = req.params;
   try {
-    const allUserRoles = await db.UserRole.findAll({
+    const role = await db.UserRole.findOne({
+      raw: true,
+      where: {
+        id,
+      },
+    });
+    if (!role) return res.redirect('/role/list');
+    const competencies = await db.Competency.findAll({
       raw: true,
     });
-    if (allUserRoles) {
-      console.log(allUserRoles);
-      return JSON.stringify(allUserRoles);
-    }
-    return res.status(httpStatus.NOT_FOUND).json({
-      message: 'there is no record to show',
+    let userRoleCompetencies = await db.RoleCompetency.findAll({
+      raw: true,
+      where: {
+        roleId: id,
+      },
+    });
+    userRoleCompetencies.forEach((element, index) => {
+      userRoleCompetencies[index] = element.competencyNo;
+    });
+    userRoleCompetencies = await db.Competency.findAll({
+      raw: true,
+      where: {
+        id: {
+          [Op.in]: userRoleCompetencies,
+        },
+      },
+    });
+
+    return res.render('layouts/main', {
+      partialName: 'addUserRole',
+      endPoint: 'update',
+      competencies,
+      userRoleCompetencies,
+      role,
+      error: errorMessage,
+      success: successMessage,
     });
   } catch (exception) {
     console.log(exception);
+    return res.redirect('/role/list');
   }
 };
 
-exports.userRoleDeleteView = async (req, res) => res.status(httpStatus.OK).json({
-  message: 'You\'re logged in. this should show userRoleDeleteView',
-});
+exports.userRoleUpdate = async (req, res) => {
+  return res.json({
+    message: 'not Implemented',
+  });
+};
 
 exports.deleteUserRole = async (req, res) => {
-  const { role } = req.body;
+  const { id } = req.params;
   try {
     const found = await db.UserRole.findOne({
       where: {
-        role,
+        id,
       },
     });
     if (!found) {
-      return res.status(httpStatus.NOT_FOUND).json({
-        message: `UserRole not found with the role of ${role}`,
-      });
+      return res.redirect('/role/list');
     }
     await db.UserRole.destroy({
       where: {
-        role,
+        id,
       },
     });
-    return res.status(httpStatus.OK).json({
-      message: `competency deleted with the role of ${role}`,
-    });
+    return res.redirect('/role/list?success=role_deleted');
   } catch (ex) {
     console.log(ex);
+    return res.redirect('/role/list?error=role_delete_error');
   }
 };

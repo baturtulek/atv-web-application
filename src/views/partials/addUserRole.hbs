@@ -1,24 +1,56 @@
-<div class="form-container">
-  <form class="text-center border border-light" action="/role/add" method="POST">
-    <p class="h4 mb-4">Kullanıcı tipi ekle</p>
 
-    <div class="form-group" data-validate="Kullanıcı tipini yazınız.">
-      <label>Kullanıcı tipi adı</label>
-      <textarea class="form-control" name="role" placeholder="Kullanıcı tipi açıklaması"></textarea>
+<div style="display: flex;flex-grow: 1;">
+  <div style="flex: 2; margin: 12px 24px;">
+    {{#if success}}
+    <div class="alert alert-success" role="alert">
+      {{success}}
     </div>
-    
-    <p class="h4 mb-4">Kullanıcı tipinin yetkilerini seçiniz.</p>
-    {{#each competencies}}
-      <div style="margin: 8px 32px">
-      <input class="form-control" type="text" placeholder="{{this.description}}" readonly>
-      <div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" id="switch{{this.id}}" name="{{this.id}}">
-        <label class="custom-control-label" for="switch{{this.id}}">Bu yetkinliği ekle</label>
+    {{/if}}
+    {{#if error}}
+    <div class="alert alert-danger" role="alert">
+      {{error}}
+    </div>
+    {{/if}}
+    <form class="border border-light" action="/role/{{endPoint}}" method="POST">
+      <div class="form-group row row-cols-3">
+        <input type="hidden" name="id" value="{{role.id}}">
+        <div class="col">
+          <label class="col-form-label">Profile Adı</label>
+          <input type="text" class="form-control" name="role" id="role" required pattern=".*\S+.*"
+            value="{{role.role}}">
+
+          {{#each competencies}}
+          <div style="margin: 8px 32px">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="switch{{this.id}}" name="{{this.id}}"
+                {{#ifIdInArr this.id ../userRoleCompetencies}} checked {{/ifIdInArr}}>
+              <label class="custom-control-label" for="switch{{this.id}}">{{this.description}}</label>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+
+        <div class="col-auto grid-button-group">
+          <button type="button" class="btn-info" id="resetButton"><i class="fa fa-refresh"></i>Sıfırla</button>
+          <button type="submit" class="btn-success" id="submitButton"><i class="fa fa-save"></i>
+            {{#ifEquals "add" endPoint}}
+            Ekle
+            {{else}}
+            Güncelle
+            {{/ifEquals}}
+          </button>
+        </div>
       </div>
-      </div>
-    {{/each}}
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+    </form>
+  </div>
 </div>
 
-
+<script>
+  $('#resetButton').on('click', function () {
+    $('#name').val('');
+    $('#address').val('');
+    $('#description').val('');
+    $('#staffId').prop('selectedIndex', 0);
+    $('#parkingTypeId').prop('selectedIndex', 0);
+  });
+</script>
