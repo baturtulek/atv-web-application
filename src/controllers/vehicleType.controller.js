@@ -1,4 +1,5 @@
 /* eslint-disable consistent-return */
+const { getMessage } = require('../messages/messageCodes');
 const db = require('../config/db');
 
 exports.addVehicleType = async (req, res) => {
@@ -9,28 +10,25 @@ exports.addVehicleType = async (req, res) => {
       description,
     });
     if (vehicleType) {
-      req.session.success = true;
-      req.session.message = 'Araç tipi başarıyla eklendi.';
-      return res.redirect('/vehicletype/add');
+      return res.redirect('/vehicletype/add?success=vehicletype_added');
     }
   } catch (error) {
-    req.session.fail = true;
-    req.session.message = 'Araç tipi eklenirken hata oluştu.';
-    return res.redirect('/vehicletype/add');
+    return res.redirect('/vehicletype/add?error=vehicletype_add_error');
   }
 };
 
 exports.addVehicleTypeView = (req, res) => {
+  const { errorMessage, successMessage } = getMessage(req.query);
   res.render('layouts/main', {
     partialName: 'addVehicleType',
     endPoint: 'add',
-    success: req.session.success,
-    fail: req.session.fail,
-    message: req.session.message,
+    success: successMessage,
+    error: errorMessage,
   });
 };
 
 exports.listVehicleType = async (req, res) => {
+  const { errorMessage, successMessage } = getMessage(req.query);
   const vehicleTypes = await db.VehicleType.findAll({
     raw: true,
   });
@@ -39,14 +37,14 @@ exports.listVehicleType = async (req, res) => {
     return res.render('layouts/main', {
       partialName: 'listVehicleTypes',
       vehicleTypes,
-      success: req.session.success,
-      fail: req.session.fail,
-      message: req.session.message,
+      success: successMessage,
+      error: errorMessage,
     });
   }
 };
 
 exports.updateVehicleTypeView = async (req, res) => {
+  const { errorMessage, successMessage } = getMessage(req.query);
   const { id } = req.params;
   try {
     const vehicleType = await db.VehicleType.findOne({
@@ -60,6 +58,8 @@ exports.updateVehicleTypeView = async (req, res) => {
       partialName: 'addVehicleType',
       endPoint: 'update',
       vehicleType,
+      success: successMessage,
+      error: errorMessage,
     });
   } catch (error) {
     return res.redirect('/vehicletype/list');
@@ -76,13 +76,9 @@ exports.updateVehicleType = async (req, res) => {
       { name, description },
       { where: { id } },
     );
-    req.session.success = true;
-    req.session.message = 'Araç tipi başarıyla güncellendi.';
-    return res.redirect('/vehicletype/list');
+    return res.redirect(`/vehicletype/update/${id}?success=vehicletype_updated`);
   } catch (error) {
-    req.session.fail = true;
-    req.session.message = 'Araç tipi eklenirken hata oluştu.';
-    return res.redirect('/vehicletype/list');
+    return res.redirect(`/vehicletype/update/${id}?error=vehicletype_update_error`);
   }
 };
 
@@ -102,12 +98,8 @@ exports.deleteVehicleType = async (req, res) => {
         id,
       },
     });
-    req.session.success = true;
-    req.session.message = 'Araç tipi başarıyla silindi.';
-    return res.redirect('/vehicletype/list');
+    return res.redirect('/vehicletype/list?success=vehicletype_deleted');
   } catch (error) {
-    req.session.fail = true;
-    req.session.message = 'Araç tipi maalesef silinemedi.';
-    return res.redirect('/vehicletype/list');
+    return res.redirect('/vehicletype/list?error=vehicletype_delete_error');
   }
 };

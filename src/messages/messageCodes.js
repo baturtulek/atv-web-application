@@ -25,6 +25,14 @@ const MESSAGES = {
   discount_update_error: 'İndirim güncellenirken hata oluştu.',
   discount_deleted: 'İndirim başarıyla silindi.',
   discount_delete_error: 'İndirim silinirken hata oluştu.',
+
+  // Vehicle types messages
+  vehicletype_added: 'Araç tipi başarıyla eklendi.',
+  vehicletype_add_error: 'Araç tipi eklenirken hata oluştu',
+  vehicletype_updated: 'Araç tipi başarıyla güncellendi',
+  vehicletype_update_error: 'Araç tipi güncellenirken hata oluştu.',
+  vehicletype_deleted: 'Araç tipi başarıyla silindi',
+  vehicletype_delete_error: 'Araç tipi silinirken hata oluştu.',
 };
 
 exports.getMessage = (query) => {
