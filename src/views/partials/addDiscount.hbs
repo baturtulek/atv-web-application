@@ -1,0 +1,55 @@
+<div style="display: flex;flex-grow: 1;">
+  <div class="form-container">
+    {{#if success}}
+      <div class="alert alert-success" role="alert">
+        {{success}}
+      </div>
+    {{/if}}
+    {{#if error}}
+      <div class="alert alert-danger" role="alert">
+        {{error}}
+      </div>
+    {{/if}}
+    <form class="border border-light" id='form' action="/discount/{{endPoint}}" method="POST">
+      <div class="form-inside-container">
+        <input type="hidden" name="id" value="{{discount.id}}">
+
+        <label class="col-form-label">Ad</label>
+        <input type="text" class="form-control" name="name" id="name" placeholder="" value="{{discount.name}}" required
+          oninvalid="this.setCustomValidity('Lütfen indirim adını girin.')"
+          oninput="setCustomValidity('')">
+          
+          <label class="col-form-label">Park İndirimi (%)</label>
+          <input type="text" class="form-control" name="parkDiscount" id="parkDiscount" placeholder="" value="{{discount.parkDiscount}}" required
+            oninvalid="this.setCustomValidity('Lütfen park indirimini girin.')"
+            oninput="setCustomValidity('')">
+
+          <label class="col-form-label">Transfer İndirimi (%)</label>
+          <input type="text" class="form-control" name="transferDiscount" id="transferDiscount" placeholder="" value="{{discount.transferDiscount}}" required
+            oninvalid="this.setCustomValidity('Lütfen transfer indirimini girin.')"
+            oninput="setCustomValidity('')">
+      </div>
+      
+      <div class="form-group row row-cols-3">
+        <div class="col-auto grid-button-group ml-auto">
+            <button type="button" class="btn-info" id="resetButton"><i class="fa fa-refresh"></i>Sıfırla</button>
+            <button type="submit" class="btn-success"><i class="fa fa-save"></i>
+            {{#ifEquals "add" endPoint}}
+            Ekle
+            {{else}}
+            Güncelle
+            {{/ifEquals}}
+            </button>
+        </div>
+    </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $('#resetButton').on('click', function () {
+    $('#name').val('');
+    $('#parkDiscount').val('');
+    $('#transferDiscount').val('');
+  });
+</script>

@@ -27,6 +27,8 @@ db.VehicleType = require('../models/VEHICLE_TYPE')(connection, Sequelize);
 db.VehicleState = require('../models/VEHICLE_STATE')(connection, Sequelize);
 db.VehicleColor = require('../models/VEHICLE_COLOR')(connection, Sequelize);
 db.VehicleBodyStyle = require('../models/VEHICLE_BODY_STYLE')(connection, Sequelize);
+db.EnforcementOffice = require('../models/ENFORCEMENT_OFFICE')(connection, Sequelize);
+db.Discount = require('../models/DISCOUNT')(connection, Sequelize);
 
 db.TowedVehicle.hasOne(db.User, {
   foreignKey: 'id',

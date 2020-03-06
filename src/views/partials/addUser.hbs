@@ -10,17 +10,18 @@
         {{error}}
       </div>
     {{/if}}
-    <form class="border border-light" action="/user/{{endPoint}}" method="POST">
+    <form class="border border-light" id='form' action="/user/{{endPoint}}" method="POST">
       <div class="form-inside-container">
         <input type="hidden" name="id" value="{{user.id}}">
 
         <label class="col-form-label">Kullanıcı Adı</label>
-        <input type="text" class="form-control" name="username" id="username" placeholder="" value="{{user.username}}" 
+        <input type="text" class="form-control" name="username" id="username" placeholder="" value="{{user.username}}" required
+          oninvalid="this.setCustomValidity('Lütfen kullanıcı adınızı girin.')"
+          oninput="setCustomValidity('')"
         {{#ifEquals endPoint "update"}}
           disabled
         {{/ifEquals}}
         >
-
           <label class="col-form-label">Profil</label>
           <select class="browser-default custom-select" name="roleId" id="roleId">
             {{#each userRole}}
@@ -35,13 +36,17 @@
           </select>
 
           <label class="col-form-label">Adı</label>
-          <input type="text" class="form-control" name="name" id="name" placeholder="" value="{{user.name}}">
+          <input type="text" class="form-control" name="name" id="name" placeholder="" value="{{user.name}}" required
+            oninvalid="this.setCustomValidity('Lütfen adınızı girin.')"
+            oninput="setCustomValidity('')">
 
           <label class="col-form-label">Email</label>
           <input type="text" class="form-control" name="email" id="email" placeholder="" value="{{user.email}}">
 
            <label class="col-form-label">Soyadı</label>
-          <input type="text" class="form-control" name="surname" id="surname" placeholder="" value="{{user.surname}}">
+          <input type="text" class="form-control" name="surname" id="surname" placeholder="" value="{{user.surname}}" required
+            oninvalid="this.setCustomValidity('Lütfen soyadınızı girin.')"
+            oninput="setCustomValidity('')">
 
           <label class="col-form-label">Telefon Numarası</label>
           <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="" value="{{user.phoneNumber}}">
@@ -49,8 +54,10 @@
           <label class="col-form-label">Adres</label>
           <input type="text" class="form-control" name="address" id="address" placeholder="" value="{{user.address}}">
 
-          <label class="col-form-label">Şifre</label>
-          <input type="password" class="form-control" name="password" id="password" placeholder="" >
+          <label class="col-form-label">Şifre</label>           
+          <input type="password" class="form-control" name="password" id="password" placeholder="" required
+          oninvalid="this.setCustomValidity('Lütfen şifrenizi girin.')"
+          oninput="setCustomValidity('')">
 
           <label class="col-form-label">Aktif</label>
           <label class="switch">
@@ -70,7 +77,13 @@
       <div class="form-group row row-cols-3">
         <div class="col-auto grid-button-group ml-auto">
             <button type="button" class="btn-info" id="resetButton"><i class="fa fa-refresh"></i>Sıfırla</button>
-            <button type="submit" class="btn-success"><i class="fa fa-save"></i>Ekle</button>
+            <button type="submit" class="btn-success"><i class="fa fa-save"></i>
+            {{#ifEquals "add" endPoint}}
+            Ekle
+            {{else}}
+            Güncelle
+            {{/ifEquals}}
+            </button>
         </div>
     </div>
     </form>
@@ -81,9 +94,10 @@
   $('#resetButton').on('click', function () {
     $('#name').val('');
     $('#surname').val('');
-    $('#username').val('');
     $('#email').val('');
     $('#password').val('');
+    $('#address').val('');
+    $('#phoneNumber').val('');
     $('#roleId').prop('selectedIndex', 0);
     $("#isActive").prop("checked", true);
   });

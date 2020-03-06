@@ -10,6 +10,19 @@
         <div class="panel-body">
           <ul class="nav navbar-nav">
             <li class="panel panel-default" id="dropdown">
+              <a data-toggle="collapse" href="#vehicleOperations">
+                <i class="fa fa-angle-right"></i> Araç Giriş/Çıkış İşlemleri
+              </a>
+              <div id="vehicleOperations" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <ul class="nav navbar-nav">
+                    <li><a href="/vehicle/add"><i class="fa fa-circle" ></i> Araç Girişi</a></li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="panel panel-default" id="dropdown">
               <a data-toggle="collapse" href="#parkingLotOperations">
                 <i class="fa fa-angle-right"></i> Otopark İşlemleri
               </a>
@@ -37,18 +50,34 @@
               </div>
             </li>
 
-            <li class="panel panel-default" id="dropdown">
-              <a data-toggle="collapse" href="#vehicleOperations">
-                <i class="fa fa-angle-right"></i> Araç Giriş/Çıkış İşlemleri
+          <li class="panel panel-default" id="dropdown">
+              <a data-toggle="collapse" href="#enforcementoffice">
+                <i class="fa fa-angle-right"></i> İcra Kurumu İşlemleri
               </a>
-              <div id="vehicleOperations" class="panel-collapse collapse">
+              <div id="enforcementoffice" class="panel-collapse collapse">
                 <div class="panel-body">
                   <ul class="nav navbar-nav">
-                    <li><a href="/vehicle/add"><i class="fa fa-circle" ></i> Araç Girişi</a></li>
+                    <li><a href="/enforcementoffice/add"><i class="fa fa-circle" ></i> İcra Kurumu Ekle</a></li>
+                    <li><a href="/enforcementoffice/list"><i class="fa fa-circle"></i> İcra Kurumu Listele</a></li>
                   </ul>
                 </div>
               </div>
             </li>
+
+            <li class="panel panel-default" id="dropdown">
+              <a data-toggle="collapse" href="#discount">
+                <i class="fa fa-angle-right"></i> İndirim İşlemleri
+              </a>
+              <div id="discount" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <ul class="nav navbar-nav">
+                    <li><a href="/discount/add"><i class="fa fa-circle" ></i> İndirim Ekle</a></li>
+                    <li><a href="/discount/list"><i class="fa fa-circle"></i> İndirim Listele</a></li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+
           </ul>
         </div>
       </div>
