@@ -129,30 +129,71 @@ exports.userRoleUpdateView = async (req, res) => {
 };
 
 exports.userRoleUpdate = async (req, res) => {
-  return res.json({
-    message: 'not Implemented',
+  let { role, id, ...competencyIds } = req.body;
+  competencyIds = Object.keys(competencyIds);
+  competencyIds.forEach((element, index) => {
+    competencyIds[index] = parseInt(element);
   });
+  try {
+    const foundRole = await db.UserRole.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!foundRole) return res.redirect(`/role/update/${id}/?error=update_error`);
+
+    await db.UserRole.update({
+      role,
+    },
+    {
+      where: {
+        id,
+      },
+      raw: true,
+    });
+
+    for (const competencyNo of competencyIds) {
+      if (!isNaN(id)) {
+        await db.RoleCompetency.upsert({
+          roleId: id,
+          competencyNo,
+        },
+        {
+          raw: true,
+        });
+      }
+    }
+
+    return res.redirect(`/role/update/${id}?success=updated`);
+  } catch (error) {
+    console.log(error);
+    return res.redirect(`/role/update/${id}?error=update_error`);
+  }
 };
 
 exports.deleteUserRole = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const found = await db.UserRole.findOne({
-      where: {
-        id,
-      },
-    });
-    if (!found) {
-      return res.redirect('/role/list');
-    }
-    await db.UserRole.destroy({
-      where: {
-        id,
-      },
-    });
-    return res.redirect('/role/list?success=deleted');
-  } catch (ex) {
-    console.log(ex);
-    return res.redirect('/role/list?error=delete_error');
-  }
+  // const { id } = req.params;
+  // try {
+  //   const found = await db.UserRole.findOne({
+  //     where: {
+  //       id,
+  //     },
+  //   });
+  //   if (!found) {
+  //     return res.redirect('/role/list');
+  //   }
+  //   await db.UserRole.destroy({
+  //     where: {
+  //       id,
+  //     },
+  //   });
+  //   return res.redirect('/role/list?success=deleted');
+  // } catch (ex) {
+  //   console.log(ex);
+  //   return res.redirect('/role/list?error=delete_error');
+  // }
+  return res.json({
+    message: 'not implemented',
+  });
 };
