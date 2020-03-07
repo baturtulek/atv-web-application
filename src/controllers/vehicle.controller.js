@@ -1,8 +1,8 @@
 /* eslint-disable radix */
 const httpStatus = require('http-status');
 const moment = require('moment');
-const { getMessage, messageEnum } = require('../messages/messageCodes');
 const db = require('../config/db');
+const { getMessageFromURL, URL_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Araç';
 
@@ -92,7 +92,7 @@ exports.addVehicle = async (req, res) => {
 };
 
 exports.searchVehicleView = (req, res) => {
-  const { errorMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   return res.render('layouts/main', {
     partialName: 'searchVehicle',
     error: errorMessage,
@@ -113,13 +113,13 @@ exports.searchVehicle = async (req, res) => {
       raw: true,
     });
     if (!vehicles.length > 0) {
-      return res.redirect(`/vehicle/search?${messageEnum.error.search}`);
+      return res.redirect(`/vehicle/search?${URL_MESSAGE.error.search}`);
     }
     return res.render('layouts/main', {
       partialName: 'searchVehicle',
       vehicles,
     });
   } catch (err) {
-    return res.redirect(`/vehicle/search?${messageEnum.error.search}`);
+    return res.redirect(`/vehicle/search?${URL_MESSAGE.error.search}`);
   }
 };

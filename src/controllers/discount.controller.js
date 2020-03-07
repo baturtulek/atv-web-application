@@ -1,11 +1,11 @@
 
 const db = require('../config/db');
-const { getMessage, messageEnum } = require('../messages/messageCodes');
+const { getMessageFromURL, URL_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'İndirim';
 
 exports.listDiscounts = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const discountList = await db.Discount.findAll({
     raw: true,
   });
@@ -18,7 +18,7 @@ exports.listDiscounts = async (req, res) => {
 };
 
 exports.addDiscountView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   return res.render('layouts/main', {
     partialName: 'addDiscount',
     endPoint: 'add',
@@ -35,14 +35,14 @@ exports.addDiscount = async (req, res) => {
       parkDiscount: discount.parkDiscount,
       transferDiscount: discount.transferDiscount,
     });
-    return res.redirect(`/discount/add?${messageEnum.success.add}`);
+    return res.redirect(`/discount/add?${URL_MESSAGE.success.add}`);
   } catch (error) {
-    return res.redirect(`/discount/add?${messageEnum.error.add}`);
+    return res.redirect(`/discount/add?${URL_MESSAGE.error.add}`);
   }
 };
 
 exports.updateDiscountView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const { id } = req.params;
   try {
     const discount = await db.Discount.findOne({
@@ -80,9 +80,9 @@ exports.updateDiscount = async (req, res) => {
         raw: true,
       },
     );
-    return res.redirect(`/discount/update/${discount.id}?${messageEnum.success.update}`);
+    return res.redirect(`/discount/update/${discount.id}?${URL_MESSAGE.success.update}`);
   } catch (error) {
-    return res.redirect(`/discount/update/${discount.id}?${messageEnum.error.update}`);
+    return res.redirect(`/discount/update/${discount.id}?${URL_MESSAGE.error.update}`);
   }
 };
 
@@ -98,8 +98,8 @@ exports.deleteDiscount = async (req, res) => {
     await db.Discount.destroy({
       where: { id },
     });
-    return res.redirect(`/discount/list?${messageEnum.success.delete}`);
+    return res.redirect(`/discount/list?${URL_MESSAGE.success.delete}`);
   } catch (error) {
-    return res.redirect(`/discount/list?${messageEnum.error.delete}`);
+    return res.redirect(`/discount/list?${URL_MESSAGE.error.delete}`);
   }
 };

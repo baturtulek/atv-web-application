@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
-const { getMessage, messageEnum } = require('../messages/messageCodes');
 const db = require('../config/db');
+const { getMessageFromURL, URL_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Araç Tipi';
 
@@ -12,15 +12,15 @@ exports.addVehicleType = async (req, res) => {
       description,
     });
     if (vehicleType) {
-      return res.redirect(`/vehicletype/add?${messageEnum.success.add}`);
+      return res.redirect(`/vehicletype/add?${URL_MESSAGE.success.add}`);
     }
   } catch (error) {
-    return res.redirect(`/vehicletype/add?${messageEnum.error.add}`);
+    return res.redirect(`/vehicletype/add?${URL_MESSAGE.error.add}`);
   }
 };
 
 exports.addVehicleTypeView = (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   res.render('layouts/main', {
     partialName: 'addVehicleType',
     endPoint: 'add',
@@ -30,7 +30,7 @@ exports.addVehicleTypeView = (req, res) => {
 };
 
 exports.listVehicleType = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const vehicleTypes = await db.VehicleType.findAll({
     raw: true,
   });
@@ -46,7 +46,7 @@ exports.listVehicleType = async (req, res) => {
 };
 
 exports.updateVehicleTypeView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const { id } = req.params;
   try {
     const vehicleType = await db.VehicleType.findOne({
@@ -78,9 +78,9 @@ exports.updateVehicleType = async (req, res) => {
       { name, description },
       { where: { id } },
     );
-    return res.redirect(`/vehicletype/update/${id}?${messageEnum.success.update}`);
+    return res.redirect(`/vehicletype/update/${id}?${URL_MESSAGE.success.update}`);
   } catch (error) {
-    return res.redirect(`/vehicletype/update/${id}?${messageEnum.error.update}`);
+    return res.redirect(`/vehicletype/update/${id}?${URL_MESSAGE.error.update}`);
   }
 };
 
@@ -100,8 +100,8 @@ exports.deleteVehicleType = async (req, res) => {
         id,
       },
     });
-    return res.redirect(`/vehicletype/list?${messageEnum.success.delete}`);
+    return res.redirect(`/vehicletype/list?${URL_MESSAGE.success.delete}`);
   } catch (error) {
-    return res.redirect(`/vehicletype/list?${messageEnum.error.delete}`);
+    return res.redirect(`/vehicletype/list?${URL_MESSAGE.error.delete}`);
   }
 };

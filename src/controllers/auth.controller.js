@@ -1,9 +1,9 @@
 const db = require('../config/db');
 const { comparePasswords } = require('../utils/authentication');
-const { getMessage, messageEnum } = require('../messages/messageCodes');
+const { getMessageFromURL, URL_MESSAGE } = require('../messages');
 
 exports.loginView = (req, res) => {
-  const { errorMessage } = getMessage('', req.query);
+  const { errorMessage } = getMessageFromURL('', req.query);
   if (res.locals.session.user) {
     return res.redirect('/');
   }
@@ -24,7 +24,7 @@ exports.login = async (req, res) => {
       if (isPasswordValid) {
         const userCompetencyList = await getUserCompetencies(dbUser.roleId);
         if (!dbUser.isActive || userCompetencyList.length === 0) {
-          return res.redirect(`/login?${messageEnum.error.insufficient_user_privileges}`);
+          return res.redirect(`/login?${URL_MESSAGE.error.insufficient_user_privileges}`);
         }
         req.session.user = dbUser;
         req.session.competencyList = userCompetencyList;
@@ -32,9 +32,9 @@ exports.login = async (req, res) => {
         return res.redirect('/');
       }
     }
-    return res.redirect(`/login?${messageEnum.error.invalid_credentials}`);
+    return res.redirect(`/login?${URL_MESSAGE.error.invalid_credentials}`);
   } catch (error) {
-    return res.redirect(`/login?${messageEnum.error.internal_error}`);
+    return res.redirect(`/login?${URL_MESSAGE.error.internal_error}`);
   }
 };
 

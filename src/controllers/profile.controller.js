@@ -1,11 +1,11 @@
 const db = require('../config/db');
 const authentication = require('../utils/authentication');
-const { getMessage, messageEnum } = require('../messages/messageCodes');
+const { getMessageFromURL, URL_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Profil';
 
 exports.profileView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const { user } = res.locals.session;
   const userRole = await db.UserRole.findOne({
     where: {
@@ -41,9 +41,9 @@ exports.updateProfileInfo = async (req, res) => {
     );
     const updatedUser = await getUserData(username);
     req.session.user = updatedUser;
-    return res.redirect(`/profile?${messageEnum.success.update}`);
+    return res.redirect(`/profile?${URL_MESSAGE.success.update}`);
   } catch (error) {
-    return res.redirect(`/profile?${messageEnum.error.update}`);
+    return res.redirect(`/profile?${URL_MESSAGE.error.update}`);
   }
 };
 
@@ -53,10 +53,10 @@ exports.updateProfilePassword = async (req, res) => {
   try {
     const result = await authentication.comparePasswords(user.currentPassword, password);
     if (!result) {
-      return res.redirect(`/profile?${messageEnum.error.old_password_invalid}`);
+      return res.redirect(`/profile?${URL_MESSAGE.error.old_password_invalid}`);
     }
     if (user.newpassword1 !== user.newpassword2) {
-      return res.redirect(`/profile?${messageEnum.error.new_passwords_not_matches}`);
+      return res.redirect(`/profile?${URL_MESSAGE.error.new_passwords_not_matches}`);
     }
     const hashedPassword = await authentication.hashPassword(user.newpassword1);
     await db.User.update(
@@ -70,9 +70,9 @@ exports.updateProfilePassword = async (req, res) => {
     );
     const updatedUser = await getUserData(username);
     req.session.user = updatedUser;
-    return res.redirect(`/profile?${messageEnum.success.update}`);
+    return res.redirect(`/profile?${URL_MESSAGE.success.update}`);
   } catch (error) {
-    return res.redirect(`/profile?${messageEnum.error.update}`);
+    return res.redirect(`/profile?${URL_MESSAGE.error.update}`);
   }
 };
 

@@ -1,11 +1,11 @@
 const db = require('../config/db');
 const authentication = require('../utils/authentication');
-const { getMessage, messageEnum } = require('../messages/messageCodes');
+const { getMessageFromURL, URL_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Kullanıcı';
 
 exports.listUserView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const userList = await db.User.findAll({
     raw: true,
     include: [
@@ -24,7 +24,7 @@ exports.listUserView = async (req, res) => {
 };
 
 exports.addUserView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const userRole = await db.UserRole.findAll({
     raw: true,
   });
@@ -46,7 +46,7 @@ exports.addUser = async (req, res) => {
     raw: true,
   });
   if (dbUser.length !== 0) {
-    return res.redirect(`/user/add?${messageEnum.error.inuse}`);
+    return res.redirect(`/user/add?${URL_MESSAGE.error.inuse}`);
   }
   try {
     const hashedPassword = await authentication.hashPassword(user.password);
@@ -59,14 +59,14 @@ exports.addUser = async (req, res) => {
       password: hashedPassword,
       isActive: user.isActive == undefined ? 0 : 1,
     });
-    return res.redirect(`/user/add?${messageEnum.success.add}`);
+    return res.redirect(`/user/add?${URL_MESSAGE.success.add}`);
   } catch (error) {
-    return res.redirect(`/user/add?error=${messageEnum.error.add}`);
+    return res.redirect(`/user/add?error=${URL_MESSAGE.error.add}`);
   }
 };
 
 exports.updateUserView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const { id } = req.params;
   const userRole = await db.UserRole.findAll({
     raw: true,
@@ -112,9 +112,9 @@ exports.updateUser = async (req, res) => {
         raw: true,
       },
     );
-    return res.redirect(`/user/update/${user.id}?${messageEnum.success.update}`);
+    return res.redirect(`/user/update/${user.id}?${URL_MESSAGE.success.update}`);
   } catch (error) {
     console.log(error);
-    return res.redirect(`/user/update/${user.id}?${messageEnum.error.update}`);
+    return res.redirect(`/user/update/${user.id}?${URL_MESSAGE.error.update}`);
   }
 };

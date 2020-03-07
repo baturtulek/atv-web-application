@@ -6,12 +6,12 @@
 /* eslint-disable no-restricted-syntax */
 const { Op } = require('sequelize');
 const db = require('../config/db');
-const { getMessage, messageEnum } = require('../messages/messageCodes');
+const { getMessageFromURL, URL_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Profil';
 
 exports.listUserRoles = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   try {
     const userRoleList = await db.UserRole.findAll({
       raw: true,
@@ -28,7 +28,7 @@ exports.listUserRoles = async (req, res) => {
 };
 
 exports.addUserRoleView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   try {
     const competencies = await db.Competency.findAll({
       raw: true,
@@ -72,17 +72,17 @@ exports.addUserRole = async (req, res) => {
           });
         }
       }
-      return res.redirect(`/role/add?${messageEnum.success.add}`);
+      return res.redirect(`/role/add?${URL_MESSAGE.success.add}`);
     }
-    return res.redirect(`/role/add?${messageEnum.error.inuse}`);
+    return res.redirect(`/role/add?${URL_MESSAGE.error.inuse}`);
   } catch (error) {
     console.log(error);
-    return res.redirect(`/role/add?${messageEnum.error.add}`);
+    return res.redirect(`/role/add?${URL_MESSAGE.error.add}`);
   }
 };
 
 exports.userRoleUpdateView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const { id } = req.params;
   try {
     const role = await db.UserRole.findOne({
@@ -141,7 +141,7 @@ exports.userRoleUpdate = async (req, res) => {
       },
     });
 
-    if (!foundRole) return res.redirect(`/role/update/${id}/?${messageEnum.error.update}`);
+    if (!foundRole) return res.redirect(`/role/update/${id}/?${URL_MESSAGE.error.update}`);
 
     await db.UserRole.update({
       role,
@@ -165,10 +165,10 @@ exports.userRoleUpdate = async (req, res) => {
       }
     }
 
-    return res.redirect(`/role/update/${id}?${messageEnum.success.update}`);
+    return res.redirect(`/role/update/${id}?${URL_MESSAGE.success.update}`);
   } catch (error) {
     console.log(error);
-    return res.redirect(`/role/update/${id}?${messageEnum.error.update}`);
+    return res.redirect(`/role/update/${id}?${URL_MESSAGE.error.update}`);
   }
 };
 

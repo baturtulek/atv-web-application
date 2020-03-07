@@ -1,10 +1,10 @@
-const { getMessage, messageEnum } = require('../messages/messageCodes');
 const db = require('../config/db');
+const { getMessageFromURL, URL_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Otopark';
 
 exports.listParkingLots = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const parkinglotList = await db.ParkingLot.findAll({
     raw: true,
     include: [
@@ -27,7 +27,7 @@ exports.listParkingLots = async (req, res) => {
 };
 
 exports.addParkingLotView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const parkingLotType = await db.ParkingType.findAll({
     raw: true,
   });
@@ -57,14 +57,14 @@ exports.addNewParkingLot = async (req, res) => {
       staffId: parkingLot.staffId,
       parkingTypeId: parkingLot.parkingTypeId,
     });
-    return res.redirect(`/parkinglot/add?${messageEnum.success.add}`);
+    return res.redirect(`/parkinglot/add?${URL_MESSAGE.success.add}`);
   } catch (error) {
-    return res.redirect(`/parkinglot/add?${messageEnum.error.add}`);
+    return res.redirect(`/parkinglot/add?${URL_MESSAGE.error.add}`);
   }
 };
 
 exports.updateParkingLotView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const { id } = req.params;
   const parkingLotType = await db.ParkingType.findAll({
     raw: true,
@@ -115,9 +115,9 @@ exports.updateParkingLot = async (req, res) => {
         raw: true,
       },
     );
-    return res.redirect(`/parkinglot/update/${parkingLot.id}?${messageEnum.success.update}`);
+    return res.redirect(`/parkinglot/update/${parkingLot.id}?${URL_MESSAGE.success.update}`);
   } catch (error) {
-    return res.redirect(`/parkinglot/update/${parkingLot.id}?${messageEnum.error.update}`);
+    return res.redirect(`/parkinglot/update/${parkingLot.id}?${URL_MESSAGE.error.update}`);
   }
 };
 
@@ -133,8 +133,8 @@ exports.deleteParkingLot = async (req, res) => {
     await db.ParkingLot.destroy({
       where: { id },
     });
-    return res.redirect(`/parkinglot/list?${messageEnum.success.delete}`);
+    return res.redirect(`/parkinglot/list?${URL_MESSAGE.success.delete}`);
   } catch (error) {
-    return res.redirect(`/parkinglot/list?${messageEnum.error.delete}`);
+    return res.redirect(`/parkinglot/list?${URL_MESSAGE.error.delete}`);
   }
 };

@@ -1,11 +1,11 @@
 
 const db = require('../config/db');
-const { getMessage, messageEnum } = require('../messages/messageCodes');
+const { getMessageFromURL, URL_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'İcra kurumu';
 
 exports.listEnforcementOffices = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const enforcementOfficeList = await db.EnforcementOffice.findAll({
     raw: true,
   });
@@ -18,7 +18,7 @@ exports.listEnforcementOffices = async (req, res) => {
 };
 
 exports.addEnforcementOfficeView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   return res.render('layouts/main', {
     partialName: 'addEnforcementOffice',
     endPoint: 'add',
@@ -34,14 +34,14 @@ exports.addEnforcementOffice = async (req, res) => {
       name: enforcementOffice.name,
       description: enforcementOffice.description,
     });
-    return res.redirect(`/enforcementoffice/add?${messageEnum.success.add}`);
+    return res.redirect(`/enforcementoffice/add?${URL_MESSAGE.success.add}`);
   } catch (error) {
-    return res.redirect(`/enforcementoffice/add?${messageEnum.error.add}`);
+    return res.redirect(`/enforcementoffice/add?${URL_MESSAGE.error.add}`);
   }
 };
 
 exports.updateEnfocementOfficeView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
+  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const { id } = req.params;
   try {
     const enforcementOffice = await db.EnforcementOffice.findOne({
@@ -78,9 +78,9 @@ exports.updateEnfocementOffice = async (req, res) => {
         raw: true,
       },
     );
-    return res.redirect(`/enforcementoffice/update/${enforcementOffice.id}?${messageEnum.success.update}`);
+    return res.redirect(`/enforcementoffice/update/${enforcementOffice.id}?${URL_MESSAGE.success.update}`);
   } catch (error) {
-    return res.redirect(`/enforcementOffice/update/${enforcementOffice.id}?${messageEnum.error.update}`);
+    return res.redirect(`/enforcementOffice/update/${enforcementOffice.id}?${URL_MESSAGE.error.update}`);
   }
 };
 
@@ -96,8 +96,8 @@ exports.deleteEnfocementOffice = async (req, res) => {
     await db.EnforcementOffice.destroy({
       where: { id },
     });
-    return res.redirect(`/enforcementoffice/list?${messageEnum.success.delete}`);
+    return res.redirect(`/enforcementoffice/list?${URL_MESSAGE.success.delete}`);
   } catch (error) {
-    return res.redirect(`/enforcementoffice/list?${messageEnum.error.delete}`);
+    return res.redirect(`/enforcementoffice/list?${URL_MESSAGE.error.delete}`);
   }
 };
