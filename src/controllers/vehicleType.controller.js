@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-const { getMessage } = require('../messages/messageCodes');
+const { getMessage, messageEnum } = require('../messages/messageCodes');
 const db = require('../config/db');
 
 const ROUTE_NAME = 'Araç Tipi';
@@ -12,10 +12,10 @@ exports.addVehicleType = async (req, res) => {
       description,
     });
     if (vehicleType) {
-      return res.redirect('/vehicletype/add?success=added');
+      return res.redirect(`/vehicletype/add?${messageEnum.success.add}`);
     }
   } catch (error) {
-    return res.redirect('/vehicletype/add?error=add_error');
+    return res.redirect(`/vehicletype/add?${messageEnum.error.add}`);
   }
 };
 
@@ -78,9 +78,9 @@ exports.updateVehicleType = async (req, res) => {
       { name, description },
       { where: { id } },
     );
-    return res.redirect(`/vehicletype/update/${id}?success=updated`);
+    return res.redirect(`/vehicletype/update/${id}?${messageEnum.success.update}`);
   } catch (error) {
-    return res.redirect(`/vehicletype/update/${id}?error=update_error`);
+    return res.redirect(`/vehicletype/update/${id}?${messageEnum.error.update}`);
   }
 };
 
@@ -100,8 +100,8 @@ exports.deleteVehicleType = async (req, res) => {
         id,
       },
     });
-    return res.redirect('/vehicletype/list?success=deleted');
+    return res.redirect(`/vehicletype/list?${messageEnum.success.delete}`);
   } catch (error) {
-    return res.redirect('/vehicletype/list?error=delete_error');
+    return res.redirect(`/vehicletype/list?${messageEnum.error.delete}`);
   }
 };

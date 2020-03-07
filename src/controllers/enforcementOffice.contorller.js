@@ -1,6 +1,6 @@
 
 const db = require('../config/db');
-const { getMessage } = require('../messages/messageCodes');
+const { getMessage, messageEnum } = require('../messages/messageCodes');
 
 const ROUTE_NAME = 'İcra kurumu';
 
@@ -34,9 +34,9 @@ exports.addEnforcementOffice = async (req, res) => {
       name: enforcementOffice.name,
       description: enforcementOffice.description,
     });
-    return res.redirect('/enforcementoffice/add?success=added');
+    return res.redirect(`/enforcementoffice/add?${messageEnum.success.add}`);
   } catch (error) {
-    return res.redirect('/enforcementoffice/add?error=add_error');
+    return res.redirect(`/enforcementoffice/add?${messageEnum.error.add}`);
   }
 };
 
@@ -78,9 +78,9 @@ exports.updateEnfocementOffice = async (req, res) => {
         raw: true,
       },
     );
-    return res.redirect(`/enforcementoffice/update/${enforcementOffice.id}?success=updated`);
+    return res.redirect(`/enforcementoffice/update/${enforcementOffice.id}?${messageEnum.success.update}`);
   } catch (error) {
-    return res.redirect(`/enforcementOffice/update/${enforcementOffice.id}?error=update_error`);
+    return res.redirect(`/enforcementOffice/update/${enforcementOffice.id}?${messageEnum.error.update}`);
   }
 };
 
@@ -96,8 +96,8 @@ exports.deleteEnfocementOffice = async (req, res) => {
     await db.EnforcementOffice.destroy({
       where: { id },
     });
-    return res.redirect('/enforcementoffice/list?success=deleted');
+    return res.redirect(`/enforcementoffice/list?${messageEnum.success.delete}`);
   } catch (error) {
-    return res.redirect('/enforcementoffice/list?error=delete_error');
+    return res.redirect(`/enforcementoffice/list?${messageEnum.error.delete}`);
   }
 };

@@ -1,6 +1,6 @@
 
 const db = require('../config/db');
-const { getMessage } = require('../messages/messageCodes');
+const { getMessage, messageEnum } = require('../messages/messageCodes');
 
 const ROUTE_NAME = 'İndirim';
 
@@ -35,9 +35,9 @@ exports.addDiscount = async (req, res) => {
       parkDiscount: discount.parkDiscount,
       transferDiscount: discount.transferDiscount,
     });
-    return res.redirect('/discount/add?success=added');
+    return res.redirect(`/discount/add?${messageEnum.success.add}`);
   } catch (error) {
-    return res.redirect('/discount/add?error=add_error');
+    return res.redirect(`/discount/add?${messageEnum.error.add}`);
   }
 };
 
@@ -80,9 +80,9 @@ exports.updateDiscount = async (req, res) => {
         raw: true,
       },
     );
-    return res.redirect(`/discount/update/${discount.id}?success=updated`);
+    return res.redirect(`/discount/update/${discount.id}?${messageEnum.success.update}`);
   } catch (error) {
-    return res.redirect(`/discount/update/${discount.id}?error=update_error`);
+    return res.redirect(`/discount/update/${discount.id}?${messageEnum.error.update}`);
   }
 };
 
@@ -98,8 +98,8 @@ exports.deleteDiscount = async (req, res) => {
     await db.Discount.destroy({
       where: { id },
     });
-    return res.redirect('/discount/list?success=deleted');
+    return res.redirect(`/discount/list?${messageEnum.success.delete}`);
   } catch (error) {
-    return res.redirect('/discount/list?error=delete_error');
+    return res.redirect(`/discount/list?${messageEnum.error.delete}`);
   }
 };

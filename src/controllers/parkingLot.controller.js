@@ -1,4 +1,4 @@
-const { getMessage } = require('../messages/messageCodes');
+const { getMessage, messageEnum } = require('../messages/messageCodes');
 const db = require('../config/db');
 
 const ROUTE_NAME = 'Otopark';
@@ -57,9 +57,9 @@ exports.addNewParkingLot = async (req, res) => {
       staffId: parkingLot.staffId,
       parkingTypeId: parkingLot.parkingTypeId,
     });
-    return res.redirect('/parkinglot/add?success=added');
+    return res.redirect(`/parkinglot/add?${messageEnum.success.add}`);
   } catch (error) {
-    return res.redirect('/parkinglot/add?error=add_error');
+    return res.redirect(`/parkinglot/add?${messageEnum.error.add}`);
   }
 };
 
@@ -115,9 +115,9 @@ exports.updateParkingLot = async (req, res) => {
         raw: true,
       },
     );
-    return res.redirect(`/parkinglot/update/${parkingLot.id}?success=updated`);
+    return res.redirect(`/parkinglot/update/${parkingLot.id}?${messageEnum.success.update}`);
   } catch (error) {
-    return res.redirect(`/parkinglot/update/${parkingLot.id}?error=update_error`);
+    return res.redirect(`/parkinglot/update/${parkingLot.id}?${messageEnum.error.update}`);
   }
 };
 
@@ -133,8 +133,8 @@ exports.deleteParkingLot = async (req, res) => {
     await db.ParkingLot.destroy({
       where: { id },
     });
-    return res.redirect('/parkinglot/list?success=deleted');
+    return res.redirect(`/parkinglot/list?${messageEnum.success.delete}`);
   } catch (error) {
-    return res.redirect('/parkinglot/list?error=delete_error');
+    return res.redirect(`/parkinglot/list?${messageEnum.error.delete}`);
   }
 };

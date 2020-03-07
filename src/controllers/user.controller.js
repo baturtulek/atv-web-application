@@ -1,6 +1,6 @@
 const db = require('../config/db');
 const authentication = require('../utils/authentication');
-const { getMessage } = require('../messages/messageCodes');
+const { getMessage, messageEnum } = require('../messages/messageCodes');
 
 const ROUTE_NAME = 'Kullanıcı';
 
@@ -46,7 +46,7 @@ exports.addUser = async (req, res) => {
     raw: true,
   });
   if (dbUser.length !== 0) {
-    return res.redirect('/user/add?error=in_use');
+    return res.redirect(`/user/add?${messageEnum.error.inuse}`);
   }
   try {
     const hashedPassword = await authentication.hashPassword(user.password);
@@ -59,9 +59,9 @@ exports.addUser = async (req, res) => {
       password: hashedPassword,
       isActive: user.isActive == undefined ? 0 : 1,
     });
-    return res.redirect('/user/add?success=added');
+    return res.redirect(`/user/add?${messageEnum.success.add}`);
   } catch (error) {
-    return res.redirect('/user/add?error=add_error');
+    return res.redirect(`/user/add?error=${messageEnum.error.add}`);
   }
 };
 
@@ -112,10 +112,10 @@ exports.updateUser = async (req, res) => {
         raw: true,
       },
     );
-    return res.redirect(`/user/update/${user.id}?success=updated`);
+    return res.redirect(`/user/update/${user.id}?${messageEnum.success.update}`);
   } catch (error) {
     console.log(error);
-    return res.redirect(`/user/update/${user.id}?error=update_error`);
+    return res.redirect(`/user/update/${user.id}?${messageEnum.error.update}`);
   }
 };
 
@@ -131,8 +131,8 @@ exports.deleteUser = async (req, res) => {
     await db.User.destroy({
       where: { id },
     });
-    return res.redirect('/user/list?success=deleted');
+    return res.redirect(`/user/list?${messageEnum.success.delete}`);
   } catch (error) {
-    return res.redirect('/user/list?error=delete_error');
+    return res.redirect(`/user/list?${messageEnum.error.delete}`);
   }
 };

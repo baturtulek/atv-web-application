@@ -6,6 +6,20 @@ exports.getMessage = (ROUTE_NAME, query) => {
   };
 };
 
+exports.messageEnum = {
+  success: {
+    add: 'success=added',
+    update: 'success=updated',
+    delete: 'success=deleted',
+  },
+  error: {
+    add: 'error=add_error',
+    update: 'error=update_error',
+    delete: 'error=delete_error',
+    inuse: 'error=in_use',
+  },
+};
+
 const getSuccessMessage = (ROUTE_NAME, query) => {
   // eslint-disable-next-line default-case
   switch (query) {

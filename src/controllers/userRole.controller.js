@@ -6,7 +6,7 @@
 /* eslint-disable no-restricted-syntax */
 const { Op } = require('sequelize');
 const db = require('../config/db');
-const { getMessage } = require('../messages/messageCodes');
+const { getMessage, messageEnum } = require('../messages/messageCodes');
 
 const ROUTE_NAME = 'Profil';
 
@@ -72,12 +72,12 @@ exports.addUserRole = async (req, res) => {
           });
         }
       }
-      return res.redirect('/role/add?success=added');
+      return res.redirect(`/role/add?${messageEnum.success.add}`);
     }
-    return res.redirect('/role/add?error=in_use');
+    return res.redirect(`/role/add?${messageEnum.error.inuse}`);
   } catch (error) {
     console.log(error);
-    return res.redirect('/role/add?error=add_error');
+    return res.redirect(`/role/add?${messageEnum.error.add}`);
   }
 };
 
@@ -141,7 +141,7 @@ exports.userRoleUpdate = async (req, res) => {
       },
     });
 
-    if (!foundRole) return res.redirect(`/role/update/${id}/?error=update_error`);
+    if (!foundRole) return res.redirect(`/role/update/${id}/?${messageEnum.error.update}`);
 
     await db.UserRole.update({
       role,
@@ -165,10 +165,10 @@ exports.userRoleUpdate = async (req, res) => {
       }
     }
 
-    return res.redirect(`/role/update/${id}?success=updated`);
+    return res.redirect(`/role/update/${id}?${messageEnum.success.update}`);
   } catch (error) {
     console.log(error);
-    return res.redirect(`/role/update/${id}?error=update_error`);
+    return res.redirect(`/role/update/${id}?${messageEnum.error.update}`);
   }
 };
 
