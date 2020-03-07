@@ -15,9 +15,9 @@
               oninvalid="this.setCustomValidity('Lütfen şifrenizi girin.')"
               oninput="setCustomValidity('')">
           </p>
-          {{#if isCredentialsInvalid}}
+          {{#if error}}
             <div class="alert alert-danger" role="alert">
-              {{message}}
+              {{error}}
             </div>
           {{/if}}
           <div>

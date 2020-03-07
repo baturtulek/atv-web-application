@@ -1,16 +1,16 @@
 const db = require('../config/db');
 const { comparePasswords } = require('../utils/authentication');
-
-const INVALID_USER_CREDENTIALS = 'Kullanıcı adı veya şifre hatalı!';
-const INSUFICIENT_USER_PRIVILEGES = 'Sistemi kullanmaya yetkiniz yok.';
+const { getMessage, messageEnum } = require('../messages/messageCodes');
 
 exports.loginView = (req, res) => {
+  const { errorMessage } = getMessage('', req.query);
   if (res.locals.session.user) {
     return res.redirect('/');
   }
   return res.render('layouts/auth', {
     layout: 'auth',
     isCredentialsInvalid: false,
+    error: errorMessage,
   });
 };
 
@@ -22,29 +22,19 @@ exports.login = async (req, res) => {
     if (dbUser) {
       const isPasswordValid = await comparePasswords(credentials.password, dbUser.password);
       if (isPasswordValid) {
-        if (dbUser.isActive) {
-          const userCompetencyList = await getUserCompetencies(dbUser.roleId);
-          if (userCompetencyList.length !== 0) {
-            req.session.user = dbUser;
-            req.session.competencyList = userCompetencyList;
-            updateUserLastLogin(dbUser.id, clientIpAddress);
-            return res.redirect('/');
-          }
+        const userCompetencyList = await getUserCompetencies(dbUser.roleId);
+        if (!dbUser.isActive || userCompetencyList.length === 0) {
+          return res.redirect(`/login?${messageEnum.error.insufficient_user_privileges}`);
         }
-        return res.render('layouts/auth', {
-          layout: 'auth',
-          isCredentialsInvalid: true,
-          message: INSUFICIENT_USER_PRIVILEGES,
-        });
+        req.session.user = dbUser;
+        req.session.competencyList = userCompetencyList;
+        updateUserLastLogin(dbUser.id, clientIpAddress);
+        return res.redirect('/');
       }
     }
-    return res.render('layouts/auth', {
-      layout: 'auth',
-      isCredentialsInvalid: true,
-      message: INVALID_USER_CREDENTIALS,
-    });
+    return res.redirect(`/login?${messageEnum.error.invalid_credentials}`);
   } catch (error) {
-    return res.redirect('/login');
+    return res.redirect(`/login?${messageEnum.error.internal_error}`);
   }
 };
 
