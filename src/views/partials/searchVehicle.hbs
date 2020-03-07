@@ -1,0 +1,44 @@
+<div class="table-container">
+  <div style="display: flex;flex-grow: 1;">
+  <div style="flex: 1; margin: 12px 24px;">
+      {{#if error}}
+      <div class="alert alert-danger" role="alert">
+        {{error}}
+      </div>
+    {{/if}}
+    <form class="border border-light" action="/vehicle/search" method="POST"> 
+      <div class="form-group row row-cols-2">
+        <div class="col">
+          <input name="plate" type="text" class="form-control" placeholder="Araç plakasını girin">
+        </div>
+        <div class="col">
+          <button type="button submit" class="btn btn-primary"><i class="fa fa-search"></i>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+  {{#if vehicles}}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Plaka</th>
+        <th scope="col">Şasi No</th>
+        <th scope="col">Model</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each vehicles}}
+      <tr>
+        <th class="column1">{{@index}}</th>
+        <td class="column2">{{this.plate}}</td>
+        <td class="column3">{{this.chassisNo}}</td>
+        <td class="column4">{{this.modelYear}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}
+</div>

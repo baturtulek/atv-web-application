@@ -74,6 +74,10 @@ db.Vehicle.hasOne(db.VehicleBrand, {
   foreignKey: 'id',
   sourceKey: 'brandId',
 });
+db.Vehicle.hasOne(db.TowedVehicle, {
+  foreignKey: 'plate',
+  sourceKey: 'plate',
+});
 db.User.hasOne(db.UserRole, {
   foreignKey: 'id',
   sourceKey: 'roleId',

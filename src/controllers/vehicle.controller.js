@@ -1,6 +1,10 @@
 /* eslint-disable radix */
 const httpStatus = require('http-status');
+const moment = require('moment');
+const { getMessage, messageEnum } = require('../messages/messageCodes');
 const db = require('../config/db');
+
+const ROUTE_NAME = 'Araç';
 
 exports.addVehicleView = async (req, res) => {
   const vehiclePlates = await db.TowedVehicle.findAll({
@@ -58,6 +62,8 @@ exports.addVehicle = async (req, res) => {
       return res.status(httpStatus.NOT_FOUND).json(result);
     }
 
+    const date = moment().locale('tr').tz('Europe/Istanbul').format('LLLL');
+
     const createdVehicle = await db.Vehicle.create({
       plate: vehicle.plate,
       chassisNo: vehicle.chassisNo,
@@ -69,6 +75,7 @@ exports.addVehicle = async (req, res) => {
       bodyTypeId: parseInt(vehicle.bodyTypeId),
       brandId: parseInt(vehicle.brandId),
       ownerProfileId: parseInt(vehicle.ownerProfileId),
+      entranceDate: date,
     });
 
     if (createdVehicle) {
@@ -85,41 +92,34 @@ exports.addVehicle = async (req, res) => {
 };
 
 exports.searchVehicleView = (req, res) => {
-  if (req.session.user) {
-    return res.status(200).json({
-      message: 'You\'re logged in. this should show searchVehicleView', // return searchVehicleView
-    });
-  }
-  return res.status(403).json({
-    message: 'You\'re not logged in. this should redirect auth view or given an appropiate error view', // not logged in redirect auth
+  const { errorMessage } = getMessage(ROUTE_NAME, req.query);
+  return res.render('layouts/main', {
+    partialName: 'searchVehicle',
+    error: errorMessage,
   });
 };
 
 exports.searchVehicle = async (req, res) => {
   const { plate } = req.body;
   try {
-    const foundVehicle = await db.TowedVehicle.findOne({
+    const vehicles = await db.Vehicle.findAll({
+      include: [{
+        model: db.TowedVehicle,
+        where: { stateId: 1 },
+      }],
       where: {
         plate,
       },
       raw: true,
-      include: [
-        {
-          model: db.User,
-        },
-      ],
     });
-
-    if (!foundVehicle) {
-      const result = {
-        message: `There is no record with the plate = ${plate} added by tow driver`,
-        success: false,
-      };
-      return res.status(401).json(result); // return no record with given plate view
+    if (!vehicles.length > 0) {
+      return res.redirect(`/vehicle/search?${messageEnum.error.search}`);
     }
-
-    return res.json(foundVehicle);
+    return res.render('layouts/main', {
+      partialName: 'searchVehicle',
+      vehicles,
+    });
   } catch (err) {
-    console.log(err);
+    return res.redirect(`/vehicle/search?${messageEnum.error.search}`);
   }
 };

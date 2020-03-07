@@ -64,6 +64,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER(11),
         allowNull: true,
       },
+      entranceDate: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
     },
     {
       timestamps: false,
