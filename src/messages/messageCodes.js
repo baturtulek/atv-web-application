@@ -10,6 +10,7 @@ exports.messageEnum = {
     update: 'error=update_error',
     delete: 'error=delete_error',
     inuse: 'error=in_use',
+    search: 'error=search_error',
     new_passwords_not_matches: 'error=new_passwords_not_matches',
     old_password_invalid: 'error=old_password_invalid',
     invalid_credentials: 'error=invalid_credentials',
@@ -48,6 +49,8 @@ const getErorMessage = (ROUTE_NAME, query) => {
       return `${ROUTE_NAME} silinirken hata oluştu.`;
     case 'in_use':
       return `${ROUTE_NAME} sistemde zaten kayıtlı.`;
+    case 'search_error':
+      return `${ROUTE_NAME} bulunamadı`;
     case 'old_password_invalid':
       return 'Eski şifreniz hatalı.';
     case 'new_passwords_not_matches':
