@@ -2,8 +2,10 @@
 const db = require('../config/db');
 const { getMessage } = require('../messages/messageCodes');
 
+const ROUTE_NAME = 'İndirim';
+
 exports.listDiscounts = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(req.query);
+  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
   const discountList = await db.Discount.findAll({
     raw: true,
   });
@@ -16,7 +18,7 @@ exports.listDiscounts = async (req, res) => {
 };
 
 exports.addDiscountView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(req.query);
+  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
   return res.render('layouts/main', {
     partialName: 'addDiscount',
     endPoint: 'add',
@@ -33,14 +35,14 @@ exports.addDiscount = async (req, res) => {
       parkDiscount: discount.parkDiscount,
       transferDiscount: discount.transferDiscount,
     });
-    return res.redirect('/discount/add?success=discount_added');
+    return res.redirect('/discount/add?success=added');
   } catch (error) {
-    return res.redirect('/discount/add?error=discount_add_error');
+    return res.redirect('/discount/add?error=add_error');
   }
 };
 
 exports.updateDiscountView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(req.query);
+  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
   const { id } = req.params;
   try {
     const discount = await db.Discount.findOne({
@@ -78,9 +80,9 @@ exports.updateDiscount = async (req, res) => {
         raw: true,
       },
     );
-    return res.redirect(`/discount/update/${discount.id}?success=discount_updated`);
+    return res.redirect(`/discount/update/${discount.id}?success=updated`);
   } catch (error) {
-    return res.redirect(`/discount/update/${discount.id}?error=discount_update_error`);
+    return res.redirect(`/discount/update/${discount.id}?error=update_error`);
   }
 };
 
@@ -96,8 +98,8 @@ exports.deleteDiscount = async (req, res) => {
     await db.Discount.destroy({
       where: { id },
     });
-    return res.redirect('/discount/list?success=discount_deleted');
+    return res.redirect('/discount/list?success=deleted');
   } catch (error) {
-    return res.redirect('/discount/list?error=discount_delete_error');
+    return res.redirect('/discount/list?error=delete_error');
   }
 };

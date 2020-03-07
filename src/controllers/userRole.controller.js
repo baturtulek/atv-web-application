@@ -8,8 +8,10 @@ const { Op } = require('sequelize');
 const db = require('../config/db');
 const { getMessage } = require('../messages/messageCodes');
 
+const ROUTE_NAME = 'Profil';
+
 exports.listUserRoles = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(req.query);
+  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
   try {
     const userRoleList = await db.UserRole.findAll({
       raw: true,
@@ -26,7 +28,7 @@ exports.listUserRoles = async (req, res) => {
 };
 
 exports.addUserRoleView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(req.query);
+  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
   try {
     const competencies = await db.Competency.findAll({
       raw: true,
@@ -70,17 +72,17 @@ exports.addUserRole = async (req, res) => {
           });
         }
       }
-      return res.redirect('/role/add?success=role_added');
+      return res.redirect('/role/add?success=added');
     }
-    return res.redirect('/role/add?error=role_inuse');
+    return res.redirect('/role/add?error=in_use');
   } catch (error) {
     console.log(error);
-    return res.redirect('/role/add?error=role_add_error');
+    return res.redirect('/role/add?error=add_error');
   }
 };
 
 exports.userRoleUpdateView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(req.query);
+  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
   const { id } = req.params;
   try {
     const role = await db.UserRole.findOne({
@@ -148,9 +150,9 @@ exports.deleteUserRole = async (req, res) => {
         id,
       },
     });
-    return res.redirect('/role/list?success=role_deleted');
+    return res.redirect('/role/list?success=deleted');
   } catch (ex) {
     console.log(ex);
-    return res.redirect('/role/list?error=role_delete_error');
+    return res.redirect('/role/list?error=delete_error');
   }
 };

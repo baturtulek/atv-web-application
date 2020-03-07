@@ -1,41 +1,23 @@
 const enforcementOfficeController = require('../controllers/enforcementOffice.contorller');
-const { validateUserAndNavigate } = require('../utils/authentication');
 
 const routes = (app) => {
   app
     .route(['/enforcementoffice', '/enforcementoffice/list'])
-    .get(
-      validateUserAndNavigate,
-      enforcementOfficeController.listEnforcementOffices,
-    );
+    .get(enforcementOfficeController.listEnforcementOffices);
 
   app
     .route('/enforcementoffice/add')
-    .get(
-      validateUserAndNavigate,
-      enforcementOfficeController.addEnforcementOfficeView,
-    )
-    .post(
-      validateUserAndNavigate,
-      enforcementOfficeController.addEnforcementOffice,
-    );
+    .get(enforcementOfficeController.addEnforcementOfficeView)
+    .post(enforcementOfficeController.addEnforcementOffice);
 
   app
     .route('/enforcementoffice/update/:id?')
-    .get(
-      validateUserAndNavigate,
-      enforcementOfficeController.updateEnfocementOfficeView,
-    )
-    .post(
-      validateUserAndNavigate,
-      enforcementOfficeController.updateEnfocementOffice,
-    );
+    .get(enforcementOfficeController.updateEnfocementOfficeView)
+    .post(enforcementOfficeController.updateEnfocementOffice);
+
   app
     .route('/enforcementoffice/delete/:id?')
-    .get(
-      validateUserAndNavigate,
-      enforcementOfficeController.deleteEnfocementOffice,
-    );
+    .get(enforcementOfficeController.deleteEnfocementOffice);
 };
 
 module.exports = routes;

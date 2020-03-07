@@ -1,39 +1,23 @@
 const vehicleTypeController = require('../controllers/vehicleType.controller');
-const { validateUserAndNavigate } = require('../utils/authentication');
 
 const routes = (app) => {
   app
-    .route('/vehicletype/add')
-    .get(
-      validateUserAndNavigate,
-      vehicleTypeController.addVehicleTypeView,
-    )
-    .post(
-      validateUserAndNavigate,
-      vehicleTypeController.addVehicleType,
-    );
-  app
     .route(['/vehicletype', '/vehicletype/list'])
-    .get(
-      validateUserAndNavigate,
-      vehicleTypeController.listVehicleType,
-    );
+    .get(vehicleTypeController.listVehicleType);
+
   app
-    .route('/vehicletype/delete/:id?')
-    .get(
-      validateUserAndNavigate,
-      vehicleTypeController.deleteVehicleType,
-    );
+    .route('/vehicletype/add')
+    .get(vehicleTypeController.addVehicleTypeView)
+    .post(vehicleTypeController.addVehicleType);
+
   app
     .route('/vehicletype/update/:id?')
-    .get(
-      validateUserAndNavigate,
-      vehicleTypeController.updateVehicleTypeView,
-    )
-    .post(
-      validateUserAndNavigate,
-      vehicleTypeController.updateVehicleType,
-    );
+    .get(vehicleTypeController.updateVehicleTypeView)
+    .post(vehicleTypeController.updateVehicleType);
+
+  app
+    .route('/vehicletype/delete/:id?')
+    .get(vehicleTypeController.deleteVehicleType);
 };
 
 module.exports = routes;

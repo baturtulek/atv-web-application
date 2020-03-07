@@ -8,7 +8,10 @@ exports.loginView = (req, res) => {
   if (res.locals.session.user) {
     return res.redirect('/');
   }
-  return res.render('layouts/auth', { layout: 'auth', isCredentialsInvalid: false });
+  return res.render('layouts/auth', {
+    layout: 'auth',
+    isCredentialsInvalid: false,
+  });
 };
 
 exports.login = async (req, res) => {

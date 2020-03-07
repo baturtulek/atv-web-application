@@ -1,39 +1,23 @@
 const parkingLotController = require('../controllers/parkingLot.controller');
-const { validateUserAndNavigate } = require('../utils/authentication');
 
 const routes = (app) => {
   app
-    .route(['/parkinglot/list', '/parkinglot'])
-    .get(
-      validateUserAndNavigate,
-      parkingLotController.listParkingLots,
-    );
+    .route(['/parkinglot', '/parkinglot/list'])
+    .get(parkingLotController.listParkingLots);
+
   app
     .route('/parkinglot/add')
-    .get(
-      validateUserAndNavigate,
-      parkingLotController.addParkingLotView,
-    )
-    .post(
-      validateUserAndNavigate,
-      parkingLotController.addNewParkingLot,
-    );
+    .get(parkingLotController.addParkingLotView)
+    .post(parkingLotController.addNewParkingLot);
+
   app
     .route('/parkinglot/update/:id?')
-    .get(
-      validateUserAndNavigate,
-      parkingLotController.updateParkingLotView,
-    )
-    .post(
-      validateUserAndNavigate,
-      parkingLotController.updateParkingLot,
-    );
+    .get(parkingLotController.updateParkingLotView)
+    .post(parkingLotController.updateParkingLot);
+
   app
     .route('/parkinglot/delete/:id?')
-    .get(
-      validateUserAndNavigate,
-      parkingLotController.deleteParkingLot,
-    );
+    .get(parkingLotController.deleteParkingLot);
 };
 
 module.exports = routes;

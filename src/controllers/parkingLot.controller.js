@@ -1,8 +1,10 @@
 const { getMessage } = require('../messages/messageCodes');
 const db = require('../config/db');
 
+const ROUTE_NAME = 'Otopark';
+
 exports.listParkingLots = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(req.query);
+  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
   const parkinglotList = await db.ParkingLot.findAll({
     raw: true,
     include: [
@@ -25,7 +27,7 @@ exports.listParkingLots = async (req, res) => {
 };
 
 exports.addParkingLotView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(req.query);
+  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
   const parkingLotType = await db.ParkingType.findAll({
     raw: true,
   });
@@ -55,14 +57,14 @@ exports.addNewParkingLot = async (req, res) => {
       staffId: parkingLot.staffId,
       parkingTypeId: parkingLot.parkingTypeId,
     });
-    return res.redirect('/parkinglot/add?success=parkinglot_added');
+    return res.redirect('/parkinglot/add?success=added');
   } catch (error) {
-    return res.redirect('/parkinglot/add?error=parkinglot_add_error');
+    return res.redirect('/parkinglot/add?error=add_error');
   }
 };
 
 exports.updateParkingLotView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(req.query);
+  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
   const { id } = req.params;
   const parkingLotType = await db.ParkingType.findAll({
     raw: true,
@@ -113,9 +115,9 @@ exports.updateParkingLot = async (req, res) => {
         raw: true,
       },
     );
-    return res.redirect(`/parkinglot/update/${parkingLot.id}?success=parkinglot_updated`);
+    return res.redirect(`/parkinglot/update/${parkingLot.id}?success=updated`);
   } catch (error) {
-    return res.redirect(`/parkinglot/update/${parkingLot.id}?error=parkinglot_update_error`);
+    return res.redirect(`/parkinglot/update/${parkingLot.id}?error=update_error`);
   }
 };
 
@@ -131,8 +133,8 @@ exports.deleteParkingLot = async (req, res) => {
     await db.ParkingLot.destroy({
       where: { id },
     });
-    return res.redirect('/parkinglot/list?success=parkinglot_deleted');
+    return res.redirect('/parkinglot/list?success=deleted');
   } catch (error) {
-    return res.redirect('/parkinglot/list?error=parkinglot_delete_error');
+    return res.redirect('/parkinglot/list?error=delete_error');
   }
 };

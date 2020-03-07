@@ -2,8 +2,10 @@ const db = require('../config/db');
 const authentication = require('../utils/authentication');
 const { getMessage } = require('../messages/messageCodes');
 
+const ROUTE_NAME = 'Kullanıcı';
+
 exports.listUserView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(req.query);
+  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
   const userList = await db.User.findAll({
     raw: true,
     include: [
@@ -22,7 +24,7 @@ exports.listUserView = async (req, res) => {
 };
 
 exports.addUserView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(req.query);
+  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
   const userRole = await db.UserRole.findAll({
     raw: true,
   });
@@ -44,7 +46,7 @@ exports.addUser = async (req, res) => {
     raw: true,
   });
   if (dbUser.length !== 0) {
-    return res.redirect('/user/add?error=username_in_use');
+    return res.redirect('/user/add?error=in_use');
   }
   try {
     const hashedPassword = await authentication.hashPassword(user.password);
@@ -57,14 +59,14 @@ exports.addUser = async (req, res) => {
       password: hashedPassword,
       isActive: user.isActive == undefined ? 0 : 1,
     });
-    return res.redirect('/user/add?success=user_added');
+    return res.redirect('/user/add?success=added');
   } catch (error) {
-    return res.redirect('/user/add?error=user_add_error');
+    return res.redirect('/user/add?error=add_error');
   }
 };
 
 exports.updateUserView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessage(req.query);
+  const { errorMessage, successMessage } = getMessage(ROUTE_NAME, req.query);
   const { id } = req.params;
   const userRole = await db.UserRole.findAll({
     raw: true,
@@ -110,10 +112,10 @@ exports.updateUser = async (req, res) => {
         raw: true,
       },
     );
-    return res.redirect(`/user/update/${user.id}?success=user_updated`);
+    return res.redirect(`/user/update/${user.id}?success=updated`);
   } catch (error) {
     console.log(error);
-    return res.redirect(`/user/update/${user.id}?error=user_update_error`);
+    return res.redirect(`/user/update/${user.id}?error=update_error`);
   }
 };
 
@@ -129,8 +131,8 @@ exports.deleteUser = async (req, res) => {
     await db.User.destroy({
       where: { id },
     });
-    return res.redirect('/user/list?success=user_deleted');
+    return res.redirect('/user/list?success=deleted');
   } catch (error) {
-    return res.redirect('/user/list?error=user_delete_error');
+    return res.redirect('/user/list?error=delete_error');
   }
 };

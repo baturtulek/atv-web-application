@@ -1,42 +1,23 @@
 const userController = require('../controllers/user.controller');
-const { validateUserAndNavigate } = require('../utils/authentication');
 
 const routes = (app) => {
   app
-    .route('/user/list')
-    .get(
-      validateUserAndNavigate,
-      userController.listUserView,
-    );
+    .route(['/user', '/user/list'])
+    .get(userController.listUserView);
 
   app
     .route('/user/add')
-    .get(
-      validateUserAndNavigate,
-      userController.addUserView,
-    )
-    .post(
-      validateUserAndNavigate,
-      userController.addUser,
-    );
+    .get(userController.addUserView)
+    .post(userController.addUser);
 
   app
     .route('/user/update/:id?')
-    .get(
-      validateUserAndNavigate,
-      userController.updateUserView,
-    )
-    .post(
-      validateUserAndNavigate,
-      userController.updateUser,
-    );
+    .get(userController.updateUserView)
+    .post(userController.updateUser);
 
   app
     .route('/user/delete/:id?')
-    .get(
-      validateUserAndNavigate,
-      userController.deleteUser,
-    );
+    .get(userController.deleteUser);
 };
 
 module.exports = routes;
