@@ -14,10 +14,6 @@ const routes = (app) => {
     .route('/user/update/:id?')
     .get(userController.updateUserView)
     .post(userController.updateUser);
-
-  app
-    .route('/user/delete/:id?')
-    .get(userController.deleteUser);
 };
 
 module.exports = routes;

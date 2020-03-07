@@ -6,11 +6,11 @@ const routes = (app) => {
     .get(profileController.profileView);
 
   app
-    .route('/profile/info')
+    .route('/profile/update/info')
     .post(profileController.updateProfileInfo);
 
   app
-    .route('/profile/password')
+    .route('/profile/update/password')
     .post(profileController.updateProfilePassword);
 };
 

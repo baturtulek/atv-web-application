@@ -118,21 +118,3 @@ exports.updateUser = async (req, res) => {
     return res.redirect(`/user/update/${user.id}?${messageEnum.error.update}`);
   }
 };
-
-exports.deleteUser = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const user = await db.User.findOne({
-      where: { id },
-    });
-    if (!user) {
-      return res.redirect('/user/list');
-    }
-    await db.User.destroy({
-      where: { id },
-    });
-    return res.redirect(`/user/list?${messageEnum.success.delete}`);
-  } catch (error) {
-    return res.redirect(`/user/list?${messageEnum.error.delete}`);
-  }
-};

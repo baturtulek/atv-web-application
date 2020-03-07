@@ -1,11 +1,4 @@
 
-exports.getMessage = (ROUTE_NAME, query) => {
-  return {
-    successMessage: getSuccessMessage(ROUTE_NAME, query.success),
-    errorMessage: getErorMessage(ROUTE_NAME, query.error),
-  };
-};
-
 exports.messageEnum = {
   success: {
     add: 'success=added',
@@ -17,7 +10,16 @@ exports.messageEnum = {
     update: 'error=update_error',
     delete: 'error=delete_error',
     inuse: 'error=in_use',
+    new_passwords_not_matches: 'error=new_passwords_not_matches',
+    old_password_invalid: 'error=old_password_invalid',
   },
+};
+
+exports.getMessage = (ROUTE_NAME, query) => {
+  return {
+    successMessage: getSuccessMessage(ROUTE_NAME, query.success),
+    errorMessage: getErorMessage(ROUTE_NAME, query.error),
+  };
 };
 
 const getSuccessMessage = (ROUTE_NAME, query) => {
@@ -43,5 +45,9 @@ const getErorMessage = (ROUTE_NAME, query) => {
       return `${ROUTE_NAME} silinirken hata oluştu.`;
     case 'in_use':
       return `${ROUTE_NAME} sistemde zaten kayıtlı.`;
+    case 'old_password_invalid':
+      return 'Eski şifreniz hatalı.';
+    case 'new_passwords_not_matches':
+      return 'Girdiğiniz yeni şifreler uyuşmuyor.';
   }
 };

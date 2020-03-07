@@ -4,7 +4,7 @@ const hashRounds = 10;
 
 exports.validateUserAndNavigate = (req, res, next) => {
   if (req.path == '/login') return next();
-  if (!res.locals.session.user) {
+  if (!req.session.user) {
     return res.redirect('/login');
   }
   return next();

@@ -26,7 +26,7 @@ exports.login = async (req, res) => {
           const userCompetencyList = await getUserCompetencies(dbUser.roleId);
           if (userCompetencyList.length !== 0) {
             req.session.user = dbUser;
-            req.session.user.competencyList = userCompetencyList;
+            req.session.competencyList = userCompetencyList;
             updateUserLastLogin(dbUser.id, clientIpAddress);
             return res.redirect('/');
           }

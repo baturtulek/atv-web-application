@@ -1,42 +1,87 @@
 <div style="display: flex;flex-grow: 1;">
-  <div style="flex: 2; margin: 12px 24px;">
-    <div class="mt-1 bg-light">
-      <h3>Profilim</h3>
-      <label class="col-sm-4 col-form-label">Kullanıcı Adı</label>
-      <input type="text" class="form-control" value="{{user.username}}" disabled>
-      <label class="col-sm-4 col-form-label">Kullanıcı Rolü</label>
-      <input type="text" class="form-control" value="{{user.role}}" disabled>
-    </div>
-
-    <form class="border border-light" action="/profile/info" method="POST">
-      <div class="mt-4 bg-light">
-        <h3>Temel Bilgiler</h3>
-        <label class="col-sm-4 col-form-label">Adı</label>
-        <input type="text" class="form-control" name="name" placeholder="Adı" value="{{user.name}}">
-        <label class="col-sm-4 col-form-label">Soyadı</label>
-        <input type="text" class="form-control" name="surname" placeholder="Soyadı" value="{{user.surname}}">
-        <label class="col-sm-4 col-form-label">E-Mail</label>
-        <input type="text" class="form-control" name="email" placeholder="E-mail" value="{{user.email}}">
-        <label class="col-sm-4 col-form-label">Telefon Numarası</label>
-        <input type="text" class="form-control" name="phoneNumber" placeholder="Telefon Numarası"
-          value="{{user.phoneNumber}}">
-        <label class="col-sm-4 col-form-label">Adres</label>
-        <input type="text" class="form-control" name="address" placeholder="Adres" value="{{user.address}}">
-        <button type="submit" class="btn-success my-2"><i class="fa fa-save"></i>Kaydet</button>
+  <div class="form-container">
+      {{#if success}}
+      <div class="alert alert-success" role="alert">
+        {{success}}
       </div>
+      {{/if}}
+      {{#if error}}
+      <div class="alert alert-danger" role="alert">
+        {{error}}
+      </div>
+      {{/if}}
+      <div class="mt-3">
+        <h3 class="pl-2" style="color:#6D6D6D;">Profilim</h3>
+        <hr>
+        <div class="form-inside-container">
+          <label class="col-form-label">Kullanıcı Adı</label>
+          <input type="text" class="form-control" value="{{user.username}}" disabled>
+          <label class="col-form-label">Kullanıcı Rolü</label>
+          <input type="text" class="form-control" value="{{user.role}}" disabled>
+        </div>
+      </div>
+
+    <form class="border border-0 mt-4" id='form' action="/profile/update/info" method="POST">
+      <h3 class="pl-2" style="color:#6D6D6D;">Temel Bilgiler</h3>
+      <hr>
+      <div class="form-inside-container">
+        <label class="col-form-label">Adı</label>
+        <input type="text" class="form-control" name="name" id="name" value="{{user.name}}">
+        <label class="col-form-label">Soyadı</label>
+        <input type="text" class="form-control" name="surname" id="surname" value="{{user.surname}}">
+        <label class="col-form-label">E-Mail</label>
+        <input type="text" class="form-control" name="email" id="email" value="{{user.email}}">
+        <label class="col-form-label">Telefon Numarası</label>
+        <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" value="{{user.phoneNumber}}">
+        <label class="col-form-label">Adres</label>
+        <input type="text" class="form-control" name="address" id="address" value="{{user.address}}">
+      </div>
+        <div class="form-group row row-cols-3">
+          <div class="col-auto grid-button-group ml-auto">
+            <button type="button" class="btn-info" id="resetButtonInfo"><i class="fa fa-refresh"></i>Sıfırla</button>
+            <button type="submit" class="btn-success"><i class="fa fa-save"></i>Güncelle</button>
+          </div>
+        </div>
     </form>
 
-    <form class="border border-light" action="/profile/password" method="POST">
-      <div class="mt-4 bg-light">
-        <h3>Parola</h3>
-        <label class="col-sm-4 col-form-label">Geçerli Parola</label>
-        <input type="password" class="form-control" name="oldpassword" placeholder="Geçerli Parola">
-        <label class="col-sm-4 col-form-label">Yeni Parola</label>
-        <input type="password" class="form-control" name="newpassword1" placeholder="Yeni Parola">
-        <label class="col-sm-4 col-form-label">Yeni Parola (Tekrar)</label>
-        <input type="password" class="form-control" name="newpassword2" placeholder="Yeni Parola (Tekrar)">
-        <button type="submit" class="btn-success my-2"><i class="fa fa-save"></i>Kaydet</button>
+    <form class="border border-0 mt-4" id='form' action="/profile/update/password" method="POST">
+      <h3 class="pl-2" style="color:#6D6D6D;">Parola</h3>
+      <hr>
+      <div class="form-inside-container">
+        <label class="col-form-label">Geçerli Parola</label>
+        <input type="password" class="form-control" name="currentPassword" id="currentPassword" required
+          oninvalid="this.setCustomValidity('Lütfen şifrenizi girin.')"
+          oninput="setCustomValidity('')">
+        <label class="col-form-label">Yeni Parola</label>
+        <input type="password" class="form-control" name="newpassword1" id="newpassword1" required
+          oninvalid="this.setCustomValidity('Lütfen yeni şifrenizi girin.')"
+          oninput="setCustomValidity('')">
+        <label class="col-form-label">Yeni Parola (Tekrar)</label>
+        <input type="password" class="form-control" name="newpassword2" id="newpassword2" required
+          oninvalid="this.setCustomValidity('Lütfen yeni şifrenizi tekrar girin.')"
+          oninput="setCustomValidity('')">
       </div>
+        <div class="form-group row row-cols-3">
+          <div class="col-auto grid-button-group ml-auto">
+            <button type="button" class="btn-info" id="resetButtonPassword"><i class="fa fa-refresh"></i>Sıfırla</button>
+            <button type="submit" class="btn-success"><i class="fa fa-save"></i>Güncelle</button>
+          </div>
+        </div>
     </form>
   </div>
 </div>
+
+<script>
+  $('#resetButtonInfo').on('click', function () {
+    $('#name').val('');
+    $('#surname').val('');
+    $('#email').val('');
+    $('#address').val('');
+    $('#phoneNumber').val('');
+  });
+    $('#resetButtonPassword').on('click', function () {
+    $('#currentPassword').val('');
+    $('#newpassword1').val('');
+    $('#newpassword2').val('');
+  });
+</script>

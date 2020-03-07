@@ -49,10 +49,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
   session({
-    key: 'SID',
+    key: process.env.SESSION_KEY,
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
   }),
 );
 
