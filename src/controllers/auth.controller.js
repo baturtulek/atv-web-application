@@ -20,9 +20,13 @@ exports.login = async (req, res) => {
       const isPasswordValid = await comparePasswords(credentials.password, dbUser.password);
       if (isPasswordValid) {
         if (dbUser.isActive) {
-          updateUserLastLogin(dbUser.id, clientIpAddress);
-          req.session.user = dbUser;
-          return res.redirect('/');
+          const userCompetencyList = await getUserCompetencies(dbUser.roleId);
+          if (userCompetencyList.length !== 0) {
+            req.session.user = dbUser;
+            req.session.user.competencyList = userCompetencyList;
+            updateUserLastLogin(dbUser.id, clientIpAddress);
+            return res.redirect('/');
+          }
         }
         return res.render('layouts/auth', {
           layout: 'auth',
@@ -79,4 +83,18 @@ const getCurrentTimeStamp = () => {
   const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
   const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
   return `${date} ${time}`;
+};
+
+const getUserCompetencies = async (roleId) => {
+  const userCompetencyList = await db.RoleCompetency.findAll({
+    include: [
+      {
+        model: db.Competency,
+        attributes: ['description'],
+      },
+    ],
+    where: { roleId },
+    raw: true,
+  });
+  return userCompetencyList;
 };
