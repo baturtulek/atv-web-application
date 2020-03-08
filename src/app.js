@@ -51,13 +51,15 @@ app.use(
   session({
     key: process.env.SESSION_KEY,
     secret: process.env.SESSION_SECRET,
-    resave: false,
     saveUninitialized: false,
+    resave: false,
   }),
 );
 
 app.use((req, res, next) => {
   res.locals.session = req.session;
+  res.locals.flashMessages = req.session.flashMessages;
+  delete req.session.flashMessages;
   next();
 });
 

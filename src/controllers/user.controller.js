@@ -1,11 +1,10 @@
 const db = require('../config/db');
 const authentication = require('../utils/authentication');
-const { getMessageFromURL, URL_MESSAGE } = require('../messages');
+const { RESPONSE_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Kullanıcı';
 
 exports.listUserView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const userList = await db.User.findAll({
     raw: true,
     include: [
@@ -18,13 +17,10 @@ exports.listUserView = async (req, res) => {
   return res.render('layouts/main', {
     partialName: 'listUsers',
     userList,
-    success: successMessage,
-    error: errorMessage,
   });
 };
 
 exports.addUserView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const userRole = await db.UserRole.findAll({
     raw: true,
   });
@@ -32,8 +28,6 @@ exports.addUserView = async (req, res) => {
     partialName: 'addUser',
     endPoint: 'add',
     userRole,
-    error: errorMessage,
-    success: successMessage,
   });
 };
 
@@ -46,7 +40,11 @@ exports.addUser = async (req, res) => {
     raw: true,
   });
   if (dbUser.length !== 0) {
-    return res.redirect(`/user/add?${URL_MESSAGE.error.inuse}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.IN_USE}`,
+      type: 'danger',
+    };
+    return res.redirect('/user/add');
   }
   try {
     const hashedPassword = await authentication.hashPassword(user.password);
@@ -59,14 +57,21 @@ exports.addUser = async (req, res) => {
       password: hashedPassword,
       isActive: user.isActive == undefined ? 0 : 1,
     });
-    return res.redirect(`/user/add?${URL_MESSAGE.success.add}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`,
+      type: 'success',
+    };
+    return res.redirect('/user/add');
   } catch (error) {
-    return res.redirect(`/user/add?error=${URL_MESSAGE.error.add}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect('/user/add');
   }
 };
 
 exports.updateUserView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const { id } = req.params;
   const userRole = await db.UserRole.findAll({
     raw: true,
@@ -84,8 +89,6 @@ exports.updateUserView = async (req, res) => {
       endPoint: 'update',
       userRole,
       user,
-      error: errorMessage,
-      success: successMessage,
     });
   } catch (error) {
     return res.redirect('/user/list');
@@ -112,9 +115,16 @@ exports.updateUser = async (req, res) => {
         raw: true,
       },
     );
-    return res.redirect(`/user/update/${user.id}?${URL_MESSAGE.success.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`,
+      type: 'success',
+    };
+    return res.redirect(`/user/update/${user.id}`);
   } catch (error) {
-    console.log(error);
-    return res.redirect(`/user/update/${user.id}?${URL_MESSAGE.error.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect(`/user/update/${user.id}`);
   }
 };

@@ -1,10 +1,9 @@
 const db = require('../config/db');
-const { getMessageFromURL, URL_MESSAGE } = require('../messages');
+const { RESPONSE_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Otopark';
 
 exports.listParkingLots = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const parkinglotList = await db.ParkingLot.findAll({
     raw: true,
     include: [
@@ -21,13 +20,10 @@ exports.listParkingLots = async (req, res) => {
   return res.render('layouts/main', {
     partialName: 'listParkingLots',
     parkinglotList,
-    success: successMessage,
-    error: errorMessage,
   });
 };
 
 exports.addParkingLotView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const parkingLotType = await db.ParkingType.findAll({
     raw: true,
   });
@@ -42,8 +38,6 @@ exports.addParkingLotView = async (req, res) => {
     endPoint: 'add',
     parkingLotType,
     parkingLotUsers,
-    success: successMessage,
-    error: errorMessage,
   });
 };
 
@@ -57,14 +51,21 @@ exports.addNewParkingLot = async (req, res) => {
       staffId: parkingLot.staffId,
       parkingTypeId: parkingLot.parkingTypeId,
     });
-    return res.redirect(`/parkinglot/add?${URL_MESSAGE.success.add}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`,
+      type: 'success',
+    };
+    return res.redirect('/parkinglot/add');
   } catch (error) {
-    return res.redirect(`/parkinglot/add?${URL_MESSAGE.error.add}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect('/parkinglot/add');
   }
 };
 
 exports.updateParkingLotView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const { id } = req.params;
   const parkingLotType = await db.ParkingType.findAll({
     raw: true,
@@ -89,8 +90,6 @@ exports.updateParkingLotView = async (req, res) => {
       parkingLotType,
       parkingLotUsers,
       parkingLot,
-      error: errorMessage,
-      success: successMessage,
     });
   } catch (error) {
     return res.redirect('/parkinglot/list');
@@ -115,9 +114,17 @@ exports.updateParkingLot = async (req, res) => {
         raw: true,
       },
     );
-    return res.redirect(`/parkinglot/update/${parkingLot.id}?${URL_MESSAGE.success.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`,
+      type: 'success',
+    };
+    return res.redirect(`/parkinglot/update/${parkingLot.id}`);
   } catch (error) {
-    return res.redirect(`/parkinglot/update/${parkingLot.id}?${URL_MESSAGE.error.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect(`/parkinglot/update/${parkingLot.id}`);
   }
 };
 
@@ -133,8 +140,16 @@ exports.deleteParkingLot = async (req, res) => {
     await db.ParkingLot.destroy({
       where: { id },
     });
-    return res.redirect(`/parkinglot/list?${URL_MESSAGE.success.delete}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETED}`,
+      type: 'success',
+    };
+    return res.redirect('/parkinglot/list');
   } catch (error) {
-    return res.redirect(`/parkinglot/list?${URL_MESSAGE.error.delete}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETE_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect('/parkinglot/list');
   }
 };

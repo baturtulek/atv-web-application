@@ -1,16 +1,13 @@
 const db = require('../config/db');
 const { comparePasswords } = require('../utils/authentication');
-const { getMessageFromURL, URL_MESSAGE } = require('../messages');
+const { RESPONSE_MESSAGE } = require('../messages');
 
 exports.loginView = (req, res) => {
-  const { errorMessage } = getMessageFromURL('', req.query);
   if (res.locals.session.user) {
     return res.redirect('/');
   }
   return res.render('layouts/auth', {
     layout: 'auth',
-    isCredentialsInvalid: false,
-    error: errorMessage,
   });
 };
 
@@ -24,7 +21,11 @@ exports.login = async (req, res) => {
       if (isPasswordValid) {
         const userCompetencyList = await getUserCompetencies(dbUser.roleId);
         if (!dbUser.isActive || userCompetencyList.length === 0) {
-          return res.redirect(`/login?${URL_MESSAGE.error.insufficient_user_privileges}`);
+          req.session.flashMessages = {
+            message: RESPONSE_MESSAGE.INSUFFICIENT_USER_PRIVILEGES,
+            type: 'danger',
+          };
+          return res.redirect('/login');
         }
         req.session.user = dbUser;
         req.session.competencyList = userCompetencyList;
@@ -32,9 +33,17 @@ exports.login = async (req, res) => {
         return res.redirect('/');
       }
     }
-    return res.redirect(`/login?${URL_MESSAGE.error.invalid_credentials}`);
+    req.session.flashMessages = {
+      message: RESPONSE_MESSAGE.INVALID_CREDENTIALS,
+      type: 'danger'
+    };
+    return res.redirect('/login');
   } catch (error) {
-    return res.redirect(`/login?${URL_MESSAGE.error.internal_error}`);
+    req.session.flashMessages = {
+      message: RESPONSE_MESSAGE.INTERNAL_ERROR,
+      type: 'danger',
+    };
+    return res.redirect('/login');
   }
 };
 

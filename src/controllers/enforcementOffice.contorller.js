@@ -1,29 +1,23 @@
 
 const db = require('../config/db');
-const { getMessageFromURL, URL_MESSAGE } = require('../messages');
+const { RESPONSE_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'İcra kurumu';
 
 exports.listEnforcementOffices = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const enforcementOfficeList = await db.EnforcementOffice.findAll({
     raw: true,
   });
   return res.render('layouts/main', {
     partialName: 'listEnforcementOffice',
     enforcementOfficeList,
-    success: successMessage,
-    error: errorMessage,
   });
 };
 
 exports.addEnforcementOfficeView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   return res.render('layouts/main', {
     partialName: 'addEnforcementOffice',
     endPoint: 'add',
-    success: successMessage,
-    error: errorMessage,
   });
 };
 
@@ -34,14 +28,21 @@ exports.addEnforcementOffice = async (req, res) => {
       name: enforcementOffice.name,
       description: enforcementOffice.description,
     });
-    return res.redirect(`/enforcementoffice/add?${URL_MESSAGE.success.add}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`,
+      type: 'success',
+    };
+    return res.redirect('/enforcementoffice/add');
   } catch (error) {
-    return res.redirect(`/enforcementoffice/add?${URL_MESSAGE.error.add}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect('/enforcementoffice/add');
   }
 };
 
 exports.updateEnfocementOfficeView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const { id } = req.params;
   try {
     const enforcementOffice = await db.EnforcementOffice.findOne({
@@ -55,8 +56,6 @@ exports.updateEnfocementOfficeView = async (req, res) => {
       partialName: 'addEnforcementOffice',
       endPoint: 'update',
       enforcementOffice,
-      error: errorMessage,
-      success: successMessage,
     });
   } catch (error) {
     return res.redirect('/enforcementoffice/list');
@@ -78,9 +77,17 @@ exports.updateEnfocementOffice = async (req, res) => {
         raw: true,
       },
     );
-    return res.redirect(`/enforcementoffice/update/${enforcementOffice.id}?${URL_MESSAGE.success.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`,
+      type: 'success',
+    };
+    return res.redirect(`/enforcementoffice/update/${enforcementOffice.id}`);
   } catch (error) {
-    return res.redirect(`/enforcementOffice/update/${enforcementOffice.id}?${URL_MESSAGE.error.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect(`/enforcementOffice/update/${enforcementOffice.id}`);
   }
 };
 
@@ -96,8 +103,16 @@ exports.deleteEnfocementOffice = async (req, res) => {
     await db.EnforcementOffice.destroy({
       where: { id },
     });
-    return res.redirect(`/enforcementoffice/list?${URL_MESSAGE.success.delete}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETED}`,
+      type: 'success',
+    };
+    return res.redirect('/enforcementoffice/list');
   } catch (error) {
-    return res.redirect(`/enforcementoffice/list?${URL_MESSAGE.error.delete}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETE_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect('/enforcementoffice/list');
   }
 };

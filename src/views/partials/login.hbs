@@ -15,11 +15,9 @@
               oninvalid="this.setCustomValidity('Lütfen şifrenizi girin.')"
               oninput="setCustomValidity('')">
           </p>
-          {{#if error}}
-            <div class="alert alert-danger" role="alert">
-              {{error}}
-            </div>
-          {{/if}}
+
+          {{> components/showMessage }}
+
           <div>
             <span style="width:48%; text-align:left;  display: inline-block;"><a class="small-text" href="#">Şifremi Unuttum</a></span>
             <span style="width:50%; text-align:right;  display: inline-block;"><input type="submit" value="Giriş Yap"></span>

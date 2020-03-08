@@ -1,11 +1,10 @@
 const db = require('../config/db');
 const authentication = require('../utils/authentication');
-const { getMessageFromURL, URL_MESSAGE } = require('../messages');
+const { RESPONSE_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Profil';
 
 exports.profileView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const { user } = res.locals.session;
   const userRole = await db.UserRole.findOne({
     where: {
@@ -17,8 +16,6 @@ exports.profileView = async (req, res) => {
   return res.render('layouts/main', {
     partialName: 'profile',
     user,
-    success: successMessage,
-    error: errorMessage,
   });
 };
 
@@ -41,9 +38,17 @@ exports.updateProfileInfo = async (req, res) => {
     );
     const updatedUser = await getUserData(username);
     req.session.user = updatedUser;
-    return res.redirect(`/profile?${URL_MESSAGE.success.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`,
+      type: 'success',
+    };
+    return res.redirect('/profile');
   } catch (error) {
-    return res.redirect(`/profile?${URL_MESSAGE.error.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect('/profile');
   }
 };
 
@@ -53,10 +58,18 @@ exports.updateProfilePassword = async (req, res) => {
   try {
     const result = await authentication.comparePasswords(user.currentPassword, password);
     if (!result) {
-      return res.redirect(`/profile?${URL_MESSAGE.error.old_password_invalid}`);
+      req.session.flashMessages = {
+        message: `${RESPONSE_MESSAGE.OLD_PASSWORD_INVALID}`,
+        type: 'danger',
+      };
+      return res.redirect('/profile');
     }
     if (user.newpassword1 !== user.newpassword2) {
-      return res.redirect(`/profile?${URL_MESSAGE.error.new_passwords_not_matches}`);
+      req.session.flashMessages = {
+        message: `${RESPONSE_MESSAGE.NEW_PASSWORDS_NOT_MATCHES}`,
+        type: 'danger',
+      };
+      return res.redirect('/profile');
     }
     const hashedPassword = await authentication.hashPassword(user.newpassword1);
     await db.User.update(
@@ -70,9 +83,17 @@ exports.updateProfilePassword = async (req, res) => {
     );
     const updatedUser = await getUserData(username);
     req.session.user = updatedUser;
-    return res.redirect(`/profile?${URL_MESSAGE.success.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`,
+      type: 'success',
+    };
+    return res.redirect('/profile');
   } catch (error) {
-    return res.redirect(`/profile?${URL_MESSAGE.error.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect('/profile');
   }
 };
 

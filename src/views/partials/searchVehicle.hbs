@@ -1,11 +1,9 @@
 <div class="table-container">
   <div style="display: flex;flex-grow: 1;">
   <div style="flex: 1; margin: 12px 24px;">
-      {{#if error}}
-      <div class="alert alert-danger" role="alert">
-        {{error}}
-      </div>
-    {{/if}}
+
+    {{> components/showMessage }}
+
     <form class="border border-light" action="/vehicle/search" method="POST"> 
       <div class="form-group row row-cols-2">
         <div class="col">

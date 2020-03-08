@@ -1,8 +1,15 @@
 /* eslint-disable consistent-return */
 const db = require('../config/db');
-const { getMessageFromURL, URL_MESSAGE } = require('../messages');
+const { RESPONSE_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Araç Tipi';
+
+exports.addVehicleTypeView = (req, res) => {
+  res.render('layouts/main', {
+    partialName: 'addVehicleType',
+    endPoint: 'add',
+  });
+};
 
 exports.addVehicleType = async (req, res) => {
   const { name, description } = req.body;
@@ -12,41 +19,34 @@ exports.addVehicleType = async (req, res) => {
       description,
     });
     if (vehicleType) {
-      return res.redirect(`/vehicletype/add?${URL_MESSAGE.success.add}`);
+      req.session.flashMessages = {
+        message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`,
+        type: 'success',
+      };
+      return res.redirect('/vehicletype/add');
     }
   } catch (error) {
-    return res.redirect(`/vehicletype/add?${URL_MESSAGE.error.add}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect('/vehicletype/add');
   }
 };
 
-exports.addVehicleTypeView = (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
-  res.render('layouts/main', {
-    partialName: 'addVehicleType',
-    endPoint: 'add',
-    success: successMessage,
-    error: errorMessage,
-  });
-};
-
 exports.listVehicleType = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const vehicleTypes = await db.VehicleType.findAll({
     raw: true,
   });
-
   if (vehicleTypes) {
     return res.render('layouts/main', {
       partialName: 'listVehicleTypes',
       vehicleTypes,
-      success: successMessage,
-      error: errorMessage,
     });
   }
 };
 
 exports.updateVehicleTypeView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const { id } = req.params;
   try {
     const vehicleType = await db.VehicleType.findOne({
@@ -60,8 +60,6 @@ exports.updateVehicleTypeView = async (req, res) => {
       partialName: 'addVehicleType',
       endPoint: 'update',
       vehicleType,
-      success: successMessage,
-      error: errorMessage,
     });
   } catch (error) {
     return res.redirect('/vehicletype/list');
@@ -78,9 +76,17 @@ exports.updateVehicleType = async (req, res) => {
       { name, description },
       { where: { id } },
     );
-    return res.redirect(`/vehicletype/update/${id}?${URL_MESSAGE.success.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`,
+      type: 'success',
+    };
+    return res.redirect(`/vehicletype/update/${id}`);
   } catch (error) {
-    return res.redirect(`/vehicletype/update/${id}?${URL_MESSAGE.error.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect(`/vehicletype/update/${id}`);
   }
 };
 
@@ -100,8 +106,16 @@ exports.deleteVehicleType = async (req, res) => {
         id,
       },
     });
-    return res.redirect(`/vehicletype/list?${URL_MESSAGE.success.delete}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETED}`,
+      type: 'success',
+    };
+    return res.redirect('/vehicletype/list');
   } catch (error) {
-    return res.redirect(`/vehicletype/list?${URL_MESSAGE.error.delete}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETE_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect('/vehicletype/list');
   }
 };

@@ -1,15 +1,8 @@
 <div style="display: flex;flex-grow: 4;">
   <div style="flex: 1; margin: 12px 24px;">
-    {{#if success}}
-      <div class="alert alert-success" role="alert">
-        Araç Kaydı Başarılı
-      </div>
-    {{/if}}
-    {{#if fail}}
-      <div class="alert alert-success" role="alert">
-        Araç Kaydı Maalesef Başarılı Değil
-      </div>
-    {{/if}}
+  
+    {{> components/showMessage }}
+
     <form class="border border-light" action="" method="POST">
       <div class="form-group row row-cols-3">
         <div class="col">

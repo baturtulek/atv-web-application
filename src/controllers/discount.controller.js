@@ -1,29 +1,23 @@
 
 const db = require('../config/db');
-const { getMessageFromURL, URL_MESSAGE } = require('../messages');
+const { RESPONSE_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'İndirim';
 
 exports.listDiscounts = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const discountList = await db.Discount.findAll({
     raw: true,
   });
   return res.render('layouts/main', {
     partialName: 'listDiscounts',
     discountList,
-    success: successMessage,
-    error: errorMessage,
   });
 };
 
 exports.addDiscountView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   return res.render('layouts/main', {
     partialName: 'addDiscount',
     endPoint: 'add',
-    success: successMessage,
-    error: errorMessage,
   });
 };
 
@@ -35,14 +29,21 @@ exports.addDiscount = async (req, res) => {
       parkDiscount: discount.parkDiscount,
       transferDiscount: discount.transferDiscount,
     });
-    return res.redirect(`/discount/add?${URL_MESSAGE.success.add}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`,
+      type: 'success',
+    };
+    return res.redirect('/discount/add');
   } catch (error) {
-    return res.redirect(`/discount/add?${URL_MESSAGE.error.add}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect('/discount/add');
   }
 };
 
 exports.updateDiscountView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const { id } = req.params;
   try {
     const discount = await db.Discount.findOne({
@@ -56,8 +57,6 @@ exports.updateDiscountView = async (req, res) => {
       partialName: 'addDiscount',
       endPoint: 'update',
       discount,
-      error: errorMessage,
-      success: successMessage,
     });
   } catch (error) {
     return res.redirect('/discount/list');
@@ -80,9 +79,17 @@ exports.updateDiscount = async (req, res) => {
         raw: true,
       },
     );
-    return res.redirect(`/discount/update/${discount.id}?${URL_MESSAGE.success.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`,
+      type: 'success',
+    };
+    return res.redirect(`/discount/update/${discount.id}`);
   } catch (error) {
-    return res.redirect(`/discount/update/${discount.id}?${URL_MESSAGE.error.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect(`/discount/update/${discount.id}`);
   }
 };
 
@@ -98,8 +105,16 @@ exports.deleteDiscount = async (req, res) => {
     await db.Discount.destroy({
       where: { id },
     });
-    return res.redirect(`/discount/list?${URL_MESSAGE.success.delete}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETED}`,
+      type: 'success',
+    };
+    return res.redirect('/discount/list');
   } catch (error) {
-    return res.redirect(`/discount/list?${URL_MESSAGE.error.delete}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETE_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect('/discount/list');
   }
 };

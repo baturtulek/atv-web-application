@@ -1,15 +1,8 @@
 <div style="display: flex;flex-grow: 1;">
   <div style="flex: 2; margin: 12px 24px;">
-    {{#if success}}
-      <div class="alert alert-success" role="alert">
-        {{success}}
-      </div>
-    {{/if}}
-    {{#if error}}
-      <div class="alert alert-danger" role="alert">
-        {{error}}
-      </div>
-    {{/if}}
+
+     {{> components/showMessage }}
+
     <form class="border border-light" action="/parkinglot/{{endPoint}}" method="POST">
       <div class="form-group row row-cols-3">
         <input type="hidden" name="id" value="{{parkingLot.id}}">

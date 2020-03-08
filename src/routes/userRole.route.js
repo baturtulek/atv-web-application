@@ -2,7 +2,7 @@ const userRoleController = require('../controllers/userRole.controller');
 
 const routes = (app) => {
   app
-    .route(['role', '/role/list'])
+    .route(['/role', '/role/list'])
     .get(userRoleController.listUserRoles);
 
   app

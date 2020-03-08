@@ -1,15 +1,8 @@
 <div style="display: flex;flex-grow: 1;">
   <div class="form-container">
-      {{#if success}}
-      <div class="alert alert-success" role="alert">
-        {{success}}
-      </div>
-      {{/if}}
-      {{#if error}}
-      <div class="alert alert-danger" role="alert">
-        {{error}}
-      </div>
-      {{/if}}
+
+     {{> components/showMessage }}
+
       <div class="mt-3">
         <h3 class="pl-2" style="color:#6D6D6D;">Profilim</h3>
         <hr>

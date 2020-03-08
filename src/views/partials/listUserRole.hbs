@@ -1,15 +1,8 @@
 <div class="table-container">
   <table class="table table-striped">
-    {{#if success}}
-      <div class="alert alert-success" role="alert">
-        {{success}}
-      </div>
-    {{/if}}
-    {{#if error}}
-      <div class="alert alert-danger" role="alert">
-        {{error}}
-      </div>
-    {{/if}}
+
+    {{> components/showMessage }}
+
     <thead>
     <tr>
       <th scope="col">#</th>

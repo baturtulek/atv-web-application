@@ -1,15 +1,8 @@
 <div style="display: flex;flex-grow: 1;">
   <div class="form-container">
-    {{#if success}}
-      <div class="alert alert-success" role="alert">
-        {{success}}
-      </div>
-    {{/if}}
-    {{#if error}}
-      <div class="alert alert-danger" role="alert">
-        {{error}}
-      </div>
-    {{/if}}
+    
+    {{> components/showMessage }}
+
     <form class="border border-light" id='form' action="/discount/{{endPoint}}" method="POST">
       <div class="form-inside-container">
         <input type="hidden" name="id" value="{{discount.id}}">

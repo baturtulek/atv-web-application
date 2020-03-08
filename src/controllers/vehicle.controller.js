@@ -2,7 +2,7 @@
 const httpStatus = require('http-status');
 const moment = require('moment');
 const db = require('../config/db');
-const { getMessageFromURL, URL_MESSAGE } = require('../messages');
+const { RESPONSE_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Araç';
 
@@ -92,10 +92,8 @@ exports.addVehicle = async (req, res) => {
 };
 
 exports.searchVehicleView = (req, res) => {
-  const { errorMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   return res.render('layouts/main', {
     partialName: 'searchVehicle',
-    error: errorMessage,
   });
 };
 
@@ -113,13 +111,21 @@ exports.searchVehicle = async (req, res) => {
       raw: true,
     });
     if (!vehicles.length > 0) {
-      return res.redirect(`/vehicle/search?${URL_MESSAGE.error.search}`);
+      req.session.flashMessages = {
+        message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.SEARCH_ERROR}`,
+        type: 'danger',
+      };
+      return res.redirect('/vehicle/search');
     }
     return res.render('layouts/main', {
       partialName: 'searchVehicle',
       vehicles,
     });
   } catch (err) {
-    return res.redirect(`/vehicle/search?${URL_MESSAGE.error.search}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.SEARCH_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect('/vehicle/search');
   }
 };

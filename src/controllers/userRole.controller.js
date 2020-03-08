@@ -6,12 +6,11 @@
 /* eslint-disable no-restricted-syntax */
 const { Op } = require('sequelize');
 const db = require('../config/db');
-const { getMessageFromURL, URL_MESSAGE } = require('../messages');
+const { RESPONSE_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Profil';
 
 exports.listUserRoles = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   try {
     const userRoleList = await db.UserRole.findAll({
       raw: true,
@@ -19,8 +18,6 @@ exports.listUserRoles = async (req, res) => {
     return res.render('layouts/main', {
       partialName: 'listUserRole',
       userRoleList,
-      success: successMessage,
-      error: errorMessage,
     });
   } catch (exception) {
     console.log(exception);
@@ -28,18 +25,14 @@ exports.listUserRoles = async (req, res) => {
 };
 
 exports.addUserRoleView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   try {
     const competencies = await db.Competency.findAll({
       raw: true,
     });
-
     return res.render('layouts/main', {
       partialName: 'addUserRole',
       endPoint: 'add',
       competencies,
-      success: successMessage,
-      error: errorMessage,
     });
   } catch (exception) {
     console.log(exception);
@@ -72,17 +65,28 @@ exports.addUserRole = async (req, res) => {
           });
         }
       }
-      return res.redirect(`/role/add?${URL_MESSAGE.success.add}`);
+      req.session.flashMessages = {
+        message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`,
+        type: 'success',
+      };
+      return res.redirect('/role/add');
     }
-    return res.redirect(`/role/add?${URL_MESSAGE.error.inuse}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.IN_USE}`,
+      type: 'danger',
+    };
+    return res.redirect('/role/add');
   } catch (error) {
     console.log(error);
-    return res.redirect(`/role/add?${URL_MESSAGE.error.add}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect('/role/add');
   }
 };
 
 exports.userRoleUpdateView = async (req, res) => {
-  const { errorMessage, successMessage } = getMessageFromURL(ROUTE_NAME, req.query);
   const { id } = req.params;
   try {
     const role = await db.UserRole.findOne({
@@ -119,8 +123,6 @@ exports.userRoleUpdateView = async (req, res) => {
       competencies,
       userRoleCompetencies,
       role,
-      error: errorMessage,
-      success: successMessage,
     });
   } catch (exception) {
     console.log(exception);
@@ -141,7 +143,11 @@ exports.userRoleUpdate = async (req, res) => {
       },
     });
 
-    if (!foundRole) return res.redirect(`/role/update/${id}/?${URL_MESSAGE.error.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
+      type: 'danger',
+    };
+    if (!foundRole) return res.redirect(`/role/update/${id}`);
 
     await db.UserRole.update({
       role,
@@ -164,11 +170,17 @@ exports.userRoleUpdate = async (req, res) => {
         });
       }
     }
-
-    return res.redirect(`/role/update/${id}?${URL_MESSAGE.success.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`,
+      type: 'success',
+    };
+    return res.redirect(`/role/update/${id}`);
   } catch (error) {
-    console.log(error);
-    return res.redirect(`/role/update/${id}?${URL_MESSAGE.error.update}`);
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
+      type: 'danger',
+    };
+    return res.redirect(`/role/update/${id}`);
   }
 };
 

@@ -1,16 +1,8 @@
-
 <div style="display: flex;flex-grow: 1;">
   <div style="flex: 2; margin: 12px 24px;">
-    {{#if success}}
-    <div class="alert alert-success" role="alert">
-      {{success}}
-    </div>
-    {{/if}}
-    {{#if error}}
-    <div class="alert alert-danger" role="alert">
-      {{error}}
-    </div>
-    {{/if}}
+
+    {{> components/showMessage }}
+
     <form class="border border-light" action="/role/{{endPoint}}" method="POST">
       <div class="form-group row row-cols-3">
         <input type="hidden" name="id" value="{{role.id}}">
@@ -30,9 +22,12 @@
           {{/each}}
         </div>
 
-        <div class="col-auto grid-button-group">
+      </div>
+
+      <div class="form-group row row-cols-3">
+        <div class="col-auto grid-button-group ml-auto">
           <button type="button" class="btn-info" id="resetButton"><i class="fa fa-refresh"></i>Sıfırla</button>
-          <button type="submit" class="btn-success" id="submitButton"><i class="fa fa-save"></i>
+          <button type="submit" class="btn-success"><i class="fa fa-save"></i>
             {{#ifEquals "add" endPoint}}
             Ekle
             {{else}}
