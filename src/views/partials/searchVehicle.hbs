@@ -25,6 +25,8 @@
         <th scope="col">Plaka</th>
         <th scope="col">Şasi No</th>
         <th scope="col">Model</th>
+        <th scope="col">Çekilme Tarihi</th>
+        <th scope="col">Çıkış</th>
       </tr>
     </thead>
     <tbody>
@@ -34,6 +36,16 @@
         <td class="column2">{{this.plate}}</td>
         <td class="column3">{{this.chassisNo}}</td>
         <td class="column4">{{this.modelYear}}</td>
+        <td class="column5">{{this.entranceDate}}</td>
+        <td class="column6">
+          <form method="POST", id="vehicle_out" action="/vehicle/out">
+            <input type="hidden" name="plate" value="{{this.plate}}"></input>
+            <input type="hidden" name="entranceDate" value="{{this.entranceDate}}"></input>
+            <a href="javascript:{}" onclick="document.getElementById('vehicle_out').submit();">
+              <i class="fa fa-pencil-square-o fa-m btn btn-primary" aria-hidden="true" ></i>
+            </a>
+          </form>
+        </td>
       </tr>
       {{/each}}
     </tbody>

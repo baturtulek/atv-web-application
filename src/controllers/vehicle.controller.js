@@ -62,7 +62,7 @@ exports.addVehicle = async (req, res) => {
       return res.status(httpStatus.NOT_FOUND).json(result);
     }
 
-    const date = moment().locale('tr').tz('Europe/Istanbul').format('LLLL');
+    const date = moment().tz('Europe/Istanbul').format();
 
     const createdVehicle = await db.Vehicle.create({
       plate: vehicle.plate,
@@ -128,4 +128,28 @@ exports.searchVehicle = async (req, res) => {
     };
     return res.redirect('/vehicle/search');
   }
+};
+
+
+exports.outVehicleView = async (req, res) => {
+  const { plate, entranceDate } = req.body;
+  console.log('plate', plate, entranceDate);
+  const vehicle = await db.Vehicle.findOne({
+    where: {
+      plate, entranceDate,
+    },
+  });
+
+  if (!vehicle) {
+    res.redirect('/vehicle/search');
+  }
+  // newDate.locale('tr').format('LLLL')
+  const entrance = moment(vehicle.entranceDate);
+  const now = moment().tz('Europe/Istanbul');
+  const diff = now.diff(entrance, 'h');
+
+  return res.render('layouts/main', {
+    partialName: 'outVehicle',
+    diff,
+  });
 };

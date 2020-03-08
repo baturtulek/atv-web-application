@@ -10,6 +10,10 @@ const routes = (app) => {
     .route('/vehicle/search')
     .get(vehicleController.searchVehicleView)
     .post(vehicleController.searchVehicle);
+
+  app
+    .route('/vehicle/out')
+    .post(vehicleController.outVehicleView);
 };
 
 module.exports = routes;
