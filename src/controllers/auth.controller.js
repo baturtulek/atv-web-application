@@ -1,3 +1,4 @@
+const moment = require('moment');
 const db = require('../config/db');
 const { comparePasswords } = require('../utils/authentication');
 const { RESPONSE_MESSAGE } = require('../messages');
@@ -35,7 +36,7 @@ exports.login = async (req, res) => {
     }
     req.session.flashMessages = {
       message: RESPONSE_MESSAGE.INVALID_CREDENTIALS,
-      type: 'danger'
+      type: 'danger',
     };
     return res.redirect('/login');
   } catch (error) {
@@ -81,20 +82,11 @@ const updateUserLastLogin = (userId, ip) => {
 };
 
 const getCurrentTimeStamp = () => {
-  const today = new Date();
-  const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-  const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
-  return `${date} ${time}`;
+  return moment().tz('Europe/Istanbul').format('YYYY-MM-DD HH:mm:ss');
 };
 
 const getUserCompetencies = async (roleId) => {
   const userCompetencyList = await db.RoleCompetency.findAll({
-    include: [
-      {
-        model: db.Competency,
-        attributes: ['description'],
-      },
-    ],
     where: { roleId },
     raw: true,
   });
