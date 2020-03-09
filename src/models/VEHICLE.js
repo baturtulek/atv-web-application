@@ -9,6 +9,10 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         defaultValue: '',
         primaryKey: true,
+        references: {
+          model: 'TOWED_VEHICLE',
+          key: 'plate',
+        },
       },
       chassisNo: {
         type: DataTypes.STRING(255),
@@ -62,10 +66,6 @@ module.exports = function (sequelize, DataTypes) {
       },
       ownerProfileId: {
         type: DataTypes.INTEGER(11),
-        allowNull: true,
-      },
-      entranceDate: {
-        type: DataTypes.STRING(255),
         allowNull: true,
       },
     },

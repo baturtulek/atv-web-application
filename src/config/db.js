@@ -74,7 +74,11 @@ db.Vehicle.hasOne(db.VehicleBrand, {
   foreignKey: 'id',
   sourceKey: 'brandId',
 });
-db.Vehicle.hasOne(db.TowedVehicle, {
+db.Vehicle.hasMany(db.TowedVehicle, {
+  foreignKey: 'plate',
+  sourceKey: 'plate',
+});
+db.TowedVehicle.belongsTo(db.Vehicle, {
   foreignKey: 'plate',
   sourceKey: 'plate',
 });

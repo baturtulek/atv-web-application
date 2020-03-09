@@ -13,6 +13,7 @@ const routes = (app) => {
 
   app
     .route('/vehicle/out')
+    .get(vehicleController.outVehicleView)
     .post(vehicleController.outVehicleView);
 };
 

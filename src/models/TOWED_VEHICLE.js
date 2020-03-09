@@ -12,6 +12,7 @@ module.exports = function (sequelize, DataTypes) {
       towedDate: {
         type: DataTypes.STRING(45),
         allowNull: false,
+        primaryKey: true,
       },
       note: {
         type: DataTypes.STRING(255),
@@ -40,6 +41,10 @@ module.exports = function (sequelize, DataTypes) {
           model: 'VEHICLE_STATE',
           key: 'id',
         },
+      },
+      entranceParkingLotDate: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
       },
     },
     {

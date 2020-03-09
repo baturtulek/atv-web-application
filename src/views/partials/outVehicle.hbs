@@ -1,3 +1,113 @@
-<div>
-    Bu araç {{diff}} saattir otoparkta bulunuyor.
+<div style="display: flex;flex-grow: 4;">
+  <div style="flex: 1; margin: 12px 24px;">
+  
+    {{> components/showMessage }}
+
+    <form class="border border-light" action="" method="POST">
+      <div class="form-group row row-cols-3">
+        <div class="col">
+          <label class="col-form-label">Plate</label>
+          <input  class="form-control" name="plate" id="plate" value="{{towVehicle.plate}}" readonly>
+        </div>
+        <div class="col">
+          <label class="col-form-label">Araç Sahibi</label>
+          <select class="browser-default custom-select" name="discountRoleId" id="discountRoleId" required>
+            {{#each discountByRole}}
+              <option value="{{this.id}}"
+                {{#ifEquals this.id ../discountByRole.id}}
+                selected
+                {{/ifEquals}}
+              >
+                {{this.name}}
+              </option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="col">
+          <label class="col-form-label">Şasi No</label>
+          <input name="chassisNo" type="text" class="form-control" value="{{vehicle.chassisNo}}">
+        </div>
+      </div>
+
+      <div class="form-group row row-cols-3">
+        <div class="col">
+          <label class="col-form-label">Tip</label>
+          <select class="browser-default custom-select" name="vehicleTypeId" id="vehicleTypeId" required>
+            {{#each vehicleTypes}}
+              <option value="{{this.id}}"
+                {{#ifEquals this.id ../vehicleTypes.vehicleTypeId}}
+                selected
+                {{/ifEquals}}
+              >
+                {{this.name}}
+              </option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="col">
+          <label class="col-form-label">Model Yılı</label>
+          <input name="modelYear" type="text" class="form-control" placeholder="Model">
+        </div>
+        <div class="col">
+          <label class="col-form-label">Kasa Tipi</label>
+          <select class="browser-default custom-select" name="bodyTypeId" id="bodyTypeId" required>
+            {{#each vehicleBodyTypes}}
+              <option value="{{this.id}}"
+                {{#ifEquals this.id ../vehicleBodyTypes.brandId}}
+                selected
+                {{/ifEquals}}
+              >
+                {{this.description}}
+              </option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row row-cols-3">
+        <div class="col">
+          <label class="col-form-label">Renk</label>
+          <select class="browser-default custom-select" name="colorId" id="colorId" required>
+            {{#each vehicleColors}}
+              <option value="{{this.id}}"
+                {{#ifEquals this.id ../vehicleColors.colorId}}
+                selected
+                {{/ifEquals}}
+              >
+                {{this.description}}
+              </option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="col">
+          <label class="col-form-label">Motor No</label>
+          <input name="engineNo" type="text" class="form-control" placeholder="Motor No">
+        </div>
+        <div class="col">
+         <label class="col-form-label">Transfer Durumu</label>
+          <select class="browser-default custom-select" name="stateId" id="stateId" required>
+            {{#each vehicleStates}}
+              <option value="{{this.id}}"
+                {{#ifEquals this.id ../vehicleColors.stateId}}
+                selected
+                {{/ifEquals}}
+              >
+                {{this.description}}
+              </option>
+            {{/each}}
+          </select>
+      </div>
+      </div>
+      
+      <div class="form-group row row-cols-3">
+        <div class="col mr-auto">
+
+        </div>
+        <div class="col-auto grid-button-group">
+          <button type="button" class="btn-info"><i class="fa fa-refresh"></i>Sıfırla</button>
+          <button type="button submit" class="btn-success"><i class="fa fa-save"></i>Basma Çalışmıyor</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

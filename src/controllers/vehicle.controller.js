@@ -6,6 +6,15 @@ const { RESPONSE_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Araç';
 
+const statusIdOtopark = async () => {
+  const vehicleStatus = await db.VehicleState.findOne({
+    where: {
+      description: 'Otoparkta',
+    },
+  });
+  return vehicleStatus;
+};
+
 exports.addVehicleView = async (req, res) => {
   const vehiclePlates = await db.TowedVehicle.findAll({
     raw: true,
@@ -75,13 +84,18 @@ exports.addVehicle = async (req, res) => {
       bodyTypeId: parseInt(vehicle.bodyTypeId),
       brandId: parseInt(vehicle.brandId),
       ownerProfileId: parseInt(vehicle.ownerProfileId),
-      entranceDate: date,
+    });
+
+    const vehicleStatus = await db.VehicleState.findOne({
+      where: {
+        description: 'Transfer Halinde',
+      },
     });
 
     if (createdVehicle) {
       await db.TowedVehicle.update(
-        { stateId: vehicle.stateId },
-        { where: { stateId: 2, plate: vehicle.plate } },
+        { stateId: vehicle.stateId, entranceParkingLotDate: date },
+        { where: { stateId: parseInt(vehicleStatus.id), plate: vehicle.plate } },
       );
       // return the appropiate view that confirms vehicle has been added
       return res.redirect('/vehicle/add');
@@ -100,13 +114,16 @@ exports.searchVehicleView = (req, res) => {
 exports.searchVehicle = async (req, res) => {
   const { plate } = req.body;
   try {
-    const vehicles = await db.Vehicle.findAll({
-      include: [{
-        model: db.TowedVehicle,
-        where: { stateId: 1 },
-      }],
+    const vehicleStatus = await statusIdOtopark();
+    const vehicles = await db.TowedVehicle.findAll({
+      include: [
+        {
+          model: db.Vehicle,
+          attributes: ['chassisNo', 'modelYear'],
+        },
+      ],
       where: {
-        plate,
+        plate, stateId: parseInt(vehicleStatus.id),
       },
       raw: true,
     });
@@ -126,30 +143,51 @@ exports.searchVehicle = async (req, res) => {
       message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.SEARCH_ERROR}`,
       type: 'danger',
     };
+    console.log('err', err);
     return res.redirect('/vehicle/search');
   }
 };
 
-
 exports.outVehicleView = async (req, res) => {
-  const { plate, entranceDate } = req.body;
-  console.log('plate', plate, entranceDate);
+  const { plate } = req.body;
+  const vehicleStatus = await statusIdOtopark();
+  const towVehicle = await db.TowedVehicle.findOne({
+    where: {
+      plate, stateId: parseInt(vehicleStatus.id),
+    },
+    raw: true,
+  });
+
   const vehicle = await db.Vehicle.findOne({
     where: {
-      plate, entranceDate,
+      plate,
     },
+    raw: true,
+  });
+
+  const vehicleTypes = await db.VehicleType.findAll({
+    raw: true,
   });
 
   if (!vehicle) {
     res.redirect('/vehicle/search');
   }
-  // newDate.locale('tr').format('LLLL')
-  const entrance = moment(vehicle.entranceDate);
-  const now = moment().tz('Europe/Istanbul');
-  const diff = now.diff(entrance, 'h');
 
+  const discountByRole = await db.Discount.findAll({
+    raw: true,
+  });
+
+  console.log('vehicles', vehicle);
+  console.log('discount', discountByRole);
+  // newDate.locale('tr').format('LLLL')
+  // const entrance = moment(vehicle.entranceParkingLotDate);
+  // const now = moment().tz('Europe/Istanbul');
+  // const diff = now.diff(entrance, 'h');
   return res.render('layouts/main', {
     partialName: 'outVehicle',
-    diff,
+    discountByRole,
+    towVehicle,
+    vehicle,
+    vehicleTypes,
   });
 };
