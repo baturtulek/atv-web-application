@@ -1,6 +1,7 @@
 /* eslint-disable radix */
 const httpStatus = require('http-status');
 const moment = require('moment');
+const sequelize = require('sequelize');
 const db = require('../config/db');
 const { RESPONSE_MESSAGE } = require('../messages');
 
@@ -97,10 +98,18 @@ exports.addVehicle = async (req, res) => {
         { stateId: vehicle.stateId, entranceParkingLotDate: date },
         { where: { stateId: parseInt(vehicleStatus.id), plate: vehicle.plate } },
       );
+      req.session.flashMessages = {
+        message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`,
+        type: 'success',
+      };
       // return the appropiate view that confirms vehicle has been added
       return res.redirect('/vehicle/add');
     }
   } catch (exception) {
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`,
+      type: 'danger',
+    };
     return res.redirect('/vehicle/add');
   }
 };
@@ -114,6 +123,7 @@ exports.searchVehicleView = (req, res) => {
 exports.searchVehicle = async (req, res) => {
   const { plate } = req.body;
   try {
+    const { Op } = sequelize;
     const vehicleStatus = await statusIdOtopark();
     const vehicles = await db.TowedVehicle.findAll({
       include: [
@@ -123,7 +133,10 @@ exports.searchVehicle = async (req, res) => {
         },
       ],
       where: {
-        plate, stateId: parseInt(vehicleStatus.id),
+        plate: {
+          [Op.like]: `%${plate}%`,
+        },
+        stateId: parseInt(vehicleStatus.id),
       },
       raw: true,
     });
@@ -148,46 +161,83 @@ exports.searchVehicle = async (req, res) => {
   }
 };
 
-exports.outVehicleView = async (req, res) => {
-  const { plate } = req.body;
-  const vehicleStatus = await statusIdOtopark();
-  const towVehicle = await db.TowedVehicle.findOne({
-    where: {
-      plate, stateId: parseInt(vehicleStatus.id),
-    },
-    raw: true,
-  });
+exports.exitVehicleView = async (req, res) => {
+  const { plate } = req.query;
+  try {
+    const vehicleStatus = await statusIdOtopark();
+    const towVehicle = await db.TowedVehicle.findOne({
+      where: {
+        plate, stateId: parseInt(vehicleStatus.id),
+      },
+      raw: true,
+    });
 
-  const vehicle = await db.Vehicle.findOne({
-    where: {
-      plate,
-    },
-    raw: true,
-  });
+    const vehicle = await db.Vehicle.findOne({
+      where: {
+        plate,
+      },
+      raw: true,
+    });
 
-  const vehicleTypes = await db.VehicleType.findAll({
-    raw: true,
-  });
+    const vehicleTypes = await db.VehicleType.findAll({
+      raw: true,
+    });
 
-  if (!vehicle) {
-    res.redirect('/vehicle/search');
+    if (!vehicle) {
+      return res.redirect('/vehicle/search');
+    }
+
+    const discountByRole = await db.Discount.findAll({
+      raw: true,
+    });
+    // newDate.locale('tr').format('LLLL')
+    // const entrance = moment(vehicle.entranceParkingLotDate);
+    // const now = moment().tz('Europe/Istanbul');
+    // const diff = now.diff(entrance, 'h');
+    return res.render('layouts/main', {
+      partialName: 'exitVehicle',
+      discountByRole,
+      towVehicle,
+      vehicle,
+      vehicleTypes,
+    });
+  } catch (err) {
+    return res.redirect('/vehicle/search');
   }
+};
 
-  const discountByRole = await db.Discount.findAll({
-    raw: true,
-  });
-
-  console.log('vehicles', vehicle);
-  console.log('discount', discountByRole);
-  // newDate.locale('tr').format('LLLL')
-  // const entrance = moment(vehicle.entranceParkingLotDate);
-  // const now = moment().tz('Europe/Istanbul');
-  // const diff = now.diff(entrance, 'h');
-  return res.render('layouts/main', {
-    partialName: 'outVehicle',
-    discountByRole,
-    towVehicle,
-    vehicle,
-    vehicleTypes,
-  });
+exports.exitVehicle = async (req, res) => {
+  const { plate } = req.body;
+  try {
+    const exitDate = moment().tz('Europe/Istanbul').format();
+    const vehicleStatusExit = await db.VehicleState.findOne({
+      where: {
+        description: 'Çıkış Yaptı',
+      },
+    });
+    const vehicleStatus = await statusIdOtopark();
+    await db.TowedVehicle.update(
+      {
+        stateId: parseInt(vehicleStatusExit.id),
+        exitParkingLotDate: exitDate,
+      },
+      {
+        where: {
+          plate, stateId: parseInt(vehicleStatus.id),
+        },
+        raw: true,
+      },
+    );
+    // newDate.locale('tr').format('LLLL')
+    // const entrance = moment(vehicle.entranceParkingLotDate);
+    // const now = moment().tz('Europe/Istanbul');
+    // const diff = now.diff(entrance, 'h');
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.EXIT_VEHICLE_SUCCESS}`,
+      type: 'success',
+    };
+    return res.redirect('/vehicle/search');
+  } catch (err) {
+    return res.redirect('/vehicle/search');
+  }
 };

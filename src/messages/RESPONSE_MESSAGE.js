@@ -13,4 +13,5 @@ exports.RESPONSE_MESSAGE = {
   INVALID_CREDENTIALS: 'Kullanıcı adı veya şifre hatalı!',
   INSUFFICIENT_USER_PRIVILEGES: 'Sistemi kullanmaya yetkiniz yok.',
   INTERNAL_ERROR: 'Sistem hatası.',
+  EXIT_VEHICLE_SUCCESS: 'çıkışı yapıldı',
 };

@@ -46,6 +46,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
+      exitParkingLotDate: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
     },
     {
       timestamps: false,

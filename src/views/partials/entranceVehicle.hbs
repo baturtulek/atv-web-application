@@ -9,11 +9,7 @@
           <label class="col-form-label">Plaka</label>
           <select class="browser-default custom-select" name="plate" id="plate" required>
             {{#each vehiclePlates}}
-              <option value="{{this.plate}}"
-                {{#ifEquals this.plate ../vehiclePlates.plate}}
-                selected
-                {{/ifEquals}}
-              >
+              <option value="{{this.plate}}" >
                 {{this.plate}}
               </option>
             {{/each}}
@@ -23,11 +19,7 @@
           <label class="col-form-label">Tip</label>
           <select class="browser-default custom-select" name="vehicleTypeId" id="vehicleTypeId" required>
             {{#each vehicleTypes}}
-              <option value="{{this.id}}"
-                {{#ifEquals this.id ../vehicleTypes.vehicleTypeId}}
-                selected
-                {{/ifEquals}}
-              >
+              <option value="{{this.id}}" >
                 {{this.name}}
               </option>
             {{/each}}
@@ -44,11 +36,7 @@
           <label class="col-form-label">Marka</label>
           <select class="browser-default custom-select" name="brandId" id="brandId" required>
             {{#each vehicleBrands}}
-              <option value="{{this.id}}"
-                {{#ifEquals this.id ../vehicleBrands.brandId}}
-                selected
-                {{/ifEquals}}
-              >
+              <option value="{{this.id}}" >
                 {{this.description}}
               </option>
             {{/each}}
@@ -62,11 +50,7 @@
           <label class="col-form-label">Kasa Tipi</label>
           <select class="browser-default custom-select" name="bodyTypeId" id="bodyTypeId" required>
             {{#each vehicleBodyTypes}}
-              <option value="{{this.id}}"
-                {{#ifEquals this.id ../vehicleBodyTypes.brandId}}
-                selected
-                {{/ifEquals}}
-              >
+              <option value="{{this.id}}" >
                 {{this.description}}
               </option>
             {{/each}}
@@ -79,11 +63,7 @@
           <label class="col-form-label">Renk</label>
           <select class="browser-default custom-select" name="colorId" id="colorId" required>
             {{#each vehicleColors}}
-              <option value="{{this.id}}"
-                {{#ifEquals this.id ../vehicleColors.colorId}}
-                selected
-                {{/ifEquals}}
-              >
+              <option value="{{this.id}}" >
                 {{this.description}}
               </option>
             {{/each}}
@@ -97,11 +77,7 @@
          <label class="col-form-label">Transfer Durumu</label>
           <select class="browser-default custom-select" name="stateId" id="stateId" required>
             {{#each vehicleStates}}
-              <option value="{{this.id}}"
-                {{#ifEquals this.id ../vehicleColors.stateId}}
-                selected
-                {{/ifEquals}}
-              >
+              <option value="{{this.id}}" >
                 {{this.description}}
               </option>
             {{/each}}

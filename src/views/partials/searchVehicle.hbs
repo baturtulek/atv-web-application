@@ -32,13 +32,9 @@
         <th class="column1">{{@index}}</th>
         <td class="column2">{{this.plate}}</td>
         <td class="column3">
-          <form method="POST", id="vehicle_out" action="/vehicle/out">
-            <input type="hidden" name="plate" value="{{this.plate}}"></input>
-            <input type="hidden" name="entranceDate" value="{{this.entranceDate}}"></input>
-            <a href="javascript:{}" onclick="document.getElementById('vehicle_out').submit();">
+            <a href="/vehicle/exit?plate={{this.plate}}">
               <i class="fa fa-pencil-square-o fa-m btn btn-primary" aria-hidden="true" ></i>
             </a>
-          </form>
         </td>
       </tr>
       {{/each}}

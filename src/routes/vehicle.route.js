@@ -12,9 +12,9 @@ const routes = (app) => {
     .post(vehicleController.searchVehicle);
 
   app
-    .route('/vehicle/out')
-    .get(vehicleController.outVehicleView)
-    .post(vehicleController.outVehicleView);
+    .route('/vehicle/exit')
+    .get(vehicleController.exitVehicleView)
+    .post(vehicleController.exitVehicle);
 };
 
 module.exports = routes;
