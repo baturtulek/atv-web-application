@@ -18,10 +18,40 @@
 
           {{> components/showMessage }}
 
-          <div>
-            <span style="width:48%; text-align:left;  display: inline-block;"><a class="small-text" href="#">Şifremi Unuttum</a></span>
-            <span style="width:50%; text-align:right;  display: inline-block;"><input type="submit" value="Giriş Yap"></span>
+          <div class="login-buttons-align">
+              <a class="small-text" data-toggle="modal" data-target="#forgotPassword">Şifremi Unuttum</a>
+              <input type="submit" value="Giriş Yap">
           </div>
+
+          <div class="modal" id="forgotPassword">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Yeni Şifre Talebi</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Kapat">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form method="post">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group">
+                          <span class="fa fa-envelope"></span>
+                          <input name="" class="form-control input-lg" placeholder="E-mail Adresiniz">
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light" data-dismiss="modal">İptal</button>
+                  <button type="button" class="btn btn-primary">Talep Et</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
         </fieldset>
       </form>
 

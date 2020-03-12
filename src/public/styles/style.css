@@ -61,41 +61,41 @@ p {
 
 #login, .logo {
   display: flex;
-  width:40%;
+  width: 40%;
 }
 
 #login {
-  border-right:1px solid #fff;
+  border-right: 1px solid #fff;
   width: 59%;
   justify-content: center;
 
 }
 
 .logo {
-  color:#fff;
-  font-size:50px;
+  color: #fff;
+  font-size: 50px;
   line-height: 125px;
   padding: 0 22px;
 }
 
 #login form span.fa {
   background-color: #fff;
-border-radius: 3px 0px 0px 3px;
-color: #000;
-display: block;
-float: left;
-height: 50px;
-font-size:24px;
-line-height: 50px;
-text-align: center;
-width: 50px;
+  border-radius: 3px 0px 0px 3px;
+  color: #000;
+  display: block;
+  float: left;
+  height: 50px;
+  font-size: 24px;
+  line-height: 50px;
+  text-align: center;
+  width: 50px;
 }
 
 #login form input {
   height: 50px;
 }
 
-#login form input[type="text"], 
+#login form input[type="text"],
 #login form input[type="password"] {
   background-color: #fff;
   border-radius: 0px 3px 3px 0px;
@@ -118,20 +118,8 @@ width: 50px;
   background-color: #d44179;
 }
 
-#login > p {
-  text-align: center;
-}
-
-#login > p span {
-  padding-left: 5px;
-}
-
 #login form span.fa {
   border-right: 1px solid #ccc;
-}
-
-.middle {
-  display: flex;
 }
 
 /* ---------- HEADER ---------- */
@@ -169,11 +157,27 @@ a.header-logo span {
   color: #FF6C60;
 }
 
+.login-buttons-align {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login-buttons-align a {
+  cursor: pointer;
+}
+
+.login-buttons-align a:hover {
+  color: mediumblue;
+  font-style: italic;
+  text-decoration: underline;
+}
+
 /* ---------- SIDEBAR ---------- */
 #sidebar {
   display: flex;
   flex-direction: column;
-  min-width: 230px;
+  min-width: 240px;
   height: calc(100vh - 60px);
   overflow: hidden;
   background-color: #2a3542;
@@ -217,7 +221,7 @@ a.header-logo span {
 
 .active,
 #sidebar ul li a:hover {
-  color: #FF6C60; 
+  color: #FF6C60;
   text-decoration: none;
 }
 
@@ -231,7 +235,7 @@ a.header-logo span {
   display: table;
 }
 
-#sidebar ul li a{
+#sidebar ul li a {
   color: white;
   padding: 10px 25px;
   display: block;
@@ -289,20 +293,24 @@ tr td .fa-trash {
   height: 100vh;
   text-align: center;
 }
+
 .errorContent {
   display: table-cell;
   vertical-align: middle;
 }
+
 .errorContent h1 {
   font-size: 70px;
   display: inline-block;
   padding-right: 12px;
   margin: 0;
 }
+
 .errorContent p {
   font-size: 20px;
   margin-bottom: 30px;
 }
+
 .errorContent a {
   font-size: 17px;
   color: deepskyblue;
