@@ -2,6 +2,7 @@ const moment = require('moment');
 const db = require('../config/db');
 const { comparePasswords } = require('../utils/authentication');
 const { RESPONSE_MESSAGE } = require('../messages');
+const { getRoleCompetencies } = require('../controllers/competency.controller');
 
 exports.loginView = (req, res) => {
   if (res.locals.session.user) {
@@ -20,7 +21,7 @@ exports.login = async (req, res) => {
     if (dbUser) {
       const isPasswordValid = await comparePasswords(credentials.password, dbUser.password);
       if (isPasswordValid) {
-        const userCompetencyList = await getUserCompetencies(dbUser.roleId);
+        const userCompetencyList = await getRoleCompetencies(dbUser.roleId);
         if (!dbUser.isActive || userCompetencyList.length === 0) {
           req.session.flashMessages = {
             message: RESPONSE_MESSAGE.INSUFFICIENT_USER_PRIVILEGES,
@@ -83,12 +84,4 @@ const updateUserLastLogin = (userId, ip) => {
 
 const getCurrentTimeStamp = () => {
   return moment().tz('Europe/Istanbul').format('YYYY-MM-DD HH:mm:ss');
-};
-
-const getUserCompetencies = async (roleId) => {
-  const userCompetencyList = await db.RoleCompetency.findAll({
-    where: { roleId },
-    raw: true,
-  });
-  return userCompetencyList;
 };

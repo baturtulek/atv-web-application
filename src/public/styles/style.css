@@ -177,7 +177,7 @@ a.header-logo span {
 #sidebar {
   display: flex;
   flex-direction: column;
-  min-width: 240px;
+  min-width: 250px;
   height: calc(100vh - 60px);
   overflow: hidden;
   background-color: #2a3542;

@@ -1,5 +1,4 @@
-/* eslint-disable no-undef,linebreak-style */
-require('dotenv').config();
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
 const compression = require('compression');
 const express = require('express');
 const session = require('express-session');

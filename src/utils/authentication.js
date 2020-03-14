@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { Routes } = require('../authorization/routes');
+const { mapRouteToCompetencyId } = require('../authorization/routes');
 
 const hashRounds = 10;
 
@@ -11,19 +11,40 @@ exports.validateUserAndNavigate = (req, res, next) => {
   return next();
 };
 
-exports.validateUserRole = (req, res, next) => {
-  if (req.path === '/' || req.path === '/login' || req.path === '/logout' || req.path === '/profile') {
+exports.validateUserRole = async (req, res, next) => {
+  const path = parseUrlPath(req);
+  if (isNonAuthorizedPath(path)) {
     return next();
   }
-  const path = req.path.slice(1).split('/')[0];
-  const pathId = Routes[path];
+  const competencyId = await mapRouteToCompetencyId(path);
   const { competencyList } = res.locals.session;
-  for (const element of competencyList) {
-    if (element.competencyNo == pathId) {
-      return next();
-    }
+  if (isUserAuthorized(competencyList, competencyId)) {
+    return next();
   }
   return res.redirect('/');
+};
+
+const parseUrlPath = (req) => {
+  return req.path.slice(1).split('/')[0];
+};
+
+const isNonAuthorizedPath = (path) => {
+  if (path == ''
+    || path == 'login'
+    || path == 'logout'
+    || path == 'profile') {
+    return true;
+  }
+  return false;
+};
+
+const isUserAuthorized = (userCompetencyList, competencyId) => {
+  for (const competency of userCompetencyList) {
+    if (competency.competencyNo === competencyId) {
+      return true;
+    }
+  }
+  return false;
 };
 
 exports.comparePasswords = async (plainPassword, hashedPassword) => {

@@ -1,109 +1,33 @@
-const httpStatus = require('http-status');
 const db = require('../config/db');
 
-exports.listCompetency = async (req, res) => {
-  try {
-    const competencies = await db.Competency.findAll({
-      raw: true,
-    });
-    if (competencies) {
-      return res.render('layouts/main', { partialName: 'listCompetencies', competencies });
-    }
-    return res.status(httpStatus.NOT_FOUND).json({
-      message: 'there is no record to show',
-    });
-  } catch (exception) {
-    console.log(exception);
+const competencyList = [];
+
+exports.getCompetencyList = async () => {
+  if (competencyList.length === 0) {
+    await this.loadAppCompetencyList();
   }
+  return competencyList;
 };
 
-exports.addCompetencyView = async (req, res) => {
-  return res.render('layouts/main', { partialName: 'addCompetency' });
-};
-exports.addCompetency = async (req, res) => {
-  const { description } = req.body;
-  try {
-    const found = await db.Competency.findOne({
-      where: {
-        description,
-      },
-      raw: true,
-    });
-
-    if (!found) {
-      const createdCompetency = await db.Competency.create({
-        description,
-      });
-      if (createdCompetency) {
-        const result = {
-          message: `Record has been added with the competency description = ${description}`,
-          success: true,
-        };
-        return res.status(httpStatus.CREATED).json(result); // return the appropiate view that confirms vehicle has been added
-      }
-    } else {
-      return res.status(httpStatus.CONFLICT).json({
-        message: `there is already a record with description = ${description}`,
-      });
-    }
-  } catch (err) {
-    console.log(err);
+exports.loadAppCompetencyList = async () => {
+  const appCompetencyList = await this.getAllCompetencies();
+  for (const competency of appCompetencyList) {
+    competencyList[competency.description] = competency.id;
   }
+  return competencyList;
 };
 
-exports.deleteCompetency = async (req, res) => {
-  const { description } = req.body;
-  const { id } = req.params;
+exports.getAllCompetencies = async () => {
+  const appCompetency = await db.Competency.findAll({
+    raw: true,
+  });
+  return appCompetency;
+};
 
-  if (description) {
-    try {
-      const found = await db.Competency.findOne({
-        where: {
-          description,
-        },
-      });
-      if (!found) {
-        return res.status(httpStatus.NOT_FOUND).json({
-          message: `competency not found with the description of ${description}`,
-        });
-      }
-      await db.Competency.destroy({
-        where: {
-          description,
-        },
-      });
-      return res.status(httpStatus.OK).json({
-        message: `competency deleted with the description of ${description}`,
-      });
-    } catch (ex) {
-      console.log(ex);
-    }
-  } else if (id) {
-    try {
-      const found = await db.Competency.findOne({
-        where: {
-          id,
-        },
-      });
-      if (!found) {
-        return res.status(httpStatus.NOT_FOUND).json({
-          message: `competency not found with the id of ${id}`,
-        });
-      }
-      await db.Competency.destroy({
-        where: {
-          id,
-        },
-      });
-      return res.status(httpStatus.OK).json({
-        message: `competency deleted with the description of ${id}`,
-      });
-    } catch (ex) {
-      console.log(ex);
-    }
-  } else {
-    return res.status(httpStatus.NOT_FOUND).json({
-      message: 'no such competency found with given parameter',
-    });
-  }
+exports.getRoleCompetencies = async (roleId) => {
+  const roleCompetencyList = await db.RoleCompetency.findAll({
+    where: { roleId },
+    raw: true,
+  });
+  return roleCompetencyList;
 };
