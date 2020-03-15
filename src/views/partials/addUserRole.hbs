@@ -1,5 +1,5 @@
-<div style="display: flex;flex-grow: 1;">
-  <div style="flex: 2; margin: 12px 24px;">
+<div class="partial-container">
+  <div class="form-container">
 
     {{> components/showMessage }}
 
@@ -41,11 +41,7 @@
 </div>
 
 <script>
-  $('#resetButton').on('click', function () {
-    $('#name').val('');
-    $('#address').val('');
-    $('#description').val('');
-    $('#staffId').prop('selectedIndex', 0);
-    $('#parkingTypeId').prop('selectedIndex', 0);
+  $('#resetButton').on('click', () => {
+    $("[type='checkbox']").prop('checked',false);
   });
 </script>

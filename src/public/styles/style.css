@@ -1,12 +1,9 @@
 html {
   height: 100%;
   background-color: #ccc;
-  margin: 0px auto;
 }
 
 @font-face {
-  height: 100%;
-
   font-family: GothamNarrowBook;
   src: url(public/fonts/GothamNarrow-Book.otf);
 }
@@ -31,7 +28,6 @@ input {
   font-size: 14px;
   line-height: 1.5em;
   padding: 0;
-  -webkit-appearance: none;
 }
 
 input[type="text"]:disabled {
@@ -51,6 +47,13 @@ p {
 
 .col-form-label {
   font-size: 16px;
+}
+
+.partial-container {
+  display: flex;
+  flex-grow: 1;
+  height: calc(100vh - 60px);
+  overflow: auto;
 }
 
 /* ---------- LOGIN ---------- */
@@ -268,6 +271,10 @@ a.header-logo span {
   grid-template-columns: 15% 25% 15% 25%;
   grid-row-gap: 24px;
   grid-column-gap: 32px;
+}
+
+.pl-2 {
+  color: #6D6D6D;
 }
 
 /* ---------- TABLE ---------- */
