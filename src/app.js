@@ -8,7 +8,7 @@ const hbs = require('express-handlebars');
 const morgan = require('morgan');
 const db = require('./config/db');
 const hbsHelpers = require('./utils/hbsHelpers');
-const { validateUserAndNavigate, validateUserRole } = require('./utils/authentication');
+const { validateUserSession, validateUserRole } = require('./utils/authentication');
 
 const app = express();
 
@@ -62,7 +62,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(validateUserAndNavigate);
+app.use(validateUserSession);
 app.use(validateUserRole);
 
 require('./routes')(app);

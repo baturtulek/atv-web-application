@@ -20,7 +20,7 @@ exports.profileView = async (req, res) => {
 };
 
 exports.updateProfileInfo = async (req, res) => {
-  const { username } = res.locals.session.user;
+  const { id } = res.locals.session.user;
   const user = req.body;
   try {
     await db.User.update(
@@ -28,26 +28,20 @@ exports.updateProfileInfo = async (req, res) => {
         name: user.name,
         surname: user.surname,
         email: user.email,
-        phoneNumber: user.phoneNumber,
-        address: user.address,
+        phoneNumber: getNullableInput(user.phoneNumber),
+        address: getNullableInput(user.address),
       },
       {
-        where: { username },
+        where: { id },
         raw: true,
       },
     );
-    const updatedUser = await getUserData(username);
+    const updatedUser = await getUserData(id);
     req.session.user = updatedUser;
-    req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`,
-      type: 'success',
-    };
+    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`, type: 'success' };
     return res.redirect('/profile');
   } catch (error) {
-    req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
-      type: 'danger',
-    };
+    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`, type: 'danger' };
     return res.redirect('/profile');
   }
 };
@@ -58,17 +52,11 @@ exports.updateProfilePassword = async (req, res) => {
   try {
     const result = await authentication.comparePasswords(user.currentPassword, password);
     if (!result) {
-      req.session.flashMessages = {
-        message: `${RESPONSE_MESSAGE.OLD_PASSWORD_INVALID}`,
-        type: 'danger',
-      };
+      req.session.flashMessages = { message: `${RESPONSE_MESSAGE.OLD_PASSWORD_INVALID}`, type: 'danger' };
       return res.redirect('/profile');
     }
     if (user.newpassword1 !== user.newpassword2) {
-      req.session.flashMessages = {
-        message: `${RESPONSE_MESSAGE.NEW_PASSWORDS_NOT_MATCHES}`,
-        type: 'danger',
-      };
+      req.session.flashMessages = { message: `${RESPONSE_MESSAGE.NEW_PASSWORDS_NOT_MATCHES}`, type: 'danger' };
       return res.redirect('/profile');
     }
     const hashedPassword = await authentication.hashPassword(user.newpassword1);
@@ -83,24 +71,25 @@ exports.updateProfilePassword = async (req, res) => {
     );
     const updatedUser = await getUserData(username);
     req.session.user = updatedUser;
-    req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`,
-      type: 'success',
-    };
+    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`, type: 'success' };
     return res.redirect('/profile');
   } catch (error) {
-    req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
-      type: 'danger',
-    };
+    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`, type: 'danger' };
     return res.redirect('/profile');
   }
 };
 
-const getUserData = async (username) => {
+const getUserData = async (id) => {
   const user = await db.User.findOne({
-    where: { username },
+    where: { id },
     raw: true,
   });
   return user;
+};
+
+const getNullableInput = (input) => {
+  if (input === '' || input === undefined) {
+    return null;
+  }
+  return input;
 };

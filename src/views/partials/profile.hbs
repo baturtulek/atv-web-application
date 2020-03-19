@@ -20,12 +20,16 @@
       <div class="form-inside-container">
         <label class="col-form-label">Adı</label>
         <input type="text" class="form-control" name="name" id="name" value="{{user.name}}">
+
         <label class="col-form-label">Soyadı</label>
         <input type="text" class="form-control" name="surname" id="surname" value="{{user.surname}}">
+
         <label class="col-form-label">E-Mail</label>
         <input type="text" class="form-control" name="email" id="email" value="{{user.email}}">
+
         <label class="col-form-label">Telefon Numarası</label>
         <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" value="{{user.phoneNumber}}">
+
         <label class="col-form-label">Adres</label>
         <input type="text" class="form-control" name="address" id="address" value="{{user.address}}">
       </div>
@@ -41,15 +45,15 @@
       <h3 class="pl-2">Parola</h3>
       <hr>
       <div class="form-inside-container">
-        <label class="col-form-label">Geçerli Parola</label>
+        <label class="col-form-label">Geçerli Şifre</label>
         <input type="password" class="form-control" name="currentPassword" id="currentPassword" required
           oninvalid="this.setCustomValidity('Lütfen şifrenizi girin.')"
           oninput="setCustomValidity('')">
-        <label class="col-form-label">Yeni Parola</label>
+        <label class="col-form-label">Yeni Şifre</label>
         <input type="password" class="form-control" name="newpassword1" id="newpassword1" required
           oninvalid="this.setCustomValidity('Lütfen yeni şifrenizi girin.')"
           oninput="setCustomValidity('')">
-        <label class="col-form-label">Yeni Parola (Tekrar)</label>
+        <label class="col-form-label">Yeni Şifre (Tekrar)</label>
         <input type="password" class="form-control" name="newpassword2" id="newpassword2" required
           oninvalid="this.setCustomValidity('Lütfen yeni şifrenizi tekrar girin.')"
           oninput="setCustomValidity('')">

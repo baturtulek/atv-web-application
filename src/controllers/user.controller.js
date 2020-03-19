@@ -52,19 +52,16 @@ exports.addUser = async (req, res) => {
       name: user.name,
       surname: user.surname,
       username: user.username,
-      email: user.email,
       roleId: user.roleId,
-      phoneNumber: getNullableInput(user.phoneNumber),
       password: hashedPassword,
+      email: getNullableInput(user.email),
+      phoneNumber: getNullableInput(user.phoneNumber),
       isActive: getCheckboxStatus(user.isActive),
     });
     req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`, type: 'success' };
     return res.redirect('/user/add');
   } catch (error) {
-    req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`,
-      type: 'danger',
-    };
+    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`, type: 'danger' };
     return res.redirect('/user/add');
   }
 };
@@ -116,8 +113,8 @@ const createUserObject = async (user) => {
   const updatedUser = {
     name: user.name,
     surname: user.surname,
-    email: user.email,
     roleId: user.roleId,
+    email: getNullableInput(user.email),
     phoneNumber: getNullableInput(user.phoneNumber),
     address: getNullableInput(user.address),
     isActive: getCheckboxStatus(user.isActive),

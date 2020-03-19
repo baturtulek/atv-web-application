@@ -13,7 +13,7 @@ exports.hashPassword = async (password) => {
   return hashedPassword;
 };
 
-exports.validateUserAndNavigate = (req, res, next) => {
+exports.validateUserSession = (req, res, next) => {
   if (req.path === '/login') return next();
   if (!req.session.user) {
     return res.redirect('/login');

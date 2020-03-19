@@ -1,16 +1,18 @@
 <div class="partial-container">
   <div class="form-container">
-
     {{> components/showMessage }}
-
     <form class="border border-light" id='form' action="/user/{{endPoint}}" method="POST">
       <div class="form-inside-container">
         <input type="hidden" name="id" value="{{user.id}}">
 
         <label class="col-form-label">Kullanıcı Adı</label>
-        <input type="text" class="form-control" name="username" id="username" placeholder="" value="{{user.username}}"
-          required oninvalid="this.setCustomValidity('Lütfen kullanıcı adınızı girin.')" oninput="setCustomValidity('')"
-          {{#ifEquals endPoint "update"}} disabled {{/ifEquals}}>
+        <input type="text" class="form-control" name="username" id="username" value="{{user.username}}" required
+          oninvalid="this.setCustomValidity('Lütfen kullanıcı adını girin.')" oninput="setCustomValidity('')"
+          {{#ifEquals endPoint "update"}} 
+          disabled 
+          {{/ifEquals}}
+          >
+
         <label class="col-form-label">Profil</label>
         <select class="browser-default custom-select" name="roleId" id="roleId">
           {{#each userRole}}
@@ -21,26 +23,27 @@
         </select>
 
         <label class="col-form-label">Adı</label>
-        <input type="text" class="form-control" name="name" id="name" placeholder="" value="{{user.name}}" required
-          oninvalid="this.setCustomValidity('Lütfen adınızı girin.')" oninput="setCustomValidity('')">
+        <input type="text" class="form-control" name="name" id="name" value="{{user.name}}" required
+          oninvalid="this.setCustomValidity('Lütfen adını girin.')" oninput="setCustomValidity('')">
 
         <label class="col-form-label">Email</label>
-        <input type="text" class="form-control" name="email" id="email" placeholder="" value="{{user.email}}">
+        <input type="text" class="form-control" name="email" id="email" value="{{user.email}}" required
+        oninvalid="this.setCustomValidity('Lütfen mail adresini girin.')" oninput="setCustomValidity('')">
 
         <label class="col-form-label">Soyadı</label>
-        <input type="text" class="form-control" name="surname" id="surname" placeholder="" value="{{user.surname}}"
-          required oninvalid="this.setCustomValidity('Lütfen soyadınızı girin.')" oninput="setCustomValidity('')">
+        <input type="text" class="form-control" name="surname" id="surname" value="{{user.surname}}" required 
+        oninvalid="this.setCustomValidity('Lütfen soyadını girin.')" oninput="setCustomValidity('')">
 
         <label class="col-form-label">Telefon Numarası</label>
-        <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder=""
-          value="{{user.phoneNumber}}">
+        <input type="tel" class="form-control" name="phoneNumber" id="phoneNumber" value="{{user.phoneNumber}}">
 
         <label class="col-form-label">Adres</label>
-        <input type="text" class="form-control" name="address" id="address" placeholder="" value="{{user.address}}">
+        <input type="text" class="form-control" name="address" id="address" value="{{user.address}}">
 
         <label class="col-form-label">Şifre</label>
         <div class="input-group">
-          <input type="password" class="form-control" name="password" id="password" value="{{user.password}}"
+          <input type="password" class="form-control" name="password" id="password" value="{{user.password}}" required
+          oninvalid="this.setCustomValidity('Lütfen şifreyi girin.')" oninput="setCustomValidity('')"
             {{#ifEquals "update" endPoint}}
               disabled
             {{/ifEquals}}
@@ -85,6 +88,7 @@
 </div>
 
 <script>
+   let password = $("#password").val();
   $('#resetButton').on('click', function () {
     $('#name').val('');
     $('#surname').val('');
@@ -97,9 +101,11 @@
   });
   $('#isPasswordActive').change(function() {
     if(this.checked) {
+      $('#password').val('');
       $("#password").prop('disabled', false);
     } else {
-      $("#password").prop('disabled', true);
+      $('#password').val(password);
+      $("#password").prop('disabled', true); 
     }
   });
 </script>

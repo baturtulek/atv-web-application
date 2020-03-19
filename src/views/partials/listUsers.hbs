@@ -5,10 +5,9 @@
 
     <thead>
     <tr>
-      <th scope="col">Id</th>
+      <th scope="col">Kullancı Adı</th>
       <th scope="col">Adı</th>
       <th scope="col">Soyadı</th>
-      <th scope="col">Kullancı Adı</th>
       <th scope="col">Mail</th>
       <th scope="col">Profil</th>
       <th scope="col"></th>
@@ -17,10 +16,9 @@
     <tbody>
     {{#each userList}}
       <tr class="">
-        <td class="column1"> {{this.id}}</td>
-        <td class="column4"> {{this.username}} </td>
-        <td class="column2"> {{this.name}} </td>
-        <td class="column3"> {{this.surname}} </td>
+        <td class="column2"> {{this.username}} </td>
+        <td class="column3"> {{this.name}} </td>
+        <td class="column4"> {{this.surname}} </td>
         <td class="column5"> {{this.email}}</td>
         <td class="column6"> {{this.[USER_ROLE.role]}}</td>
         <td class="column7" style="text-align:center; width:85px;">
