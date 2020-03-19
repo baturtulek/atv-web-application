@@ -30,7 +30,7 @@ exports.login = async (req, res) => {
           return res.redirect('/login');
         }
         req.session.user = dbUser;
-        req.session.competencyList = userCompetencyList;
+        req.session.userCompetencyList = userCompetencyList;
         updateUserLastLogin(dbUser.id, clientIpAddress);
         return res.redirect('/');
       }

@@ -1,7 +1,17 @@
 const bcrypt = require('bcrypt');
-const { mapRouteToCompetencyId } = require('../authorization/routes');
+const { getRouteCompetencyId } = require('./ROUTE_COMPETENCY');
 
 const hashRounds = 10;
+
+exports.comparePasswords = async (plainPassword, hashedPassword) => {
+  const result = await bcrypt.compare(plainPassword, hashedPassword);
+  return result;
+};
+
+exports.hashPassword = async (password) => {
+  const hashedPassword = await bcrypt.hash(password, hashRounds);
+  return hashedPassword;
+};
 
 exports.validateUserAndNavigate = (req, res, next) => {
   if (req.path === '/login') return next();
@@ -12,23 +22,23 @@ exports.validateUserAndNavigate = (req, res, next) => {
 };
 
 exports.validateUserRole = async (req, res, next) => {
-  const path = parseUrlPath(req);
-  if (isNonAuthorizedPath(path)) {
+  const { userCompetencyList } = res.locals.session;
+  const route = parseUrl(req);
+  if (isNonAuthorizedRoute(route)) {
     return next();
   }
-  const competencyId = await mapRouteToCompetencyId(path);
-  const { competencyList } = res.locals.session;
-  if (isUserAuthorized(competencyList, competencyId)) {
+  const routeCompetencyId = await getRouteCompetencyId(route);
+  if (isUserAuthorized(userCompetencyList, routeCompetencyId)) {
     return next();
   }
   return res.redirect('/');
 };
 
-const parseUrlPath = (req) => {
+const parseUrl = (req) => {
   return req.path.slice(1).split('/')[0];
 };
 
-const isNonAuthorizedPath = (path) => {
+const isNonAuthorizedRoute = (path) => {
   if (path == ''
     || path == 'login'
     || path == 'logout'
@@ -38,21 +48,11 @@ const isNonAuthorizedPath = (path) => {
   return false;
 };
 
-const isUserAuthorized = (userCompetencyList, competencyId) => {
+const isUserAuthorized = (userCompetencyList, routeCompetencyId) => {
   for (const competency of userCompetencyList) {
-    if (competency.competencyNo === competencyId) {
+    if (competency.competencyNo === routeCompetencyId) {
       return true;
     }
   }
   return false;
-};
-
-exports.comparePasswords = async (plainPassword, hashedPassword) => {
-  const result = await bcrypt.compare(plainPassword, hashedPassword);
-  return result;
-};
-
-exports.hashPassword = async (password) => {
-  const hashedPassword = await bcrypt.hash(password, hashRounds);
-  return hashedPassword;
 };

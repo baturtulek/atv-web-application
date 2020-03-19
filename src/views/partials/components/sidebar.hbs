@@ -2,7 +2,7 @@
   <ul class="nav navbar-nav nav-collapse">
 
     <!-- Atestaş -->
-  {{#isUserCompetencyIncludes competencyList.ATESTAS session.competencyList}}
+  {{#isUserCompetencyIncludes competencyList.ATESTAS session.userCompetencyList}}
     <li class="panel panel-default" id="dropdown">
       <a data-toggle="collapse" href="#atestas">
         <i class="fa fa-angle-right"></i> Atestaş
@@ -11,7 +11,7 @@
         <div class="panel-body">
           <ul class="nav navbar-nav">
 
-            {{#isUserCompetencyIncludes ../competencyList.ARAC_GIRIS_CIKIS_ISLEMLERI ../session.competencyList}}
+            {{#isUserCompetencyIncludes ../competencyList.ARAC_GIRIS_CIKIS_ISLEMLERI ../session.userCompetencyList}}
             <li class="panel panel-default" id="dropdown">
               <a data-toggle="collapse" href="#vehicleOperations">
                 <i class="fa fa-angle-right"></i> Araç Giriş/Çıkış İşlemleri
@@ -26,7 +26,7 @@
               </div>
             </li>
             {{/isUserCompetencyIncludes}}
-            {{#isUserCompetencyIncludes ../competencyList.OTOPARK_ISLEMLERI ../session.competencyList}}
+            {{#isUserCompetencyIncludes ../competencyList.OTOPARK_ISLEMLERI ../session.userCompetencyList}}
             <li class="panel panel-default" id="dropdown">
               <a data-toggle="collapse" href="#parkingLotOperations">
                 <i class="fa fa-angle-right"></i> Otopark İşlemleri
@@ -41,7 +41,7 @@
               </div>
             </li>
             {{/isUserCompetencyIncludes}}
-            {{#isUserCompetencyIncludes ../competencyList.ARAC_TIPI_ISLEMLERI ../session.competencyList}}
+            {{#isUserCompetencyIncludes ../competencyList.ARAC_TIPI_ISLEMLERI ../session.userCompetencyList}}
             <li class="panel panel-default" id="dropdown">
               <a data-toggle="collapse" href="#carTypeOperations">
                 <i class="fa fa-angle-right"></i> Araç Tipi İşlemleri
@@ -56,7 +56,7 @@
               </div>
             </li>
             {{/isUserCompetencyIncludes}}
-            {{#isUserCompetencyIncludes ../competencyList.ICRA_KURUMU_TURLERI_ISLEMLERI ../session.competencyList}}
+            {{#isUserCompetencyIncludes ../competencyList.ICRA_KURUMU_TURLERI_ISLEMLERI ../session.userCompetencyList}}
             <li class="panel panel-default" id="dropdown">
               <a data-toggle="collapse" href="#enforcementoffice">
                 <i class="fa fa-angle-right"></i> İcra Kurumu İşlemleri
@@ -71,7 +71,7 @@
               </div>
             </li>
             {{/isUserCompetencyIncludes}}
-            {{#isUserCompetencyIncludes ../competencyList.INDIRIM_ISLEMLERI ../session.competencyList}}
+            {{#isUserCompetencyIncludes ../competencyList.INDIRIM_ISLEMLERI ../session.userCompetencyList}}
             <li class="panel panel-default" id="dropdown">
               <a data-toggle="collapse" href="#discount">
                 <i class="fa fa-angle-right"></i> İndirim İşlemleri
@@ -92,7 +92,7 @@
     </li>
   {{/isUserCompetencyIncludes}}
 
-  {{#isUserCompetencyIncludes competencyList.RAPORLAR session.competencyList}}
+  {{#isUserCompetencyIncludes competencyList.RAPORLAR session.userCompetencyList}}
     <!-- Raporlar -->
     <li class="panel panel-default" id="dropdown">
       <a data-toggle="collapse" href="#reports">
@@ -101,7 +101,7 @@
     </li>
   {{/isUserCompetencyIncludes}}
 
-  {{#isUserCompetencyIncludes competencyList.TEKNIK_YONETIM session.competencyList}}
+  {{#isUserCompetencyIncludes competencyList.TEKNIK_YONETIM session.userCompetencyList}}
     <!-- Teknik Yönetim -->
     <li class="panel panel-default" id="dropdown">
       <a data-toggle="collapse" href="#technicalManagement">
@@ -112,7 +112,7 @@
         <div class="panel-body">
           <ul class="nav navbar-nav">
 
-            {{#isUserCompetencyIncludes ../competencyList.PERSONEL_ISLEMLERI ../session.competencyList}}
+            {{#isUserCompetencyIncludes ../competencyList.PERSONEL_ISLEMLERI ../session.userCompetencyList}}
             <li class="panel panel-default" id="dropdown">
               <a data-toggle="collapse" href="#userOperations">
                 <i class="fa fa-angle-right"></i> Personel İşlemleri
@@ -127,7 +127,7 @@
               </div>
             </li>
             {{/isUserCompetencyIncludes}}
-            {{#isUserCompetencyIncludes ../competencyList.PROFIL_ISLEMLERI ../session.competencyList}}
+            {{#isUserCompetencyIncludes ../competencyList.PROFIL_ISLEMLERI ../session.userCompetencyList}}
             <li class="panel panel-default" id="dropdown">
               <a data-toggle="collapse" href="#roleOperations">
                 <i class="fa fa-angle-right"></i> Profil İşlemleri

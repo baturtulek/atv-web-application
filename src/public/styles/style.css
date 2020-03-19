@@ -30,8 +30,9 @@ input {
   padding: 0;
 }
 
-input[type="text"]:disabled {
+input:disabled {
   cursor: not-allowed;
+  background-color:#DBDBDB
 }
 
 p {
@@ -339,7 +340,7 @@ tr td .fa-trash {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ca2222;
+  background-color: #6D6D6D;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -365,11 +366,15 @@ tr td .fa-trash {
 }
 
 input:checked + .slider {
-  background-color: #2ab934;
+  background-color: #41cac0;
 }
 
 input:checked + .slider:before {
   -webkit-transform: translateX(30px);
   -ms-transform: translateX(30px);
   transform: translateX(30px);
+}
+
+.input-group-append span{ 
+  background-color:#DBDBDB;
 }

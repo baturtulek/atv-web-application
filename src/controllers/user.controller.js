@@ -55,7 +55,7 @@ exports.addUser = async (req, res) => {
       email: user.email,
       roleId: user.roleId,
       password: hashedPassword,
-      isActive: user.isActive == undefined ? 0 : 1,
+      isActive: getCheckboxStatus(user.isActive),
     });
     req.session.flashMessages = {
       message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`,
@@ -98,33 +98,48 @@ exports.updateUserView = async (req, res) => {
 exports.updateUser = async (req, res) => {
   const user = req.body;
   try {
-    await db.User.update(
-      {
-        name: user.name,
-        surname: user.surname,
-        email: user.email,
-        roleId: user.roleId,
-        phoneNumber: user.phoneNumber == '' ? null : user.phoneNumber,
-        address: user.address,
-        isActive: user.isActive == undefined ? 0 : 1,
-      },
+    const updatedUserObject = await createUserObject(user);
+    await db.User.update(updatedUserObject,
       {
         where: {
           id: user.id,
         },
         raw: true,
-      },
-    );
-    req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`,
-      type: 'success',
-    };
+      });
+    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`, type: 'success' };
     return res.redirect(`/user/update/${user.id}`);
   } catch (error) {
-    req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
-      type: 'danger',
-    };
+    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`, type: 'danger' };
     return res.redirect(`/user/update/${user.id}`);
   }
+};
+
+const createUserObject = async (user) => {
+  const updatedUser = {
+    name: user.name,
+    surname: user.surname,
+    email: user.email,
+    roleId: user.roleId,
+    phoneNumber: getNullableFromInput(user.phoneNumber),
+    address: getNullableFromInput(user.address),
+    isActive: getCheckboxStatus(user.isActive),
+  };
+  if (getCheckboxStatus(user.isPasswordActive)) {
+    updatedUser.password = await authentication.hashPassword(user.password);
+  }
+  return updatedUser;
+};
+
+const getNullableFromInput = (input) => {
+  if (input === '' || input === undefined) {
+    return null;
+  }
+  return input;
+};
+
+const getCheckboxStatus = (input) => {
+  if (input == undefined) {
+    return false;
+  }
+  return true;
 };

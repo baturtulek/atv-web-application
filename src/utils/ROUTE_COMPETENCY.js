@@ -1,9 +1,9 @@
 /* eslint-disable default-case */
 const { getCompetencyList } = require('../controllers/competency.controller');
 
-exports.mapRouteToCompetencyId = async (path) => {
+exports.getRouteCompetencyId = async (route) => {
   const competencyList = await getCompetencyList();
-  switch (path) {
+  switch (route) {
     case 'vehicle':
       return competencyList.ARAC_GIRIS_CIKIS_ISLEMLERI;
     case 'parkinglot':
