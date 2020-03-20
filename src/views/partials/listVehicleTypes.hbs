@@ -1,5 +1,8 @@
 <div class="table-container">
-
+  <header class="form-navigation">
+    <a href="/vehicletype/add"><i class="fas fa-plus"></i> Ekle</a>
+    <span>Araç Tipi İşlemleri</span>
+  </header>
   {{> components/showMessage }}
 
   <table class="table table-striped">
@@ -19,10 +22,10 @@
         <td class="column3">{{this.description}}</td>
         <td class="column4" style="text-align:center; width:85px;">
           <a href="/vehicletype/update/{{this.id}}">
-            <i class="fa fa-pencil-square-o fa-m btn btn-primary" aria-hidden="true" ></i>
+            <i class="far fa-edit fa-sm btn btn-success" aria-hidden="true" ></i>
           </a>
           <a href="/vehicletype/delete/{{this.id}}" onclick="return confirm('Silmek istediğinize emin misiniz ?');">
-            <i class="fa fa-trash fa-m btn btn-danger" aria-hidden="true"></i>
+            <i class="fas fa-trash fa-sm btn btn-danger" aria-hidden="true"></i>
           </a>
         </td>
       </tr>

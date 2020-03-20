@@ -1,4 +1,8 @@
 <div class="table-container">
+  <header class="form-navigation">
+    <a href="/parkinglot/add"><i class="fas fa-plus"></i> Ekle</a>
+    <span>Otopark İşlemleri</span>
+  </header>
   <table class="table table-striped">
   
     {{> components/showMessage }}
@@ -25,10 +29,10 @@
         <td class="column6"> {{this.[USER.name]}}  {{this.[USER.surname]}}</td>
         <td class="column7" style="text-align:center; width:85px;">
           <a href="/parkinglot/update/{{this.id}}">
-            <i class="fa fa-pencil-square-o fa-m btn btn-success" aria-hidden="true" ></i>
+            <i class="far fa-edit fa-sm btn btn-success" aria-hidden="true" ></i>
           </a>
           <a href="/parkinglot/delete/{{this.id}}" onclick="return confirm('Silmek istediğinize emin misiniz ?');">
-            <i class="fa fa-trash fa-m btn btn-danger" aria-hidden="true"></i>
+            <i class="fas fa-trash fa-sm btn btn-danger" aria-hidden="true"></i>
           </a>
         </td>
       </tr>

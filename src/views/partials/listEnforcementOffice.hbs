@@ -1,6 +1,9 @@
 <div class="table-container">
   <table class="table table-striped">
-
+    <header class="form-navigation">
+      <a href="/enforcementoffice/add"><i class="fas fa-plus"></i> Ekle</a>
+      <span>İcra Kurumu İşlemleri</span>
+    </header>
     {{> components/showMessage }}
 
     <thead>
@@ -19,10 +22,10 @@
         <td class="column3"> {{this.description}} </td>
         <td class="column4" style="text-align:center; width:85px;">
           <a href="/enforcementoffice/update/{{this.id}}">
-            <i class="fa fa-pencil-square-o fa-m btn btn-success" aria-hidden="true" ></i>
+            <i class="far fa-edit fa-sm btn btn-success" aria-hidden="true" ></i>
           </a>
           <a href="/enforcementoffice/delete/{{this.id}}" onclick="return confirm('Silmek istediğinize emin misiniz ?');">
-            <i class="fa fa-trash fa-m btn btn-danger" aria-hidden="true"></i>
+            <i class="fas fa-trash fa-sm btn btn-danger" aria-hidden="true"></i>
           </a>
         </td>
       </tr>

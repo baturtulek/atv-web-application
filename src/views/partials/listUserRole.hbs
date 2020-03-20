@@ -1,6 +1,9 @@
 <div class="table-container">
   <table class="table table-striped">
-
+    <header class="form-navigation">
+      <a href="/role/add"><i class="fas fa-plus"></i> Ekle</a>
+      <span>Profil İşlemleri</span>
+    </header>
     {{> components/showMessage }}
 
     <thead>
@@ -17,10 +20,10 @@
         <td class="column2"> {{this.role}} </td>
         <td class="column3" style="text-align:center; width:85px;">
           <a href="/role/update/{{this.id}}">
-            <i class="fa fa-pencil-square-o fa-m btn btn-success" aria-hidden="true" ></i>
+            <i class="far fa-edit fa-sm btn btn-success" aria-hidden="true" ></i>
           </a>
           <a href="/role/delete/{{this.id}}" onclick="return confirm('Silmek istediğinize emin misiniz ?');">
-            <i class="fa fa-trash fa-m btn btn-danger" aria-hidden="true"></i>
+            <i class="fas fa-trash fa-sm btn btn-danger" aria-hidden="true"></i>
           </a>
         </td>
       </tr>

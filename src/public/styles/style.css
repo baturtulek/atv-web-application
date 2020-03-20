@@ -13,15 +13,6 @@ body {
   margin: 0;
 }
 
-a {
-  color: #eee;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
 input {
   border: none;
   font-family: 'Open Sans', Arial, sans-serif;
@@ -266,6 +257,10 @@ a.header-logo span {
   margin: 12px 16px;
 }
 
+.form-container form {
+  padding-top: 8px;
+}
+
 .form-inside-container {
   padding: 24px;
   display: grid;
@@ -278,6 +273,36 @@ a.header-logo span {
   color: #6D6D6D;
 }
 
+.form-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 42px;
+  padding: 4px 12px 2px 12px;
+  background-color: #17a2b8;
+  border-radius: 8px 8px 0 0;
+}
+
+.form-navigation a {
+  color: white;
+  font-size: 16px;
+  margin-right: 3px;
+}
+
+.form-navigation a:hover {
+  text-decoration: none;
+}
+
+.form-navigation i {
+  margin-right: 3px;
+}
+
+.form-navigation span {
+  color: white;
+  font-size: 18px;
+  letter-spacing: 0.05em;
+}
+
 /* ---------- TABLE ---------- */
 
 .table-container {
@@ -285,11 +310,9 @@ a.header-logo span {
   margin: 12px 16px;
 }
 
-tr td .fa-pencil-square-o,
-tr td .fa-trash {
-  font-size: 12px;
+#DataTables_Table_0_wrapper {
+  margin-top: 12px;
 }
-
 /* ---------- 404 Page ---------- */
 
 .error {

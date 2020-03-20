@@ -1,6 +1,9 @@
 <div class="partial-container">
   <div class="form-container">
-  
+    <header class="form-navigation">
+      <a href="/vehicle/search"><i class="fas fa-search"></i> Ara</a>
+      <span>Araç Giriş/Çıkış İşlemleri</span>
+    </header>
     {{> components/showMessage }}
 
     <form class="border border-light" action="" method="POST">
@@ -90,8 +93,8 @@
 
         </div>
         <div class="col-auto grid-button-group">
-          <button type="button" class="btn-info"><i class="fa fa-refresh"></i>Sıfırla</button>
-          <button type="button submit" class="btn-success"><i class="fa fa-save"></i>Ekle</button>
+          <button type="button" class="btn-info"><i class="fas fa-sync-alt"></i>Sıfırla</button>
+          <button type="button submit" class="btn-success"><i class="fas fa-save"></i>Ekle</button>
         </div>
       </div>
     </form>

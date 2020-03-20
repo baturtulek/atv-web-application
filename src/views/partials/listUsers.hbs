@@ -1,6 +1,9 @@
 <div class="table-container">
   <table class="table table-striped">
-
+    <header class="form-navigation">
+      <a href="/user/add"><i class="fas fa-plus"></i> Ekle</a>
+      <span>Personal İşlemleri</span>
+    </header>
     {{> components/showMessage }}
 
     <thead>
@@ -23,7 +26,7 @@
         <td class="column6"> {{this.[USER_ROLE.role]}}</td>
         <td class="column7" style="text-align:center; width:85px;">
           <a href="/user/update/{{this.id}}">
-            <i class="fa fa-pencil-square-o fa-m btn btn-success" aria-hidden="true" ></i>
+            <i class="far fa-edit fa-sm btn btn-success" aria-hidden="true" ></i>
           </a>
         </td>
       </tr>

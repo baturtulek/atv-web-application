@@ -1,6 +1,9 @@
 <div class="partial-container">
   <div class="form-container">
-
+    <header class="form-navigation">
+      <a href="/vehicletype/list"><i class="fa fa-list"></i> Listele</a>
+      <span>Araç Tipi İşlemleri</span>
+    </header>
     {{> components/showMessage }}
 
     <form class="border border-light" action="/vehicletype/{{endPoint}}/{{vehicleType.id}}" method="POST">
@@ -21,8 +24,8 @@
 
         </div>
         <div class="col-auto grid-button-group">
-          <button type="button" class="btn-info"><i class="fa fa-refresh"></i>Sıfırla</button>
-          <button type="button submit" class="btn-success"><i class="fa fa-save"></i>
+          <button type="button" class="btn-info"><i class="fas fa-sync-alt"></i>Sıfırla</button>
+          <button type="button submit" class="btn-success"><i class="fas fa-save"></i>
           {{#ifEquals "add" endPoint}}
             Ekle
           {{else}}

@@ -1,7 +1,10 @@
 <div class="table-container">
   <div class="partial-container">
   <div class="form-container">
-
+    <header class="form-navigation">
+      <a href="/vehicle/add"><i class="fas fa-plus"></i> Ekle</a>
+      <span>Araç Giriş/Çıkış İşlemleri</span>
+    </header>
     {{> components/showMessage }}
 
     <form class="border border-light" action="/vehicle/search" method="POST"> 
@@ -10,7 +13,7 @@
           <input name="plate" type="text" class="form-control" placeholder="Araç plakasını girin">
         </div>
         <div class="col">
-          <button type="button submit" class="btn btn-primary"><i class="fa fa-search"></i>
+          <button type="button submit" class="btn btn-primary"><i class="fas fa-search"></i>
         </div>
       </div>
     </form>
