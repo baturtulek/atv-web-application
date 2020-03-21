@@ -1,0 +1,65 @@
+<div class="partial-container">
+  <div class="form-container">
+    <header class="form-navigation">
+      <a href="/towfirm/list"><i class="fa fa-list"></i> Listele</a>
+      <span>Çekici Firma İşlemleri</span>
+    </header>
+     {{> components/showMessage }}
+    <form class="border border-light" id='form' action="/towfirm/{{endPoint}}" method="POST">
+      <div class="form-inside-container">
+        <input type="hidden" name="id" value="{{towFirm.id}}">
+
+        <label class="col-form-label">Firma Kodu</label>
+        <input type="text" class="form-control" name="code" id="code" placeholder="" value="{{towFirm.code}}" required
+          oninvalid="this.setCustomValidity('Lütfen firma kodunu girin.')"
+          oninput="setCustomValidity('')">
+          
+          <label class="col-form-label">Telefon Numarası</label>
+          <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="" value="{{towFirm.phoneNumber}}" >
+          
+          <label class="col-form-label">Firma Adı</label>
+          <input type="text" class="form-control" name="name" id="name" placeholder="" value="{{towFirm.name}}" required
+            oninvalid="this.setCustomValidity('Lütfen firma adını girin.')"
+            oninput="setCustomValidity('')">
+
+          <label class="col-form-label">Faks Numarası</label>
+          <input type="text" class="form-control" name="faxNumber" id="faxNumber" placeholder="" value="{{towFirm.faxNumber}}" >
+         
+          <label class="col-form-label">İl Kodu</label>
+          <input type="text" class="form-control" name="provinceCode" id="provinceCode" placeholder="" value="{{towFirm.provinceCode}}" >
+
+          <label class="col-form-label">Aktif</label>
+          <label class="switch">
+            <input type="checkbox" name="isActive" id="isActive" 
+            {{#if towFirm}} 
+              {{#if towFirm.isActive}}
+              checked 
+              {{/if}}
+            {{else}} 
+              checked 
+            {{/if}}>
+            <div class="slider round"></div>
+          </label>
+      </div>
+      <div class="form-group row row-cols-3">
+        <div class="col-auto grid-button-group ml-auto">
+            <button type="button" class="btn-info" id="resetButton"><i class="fas fa-sync-alt"></i>Sıfırla</button>
+            <button type="submit" class="btn-success"><i class="fas fa-save"></i>
+            {{#ifEquals "add" endPoint}}
+            Ekle
+            {{else}}
+            Güncelle
+            {{/ifEquals}}
+            </button>
+        </div>
+    </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $('#resetButton').on('click', function () {
+    $('#name').val('');
+    $('#description').val('');
+  });
+</script>

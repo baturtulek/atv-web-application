@@ -157,6 +157,21 @@
               </div>
             </li>
             {{/isUserCompetencyIncludes}}
+            {{#isUserCompetencyIncludes ../competencyList.CEKICI_FIRMA_ISLEMLERI ../session.userCompetencyList}}
+            <li class="panel panel-default" id="dropdown">
+              <a data-toggle="collapse" href="#towfirm">
+                <i class="fas fa-angle-right"></i> Çekici Firma
+              </a>
+              <div id="towfirm" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <ul class="nav navbar-nav">
+                    <li><a href="/towfirm/add"><i class="fas fa-circle"></i> Firma Ekle</a></li>
+                    <li><a href="/towfirm/list"><i class="fas fa-circle"></i> Firma Listele</a></li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            {{/isUserCompetencyIncludes}}
           </ul>
         </div>
       </div>

@@ -1,0 +1,36 @@
+<div class="table-container">
+  <header class="form-navigation">
+    <a href="/towfirm/add"><i class="fas fa-plus"></i> Ekle</a>
+    <span>Çekici Firma İşlemleri</span>
+  </header>
+  <table class="table table-striped">
+    {{> components/showMessage }}
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Firma Kodu</th>
+      <th scope="col">Firma Adı</th>
+      <th scope="col">Durumu</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each towFirmList}}
+      <tr>
+        <td class="column1"> {{incrementByOne @index}}</td>
+        <td class="column2"> {{this.code}} </td>
+        <td class="column3"> {{this.name}} </td>
+        <td class="column4"> {{isActive this.isActive}} </td>
+        <td class="column5" style="text-align:center; width:85px;">
+          <a href="/towfirm/update/{{this.id}}">
+            <i class="far fa-edit fa-sm btn btn-success" aria-hidden="true" ></i>
+          </a>
+          <a href="/towfirm/delete/{{this.id}}" onclick="return confirm('Silmek istediğinize emin misiniz ?');">
+            <i class="fas fa-trash fa-sm btn btn-danger" aria-hidden="true"></i>
+          </a>
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+</div>

@@ -28,3 +28,10 @@ exports.isUserCompetencyIncludes = (menuId, userCompetencyList, options) => {
   }
   return options.inverse(this);
 };
+
+exports.isActive = (status) => {
+  if (status) {
+    return 'Aktif';
+  }
+  return 'Pasif';
+};

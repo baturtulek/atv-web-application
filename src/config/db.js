@@ -30,6 +30,7 @@ db.VehicleBodyStyle = require('../models/VEHICLE_BODY_STYLE')(connection, Sequel
 db.EnforcementOffice = require('../models/ENFORCEMENT_OFFICE')(connection, Sequelize);
 db.Discount = require('../models/DISCOUNT')(connection, Sequelize);
 db.AdditionalFee = require('../models/ADDITIONAL_FEE')(connection, Sequelize);
+db.TowFirm = require('../models/TOW_FIRM')(connection, Sequelize);
 
 db.TowedVehicle.hasOne(db.User, {
   foreignKey: 'id',

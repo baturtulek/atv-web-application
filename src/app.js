@@ -36,6 +36,7 @@ app.engine(
       incrementByOne: hbsHelpers.incrementByOne,
       ifIdInArr: hbsHelpers.ifIdInArr,
       isUserCompetencyIncludes: hbsHelpers.isUserCompetencyIncludes,
+      isActive: hbsHelpers.isActive,
     },
     extname: '.hbs',
     layoutDir: `${__dirname}/views/layouts`,

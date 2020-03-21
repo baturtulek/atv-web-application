@@ -172,7 +172,7 @@ a.header-logo span {
 #sidebar {
   display: flex;
   flex-direction: column;
-  min-width: 250px;
+  min-width: 240px;
   height: calc(100vh - 60px);
   overflow: hidden;
   background-color: #2a3542;
@@ -197,7 +197,7 @@ a.header-logo span {
 }
 
 #sidebar li a .fa-angle-right {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 #sidebar li a .fa-circle {
@@ -232,7 +232,8 @@ a.header-logo span {
 
 #sidebar ul li a {
   color: white;
-  padding: 10px 25px;
+  font-size: 13px;
+  padding: 10px 15px;
   display: block;
   vertical-align: middle;
 }
@@ -285,7 +286,7 @@ a.header-logo span {
 
 .form-navigation a {
   color: white;
-  font-size: 16px;
+  font-size: 14px;
   margin-right: 3px;
 }
 
@@ -299,12 +300,12 @@ a.header-logo span {
 
 .form-navigation span {
   color: white;
-  font-size: 16px;
+  font-size: 13px;
   letter-spacing: 0.05em;
 }
 
 .flashMessage {
-  font-size: 14px;
+  font-size: 13px;
   display: flex;
   align-items: center;
   justify-content: space-between;
