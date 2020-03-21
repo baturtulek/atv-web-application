@@ -71,6 +71,21 @@
               </div>
             </li>
             {{/isUserCompetencyIncludes}}
+            {{#isUserCompetencyIncludes ../competencyList.EK_UCRET_ISLEMLERI ../session.userCompetencyList}}
+            <li class="panel panel-default" id="dropdown">
+              <a data-toggle="collapse" href="#additionalfee">
+                <i class="fas fa-angle-right"></i> Ek Ücret İşlemleri
+              </a>
+              <div id="additionalfee" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <ul class="nav navbar-nav">
+                    <li><a href="/additionalfee/add"><i class="fas fa-circle"></i> Ek Ücret Ekle</a></li>
+                    <li><a href="/additionalfee/list"><i class="fas fa-circle"></i> Ek Ücret Listele</a></li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            {{/isUserCompetencyIncludes}}
             {{#isUserCompetencyIncludes ../competencyList.INDIRIM_ISLEMLERI ../session.userCompetencyList}}
             <li class="panel panel-default" id="dropdown">
               <a data-toggle="collapse" href="#discount">

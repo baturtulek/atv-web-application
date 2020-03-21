@@ -278,7 +278,7 @@ a.header-logo span {
   align-items: center;
   justify-content: space-between;
   height: 42px;
-  padding: 4px 12px 2px 12px;
+  padding: 4px 12px 2px 20px;
   background-color: #17a2b8;
   border-radius: 8px 8px 0 0;
 }
@@ -299,8 +299,18 @@ a.header-logo span {
 
 .form-navigation span {
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   letter-spacing: 0.05em;
+}
+
+.flashMessage {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 45px;
+  padding: 4px 12px 2px 20px;
+  border-radius: 0 0 8px 8px;
 }
 
 /* ---------- TABLE ---------- */

@@ -23,10 +23,7 @@ exports.login = async (req, res) => {
       if (isPasswordValid) {
         const userCompetencyList = await getRoleCompetencies(dbUser.roleId);
         if (!dbUser.isActive || userCompetencyList.length === 0) {
-          req.session.flashMessages = {
-            message: RESPONSE_MESSAGE.INSUFFICIENT_USER_PRIVILEGES,
-            type: 'danger',
-          };
+          req.session.flashMessages = { message: RESPONSE_MESSAGE.INSUFFICIENT_USER_PRIVILEGES, type: 'danger' };
           return res.redirect('/login');
         }
         req.session.user = dbUser;
@@ -35,16 +32,10 @@ exports.login = async (req, res) => {
         return res.redirect('/');
       }
     }
-    req.session.flashMessages = {
-      message: RESPONSE_MESSAGE.INVALID_CREDENTIALS,
-      type: 'danger',
-    };
+    req.session.flashMessages = { message: RESPONSE_MESSAGE.INVALID_CREDENTIALS, type: 'danger' };
     return res.redirect('/login');
   } catch (error) {
-    req.session.flashMessages = {
-      message: RESPONSE_MESSAGE.INTERNAL_ERROR,
-      type: 'danger',
-    };
+    req.session.flashMessages = { message: RESPONSE_MESSAGE.INTERNAL_ERROR, type: 'danger' };
     return res.redirect('/login');
   }
 };

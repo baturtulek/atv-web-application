@@ -1,20 +1,23 @@
 <div class="partial-container">
   <div class="form-container">
     <header class="form-navigation">
-      <a href="/vehicletype/list"><i class="fa fa-list"></i> Listele</a>
-      <span>Araç Tipi İşlemleri</span>
+      <a href="/additionalfee/list"><i class="fa fa-list"></i> Listele</a>
+      <span>Ek Ücret İşlemleri</span>
     </header>
     {{> components/showMessage }}
-    <form class="border border-light" action="/vehicletype/{{endPoint}}/{{vehicleType.id}}" method="POST">
+    <form class="border border-light" id='form' action="/additionalfee/{{endPoint}}" method="POST">
       <div class="form-inside-container">
-          <label class="col-form-label">Adı</label>
-          <input type="text" class="form-control" name="name" id="name" placeholder="Araç Tipi" value={{vehicleType.name}}>
+        <input type="hidden" name="id" value="{{additionalFee.id}}">
 
-          <label class="col-form-label">Açıklama</label>
-          <input type="text" class="form-control" name="description" id="description" placeholder="Açıklama" value="{{vehicleType.description}}">
-
+        <label class="col-form-label">Ad</label>
+        <input type="text" class="form-control" name="name" id="name" placeholder="" value="{{additionalFee.name}}" required
+          oninvalid="this.setCustomValidity('Lütfen ek ücret adını girin.')"
+          oninput="setCustomValidity('')">
+          
           <label class="col-form-label">Ücret (₺)</label>
-          <input type="text" class="form-control" name="fee" id="fee" placeholder="Ücret" value="{{vehicleType.fee}}">
+          <input type="text" class="form-control" name="fee" id="fee" placeholder="" value="{{additionalFee.fee}}" required
+            oninvalid="this.setCustomValidity('Lütfen ücreti girin.')"
+            oninput="setCustomValidity('')">
       </div>
       
       <div class="form-group row row-cols-3">
@@ -36,7 +39,6 @@
 <script>
   $('#resetButton').on('click', function () {
     $('#name').val('');
-    $('#description').val('');
     $('#fee').val('');
   });
 </script>

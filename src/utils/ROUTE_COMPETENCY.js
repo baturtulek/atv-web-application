@@ -12,6 +12,8 @@ exports.getRouteCompetencyId = async (route) => {
       return competencyList.ARAC_TIPI_ISLEMLERI;
     case 'enforcementoffice':
       return competencyList.ICRA_KURUMU_TURLERI_ISLEMLERI;
+    case 'additionalfee':
+      return competencyList.EK_UCRET_ISLEMLERI;
     case 'discount':
       return competencyList.INDIRIM_ISLEMLERI;
     case 'user':

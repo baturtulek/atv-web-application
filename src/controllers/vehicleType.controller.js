@@ -12,24 +12,19 @@ exports.addVehicleTypeView = (req, res) => {
 };
 
 exports.addVehicleType = async (req, res) => {
-  const { name, description } = req.body;
+  const { name, description, fee } = req.body;
   try {
     const vehicleType = await db.VehicleType.create({
       name,
       description,
+      fee,
     });
     if (vehicleType) {
-      req.session.flashMessages = {
-        message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`,
-        type: 'success',
-      };
+      req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`, type: 'success' };
       return res.redirect('/vehicletype/add');
     }
   } catch (error) {
-    req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`,
-      type: 'danger',
-    };
+    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`, type: 'danger' };
     return res.redirect('/vehicletype/add');
   }
 };
@@ -66,26 +61,19 @@ exports.updateVehicleTypeView = async (req, res) => {
   }
 };
 
-
 exports.updateVehicleType = async (req, res) => {
   const { id } = req.params;
-  const { name, description } = req.body;
+  const { name, description, fee } = req.body;
 
   try {
     await db.VehicleType.update(
-      { name, description },
+      { name, description, fee },
       { where: { id } },
     );
-    req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`,
-      type: 'success',
-    };
+    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`, type: 'success' };
     return res.redirect(`/vehicletype/update/${id}`);
   } catch (error) {
-    req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
-      type: 'danger',
-    };
+    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`, type: 'danger' };
     return res.redirect(`/vehicletype/update/${id}`);
   }
 };
@@ -106,16 +94,10 @@ exports.deleteVehicleType = async (req, res) => {
         id,
       },
     });
-    req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETED}`,
-      type: 'success',
-    };
+    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETED}`, type: 'success' };
     return res.redirect('/vehicletype/list');
   } catch (error) {
-    req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETE_ERROR}`,
-      type: 'danger',
-    };
+    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETE_ERROR}`, type: 'danger' };
     return res.redirect('/vehicletype/list');
   }
 };
