@@ -158,7 +158,11 @@ exports.userRoleUpdate = async (req, res) => {
       },
       raw: true,
     });
-
+    await db.RoleCompetency.destroy({
+      where: {
+        roleId: id,
+      },
+    });
     for (const competencyNo of competencyIds) {
       if (!isNaN(id)) {
         await db.RoleCompetency.upsert({
