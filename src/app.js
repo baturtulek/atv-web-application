@@ -6,39 +6,29 @@ const helmet = require('helmet');
 const path = require('path');
 const hbs = require('express-handlebars');
 const morgan = require('morgan');
-const db = require('./models');
-const hbsHelpers = require('./utils/hbsHelpers');
+const hbsHelpers = require('./HBSHelpers');
 const { validateUserSession, validateUserRole } = require('./utils/authentication');
 
 const app = express();
-
-db.initializeDb();
 
 app.use(morgan('dev'));
 app.use(compression());
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
+app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, '/views'));
 app.engine(
   'hbs',
   hbs({
-    helpers: {
-      ifEquals: hbsHelpers.ifEquals,
-      incrementByOne: hbsHelpers.incrementByOne,
-      ifIdInArr: hbsHelpers.ifIdInArr,
-      isUserCompetencyIncludes: hbsHelpers.isUserCompetencyIncludes,
-      isActive: hbsHelpers.isActive,
-    },
+    helpers: hbsHelpers,
     extname: '.hbs',
     layoutDir: `${__dirname}/views/layouts`,
     partialsDir: `${__dirname}/views/partials`,
   }),
 );
-
-app.set('view engine', 'hbs');
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
   session({

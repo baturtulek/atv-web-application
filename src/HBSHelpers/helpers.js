@@ -17,12 +17,12 @@ exports.ifIdInArr = (arg1, arg2, options) => {
   return arg2IdList.includes(arg1) ? options.fn(this) : options.inverse(this);
 };
 
-exports.isUserCompetencyIncludes = (menuId, userCompetencyList, options) => {
+exports.isUserCompetencyIncludesRoute = (userCompetencyList, routeId, options) => {
   if (!userCompetencyList) {
     return options.inverse(this);
   }
   for (const element of userCompetencyList) {
-    if (element.competencyNo == menuId) {
+    if (element.competencyNo === routeId) {
       return options.fn(this);
     }
   }

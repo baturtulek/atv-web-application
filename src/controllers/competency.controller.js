@@ -1,16 +1,19 @@
-// const db = require('../config/db');
 const { db } = require('../models');
 
 const competencyList = [];
 
+exports.loadAppCompetencyList = async (app) => {
+  app.locals.appCompetencyList = await this.getCompetencyList();
+};
+
 exports.getCompetencyList = async () => {
   if (competencyList.length === 0) {
-    await this.loadAppCompetencyList();
+    await this.getAppCompetencyList();
   }
   return competencyList;
 };
 
-exports.loadAppCompetencyList = async () => {
+exports.getAppCompetencyList = async () => {
   const appCompetencyList = await this.getAllCompetencies();
   for (const competency of appCompetencyList) {
     competencyList[competency.description] = competency.id;
@@ -32,3 +35,4 @@ exports.getRoleCompetencies = async (roleId) => {
   });
   return roleCompetencyList;
 };
+

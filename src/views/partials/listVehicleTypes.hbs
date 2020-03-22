@@ -18,7 +18,7 @@
     <tbody>
       {{#each vehicleTypes}}
       <tr>
-        <th class="column1">{{@index}}</th>
+        <th class="column1">{{incrementByOne @index}}</th>
         <td class="column2">{{this.name}}</td>
         <td class="column3">{{this.description}}</td>
         <td class="column3">{{this.fee}}</td>

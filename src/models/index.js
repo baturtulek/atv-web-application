@@ -11,7 +11,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   port: process.env.DB_PORT,
 });
 
-const initializeDb = () => {
+const initializeDatabase = () => {
   loadModels();
   serve();
 };
@@ -43,4 +43,4 @@ const serve = async () => {
   }
 };
 
-module.exports = { db, initializeDb };
+module.exports = { db, initializeDatabase };
