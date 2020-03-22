@@ -5,28 +5,25 @@
       <span>Profil İşlemleri</span>
     </header>
     {{> components/showMessage }}
-
     <form class="border border-light" action="/role/{{endPoint}}" method="POST">
-      <div class="form-group row row-cols-3">
+      <div class="form-inside-container mb-2 ml-3">
         <input type="hidden" name="id" value="{{role.id}}">
-        <div class="col">
-          <label class="col-form-label">Profile Adı</label>
-          <input type="text" class="form-control" name="role" id="role" required pattern=".*\S+.*"
-            value="{{role.role}}">
-
-          {{#each competencies}}
-          <div style="margin: 8px 32px">
-            <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" id="switch{{this.id}}" name="{{this.id}}"
-                {{#ifIdInArr this.id ../userRoleCompetencies}} checked {{/ifIdInArr}}>
-              <label class="custom-control-label" for="switch{{this.id}}">{{this.description}}</label>
-            </div>
-          </div>
-          {{/each}}
-        </div>
-
+        <label class="col-form-label">Profil Adı</label>
+        <input type="text" class="form-control" name="role" id="role" required pattern=".*\S+.*" value="{{role.role}}">
       </div>
-
+      <hr />
+      <div class="form-inside-container ml-3">
+        {{#each competencies}}
+          <label class="col-form-label">{{this.description}}</label>
+        <div class="pl-5 pt-2">
+          <label class="switch">
+            <input type="checkbox" id="switch{{this.id}}" name="{{this.id}}"
+              {{#ifIdInArr this.id ../userRoleCompetencies}} checked {{/ifIdInArr}}>
+            <div class="slider round"></div>
+          </label>
+        </div>
+        {{/each}}
+      </div>
       <div class="form-group row row-cols-3">
         <div class="col-auto grid-button-group ml-auto">
           <button type="button" class="btn-info" id="resetButton"><i class="fas fa-sync-alt"></i>Sıfırla</button>
@@ -45,6 +42,6 @@
 
 <script>
   $('#resetButton').on('click', () => {
-    $("[type='checkbox']").prop('checked',false);
+    $("[type='checkbox']").prop('checked', false);
   });
 </script>

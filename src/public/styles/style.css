@@ -198,11 +198,13 @@ a.header-logo span {
 
 #sidebar li a .fa-angle-right {
   font-size: 14px;
+  margin-right: 5px;
 }
 
 #sidebar li a .fa-circle {
   font-size: 8px;
   margin-left: 10px;
+  margin-right: 5px;
 }
 
 #sidebar ul {
@@ -278,8 +280,8 @@ a.header-logo span {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 42px;
-  padding: 4px 12px 2px 20px;
+  height: 50px;
+  padding: 4px 20px 2px 20px;
   background-color: #17a2b8;
   border-radius: 8px 8px 0 0;
 }
@@ -300,16 +302,16 @@ a.header-logo span {
 
 .form-navigation span {
   color: white;
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.05em;
 }
 
 .flashMessage {
-  font-size: 13px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 45px;
+  height: 48px;
   padding: 4px 12px 2px 20px;
   border-radius: 0 0 8px 8px;
 }
