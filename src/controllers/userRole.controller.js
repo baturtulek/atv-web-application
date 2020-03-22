@@ -189,27 +189,46 @@ exports.userRoleUpdate = async (req, res) => {
 };
 
 exports.deleteUserRole = async (req, res) => {
-  // const { id } = req.params;
-  // try {
-  //   const found = await db.UserRole.findOne({
-  //     where: {
-  //       id,
-  //     },
-  //   });
-  //   if (!found) {
-  //     return res.redirect('/role/list');
-  //   }
-  //   await db.UserRole.destroy({
-  //     where: {
-  //       id,
-  //     },
-  //   });
-  //   return res.redirect('/role/list?success=deleted');
-  // } catch (ex) {
-  //   console.log(ex);
-  //   return res.redirect('/role/list?error=delete_error');
-  // }
-  return res.json({
-    message: 'not implemented',
-  });
+  const { id } = req.params;
+  try {
+    const found = await db.UserRole.findOne({
+      where: {
+        id,
+      },
+    });
+    if (!found) {
+      return res.redirect('/role/list');
+    }
+    const usersWithTheRole = await db.User.findAll({
+      where: {
+        roleId: id,
+      },
+      raw: true,
+    });
+    for (const user of usersWithTheRole) {
+      await db.User.update({
+        roleId: null,
+      },
+      {
+        where: {
+          roleId: user.roleId,
+        },
+        raw: true,
+      });
+    }
+    await db.RoleCompetency.destroy({
+      where: {
+        roleId: id,
+      },
+    });
+    await db.UserRole.destroy({
+      where: {
+        id,
+      },
+    });
+    return res.redirect('/role/list?success=deleted');
+  } catch (ex) {
+    console.log(ex);
+    return res.redirect('/role/list?error=delete_error');
+  }
 };
