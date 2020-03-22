@@ -1,8 +1,6 @@
-/* jshint indent: 2 */
-
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define(
-    'ADDITIONAL_FEE',
+  const additionalFee = sequelize.define(
+    'AdditionalFee',
     {
       id: {
         type: DataTypes.INTEGER(11),
@@ -25,4 +23,5 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'ADDITIONAL_FEE',
     },
   );
+  return additionalFee;
 };

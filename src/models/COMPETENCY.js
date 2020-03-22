@@ -1,8 +1,6 @@
-/* jshint indent: 2 */
-
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define(
-    'COMPETENCY',
+  const competency = sequelize.define(
+    'Competency',
     {
       id: {
         type: DataTypes.INTEGER(11),
@@ -21,4 +19,5 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'COMPETENCY',
     },
   );
+  return competency;
 };

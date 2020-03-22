@@ -1,8 +1,6 @@
-/* jshint indent: 2 */
-
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define(
-    'VEHICLE_BODY_STYLE',
+  const vehicleColor = sequelize.define(
+    'VehicleColor',
     {
       id: {
         type: DataTypes.INTEGER(11),
@@ -19,7 +17,8 @@ module.exports = function (sequelize, DataTypes) {
     {
       timestamps: false,
       freezeTableName: true,
-      tableName: 'VEHICLE_BODY_STYLE',
+      tableName: 'VEHICLE_COLOR',
     },
   );
+  return vehicleColor;
 };

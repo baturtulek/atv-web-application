@@ -1,8 +1,6 @@
-/* jshint indent: 2 */
-
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define(
-    'TOWED_VEHICLE',
+  const towedVehicle = sequelize.define(
+    'TowedVehicle',
     {
       plate: {
         type: DataTypes.STRING(12),
@@ -57,4 +55,5 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'TOWED_VEHICLE',
     },
   );
+  return towedVehicle;
 };

@@ -1,8 +1,6 @@
-/* jshint indent: 2 */
-
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define(
-    'TOW_FIRM',
+  const parkingLot = sequelize.define(
+    'ParkingLot',
     {
       id: {
         type: DataTypes.INTEGER(11),
@@ -10,39 +8,39 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
         autoIncrement: true,
       },
-      code: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-      },
       name: {
         type: DataTypes.STRING(255),
         allowNull: false,
       },
-      phoneNumber: {
-        type: DataTypes.INTEGER(11),
-        allowNull: true,
-      },
-      faxNumber: {
-        type: DataTypes.INTEGER(11),
-        allowNull: true,
-      },
-      provinceCode: {
-        type: DataTypes.INTEGER(11),
+      address: {
+        type: DataTypes.STRING(255),
         allowNull: false,
       },
-      registrationDate: {
-        type: 'TIMESTAMP',
-        allowNull: true,
+      description: {
+        type: DataTypes.STRING(255),
       },
-      isActive: {
+      staffId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
+        references: {
+          model: 'USER',
+          key: 'id',
+        },
+      },
+      parkingTypeId: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        references: {
+          model: 'PARKING_TYPE',
+          key: 'id',
+        },
       },
     },
     {
       timestamps: false,
       freezeTableName: true,
-      tableName: 'TOW_FIRM',
+      tableName: 'PARKING_LOT',
     },
   );
+  return parkingLot;
 };

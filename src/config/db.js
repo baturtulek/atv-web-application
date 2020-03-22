@@ -13,24 +13,24 @@ db.Sequelize = Sequelize;
 db.connection = connection;
 
 // Models/tables
-db.User = require('../models/USER')(connection, Sequelize);
-db.UserRole = require('../models/USER_ROLE')(connection, Sequelize);
-db.UserLastLogin = require('../models/USER_LAST_LOGIN')(connection, Sequelize);
-db.Competency = require('../models/COMPETENCY')(connection, Sequelize);
-db.ParkingLot = require('../models/PARKING_LOT')(connection, Sequelize);
-db.ParkingType = require('../models/PARKING_TYPE')(connection, Sequelize);
-db.RoleCompetency = require('../models/ROLE_COMPETENCY')(connection, Sequelize);
-db.TowedVehicle = require('../models/TOWED_VEHICLE')(connection, Sequelize);
-db.Vehicle = require('../models/VEHICLE')(connection, Sequelize);
-db.VehicleBrand = require('../models/VEHICLE_BRAND')(connection, Sequelize);
-db.VehicleType = require('../models/VEHICLE_TYPE')(connection, Sequelize);
-db.VehicleState = require('../models/VEHICLE_STATE')(connection, Sequelize);
-db.VehicleColor = require('../models/VEHICLE_COLOR')(connection, Sequelize);
-db.VehicleBodyStyle = require('../models/VEHICLE_BODY_STYLE')(connection, Sequelize);
-db.EnforcementOffice = require('../models/ENFORCEMENT_OFFICE')(connection, Sequelize);
-db.Discount = require('../models/DISCOUNT')(connection, Sequelize);
-db.AdditionalFee = require('../models/ADDITIONAL_FEE')(connection, Sequelize);
-db.TowFirm = require('../models/TOW_FIRM')(connection, Sequelize);
+db.User = require('../models/User')(connection, Sequelize);
+db.UserRole = require('../models/UserRole')(connection, Sequelize);
+db.UserLastLogin = require('../models/UserLastLogin')(connection, Sequelize);
+db.Competency = require('../models/Competency')(connection, Sequelize);
+db.ParkingLot = require('../models/ParkingLot')(connection, Sequelize);
+db.ParkingType = require('../models/ParkingType')(connection, Sequelize);
+db.RoleCompetency = require('../models/RoleCompetency')(connection, Sequelize);
+db.TowedVehicle = require('../models/TowedVehicle')(connection, Sequelize);
+db.Vehicle = require('../models/Vehicle')(connection, Sequelize);
+db.VehicleBrand = require('../models/VehicleBrand')(connection, Sequelize);
+db.VehicleType = require('../models/VehicleType')(connection, Sequelize);
+db.VehicleState = require('../models/VehicleState')(connection, Sequelize);
+db.VehicleColor = require('../models/VehicleColor')(connection, Sequelize);
+db.VehicleBodyStyle = require('../models/VehicleBodyStyle')(connection, Sequelize);
+db.EnforcementOffice = require('../models/EnforcementOffice')(connection, Sequelize);
+db.Discount = require('../models/Discount')(connection, Sequelize);
+db.AdditionalFee = require('../models/AdditionalFee')(connection, Sequelize);
+db.TowFirm = require('../models/TowFirm')(connection, Sequelize);
 
 db.TowedVehicle.hasOne(db.User, {
   foreignKey: 'id',

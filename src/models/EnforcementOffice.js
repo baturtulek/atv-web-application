@@ -1,8 +1,6 @@
-/* jshint indent: 2 */
-
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define(
-    'VEHICLE_COLOR',
+  const enforcementOffice = sequelize.define(
+    'EnforcementOffice',
     {
       id: {
         type: DataTypes.INTEGER(11),
@@ -10,16 +8,19 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
         autoIncrement: true,
       },
-      description: {
+      name: {
         type: DataTypes.STRING(255),
         allowNull: false,
-        defaultValue: '',
+      },
+      description: {
+        type: DataTypes.STRING(255),
       },
     },
     {
       timestamps: false,
       freezeTableName: true,
-      tableName: 'VEHICLE_COLOR',
+      tableName: 'ENFORCEMENT_OFFICE',
     },
   );
+  return enforcementOffice;
 };

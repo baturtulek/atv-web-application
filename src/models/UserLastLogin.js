@@ -1,8 +1,6 @@
-/* jshint indent: 2 */
-
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define(
-    'USER_LAST_LOGIN',
+  const userLastLogin = sequelize.define(
+    'UserLastLogin',
     {
       userId: {
         type: DataTypes.INTEGER(11),
@@ -24,4 +22,5 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'USER_LAST_LOGIN',
     },
   );
+  return userLastLogin;
 };

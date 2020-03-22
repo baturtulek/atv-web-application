@@ -1,8 +1,6 @@
-/* jshint indent: 2 */
-
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define(
-    'VEHICLE_STATE',
+  const userRole = sequelize.define(
+    'UserRole',
     {
       id: {
         type: DataTypes.INTEGER(11),
@@ -10,8 +8,8 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
         autoIncrement: true,
       },
-      description: {
-        type: DataTypes.STRING(255),
+      role: {
+        type: DataTypes.STRING(45),
         allowNull: false,
         defaultValue: '',
       },
@@ -19,7 +17,8 @@ module.exports = function (sequelize, DataTypes) {
     {
       timestamps: false,
       freezeTableName: true,
-      tableName: 'VEHICLE_STATE',
+      tableName: 'USER_ROLE',
     },
   );
+  return userRole;
 };

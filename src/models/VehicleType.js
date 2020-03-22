@@ -1,8 +1,6 @@
-/* jshint indent: 2 */
-
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define(
-    'VEHICLE_TYPE',
+  const vehicleType = sequelize.define(
+    'VehicleType',
     {
       id: {
         type: DataTypes.INTEGER(11),
@@ -29,4 +27,5 @@ module.exports = function(sequelize, DataTypes) {
       tableName: 'VEHICLE_TYPE',
     },
   );
+  return vehicleType;
 };
