@@ -12,14 +12,7 @@ const { validateUserSession, validateUserRole } = require('./utils/authenticatio
 
 const app = express();
 
-db.sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch((err) => {
-    console.error('Unable to connect to the database:', err);
-  });
+db.initializeDb();
 
 app.use(morgan('dev'));
 app.use(compression());

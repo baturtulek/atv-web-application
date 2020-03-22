@@ -5,8 +5,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-restricted-syntax */
 const { Op } = require('sequelize');
-// const db = require('../config/db');
-const db = require('../models');
+const { db } = require('../models');
 const { RESPONSE_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Profil';
