@@ -7,6 +7,11 @@ html {
   font-family: GothamNarrowBook;
   src: url(public/fonts/GothamNarrow-Book.otf);
 }
+.border,
+.dataTables_wrapper{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 6px 1px rgba(0, 0, 0, 0.1);
+  padding: 30px 20px;
+}
 
 body {
   font: 87.5%/1.5em 'Open Sans', sans-serif;
@@ -324,7 +329,6 @@ a.header-logo span {
 }
 
 #DataTables_Table_0_wrapper {
-  margin-top: 12px;
 }
 /* ---------- 404 Page ---------- */
 
