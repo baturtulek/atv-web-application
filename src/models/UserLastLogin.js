@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const userLastLogin = sequelize.define(
+  const UserLastLogin = sequelize.define(
     'UserLastLogin',
     {
       userId: {
@@ -22,5 +22,12 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'USER_LAST_LOGIN',
     },
   );
-  return userLastLogin;
+
+  UserLastLogin.associate = function (models) {
+    models.UserLastLogin.hasOne(models.User, {
+      foreignKey: 'id',
+      sourceKey: 'userId',
+    });
+  };
+  return UserLastLogin;
 };

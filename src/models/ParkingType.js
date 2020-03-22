@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const parkingType = sequelize.define(
+  const ParkingType = sequelize.define(
     'ParkingType',
     {
       id: {
@@ -19,5 +19,5 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'PARKING_TYPE',
     },
   );
-  return parkingType;
+  return ParkingType;
 };

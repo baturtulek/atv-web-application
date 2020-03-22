@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const parkingLot = sequelize.define(
+  const ParkingLot = sequelize.define(
     'ParkingLot',
     {
       id: {
@@ -22,18 +22,10 @@ module.exports = function (sequelize, DataTypes) {
       staffId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
-        references: {
-          model: 'USER',
-          key: 'id',
-        },
       },
       parkingTypeId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
-        references: {
-          model: 'PARKING_TYPE',
-          key: 'id',
-        },
       },
     },
     {
@@ -42,5 +34,16 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'PARKING_LOT',
     },
   );
-  return parkingLot;
+
+  ParkingLot.associate = function (models) {
+    models.ParkingLot.hasOne(models.User, {
+      foreignKey: 'id',
+      sourceKey: 'staffId',
+    });
+    models.ParkingLot.hasOne(models.ParkingType, {
+      foreignKey: 'id',
+      sourceKey: 'parkingTypeId',
+    });
+  };
+  return ParkingLot;
 };

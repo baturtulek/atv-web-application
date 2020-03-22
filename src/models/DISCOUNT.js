@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const discount = sequelize.define(
+  const Discount = sequelize.define(
     'Discount',
     {
       id: {
@@ -27,5 +27,5 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'DISCOUNT',
     },
   );
-  return discount;
+  return Discount;
 };

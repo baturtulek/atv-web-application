@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const userRole = sequelize.define(
+  const UserRole = sequelize.define(
     'UserRole',
     {
       id: {
@@ -20,5 +20,5 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'USER_ROLE',
     },
   );
-  return userRole;
+  return UserRole;
 };

@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const vehicle = sequelize.define(
+  const Vehicle = sequelize.define(
     'Vehicle',
     {
       plate: {
@@ -7,10 +7,6 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         defaultValue: '',
         primaryKey: true,
-        references: {
-          model: 'TOWED_VEHICLE',
-          key: 'plate',
-        },
       },
       chassisNo: {
         type: DataTypes.STRING(255),
@@ -25,10 +21,6 @@ module.exports = function (sequelize, DataTypes) {
       vehicleTypeId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
-        references: {
-          model: 'VEHICLE_TYPE',
-          key: 'id',
-        },
       },
       engineNo: {
         type: DataTypes.STRING(255),
@@ -37,10 +29,6 @@ module.exports = function (sequelize, DataTypes) {
       colorId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
-        references: {
-          model: 'VEHICLE_COLOR',
-          key: 'id',
-        },
       },
       modelYear: {
         type: DataTypes.INTEGER(11),
@@ -49,18 +37,10 @@ module.exports = function (sequelize, DataTypes) {
       bodyTypeId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
-        references: {
-          model: 'VEHICLE_BODY_STYLE',
-          key: 'id',
-        },
       },
       brandId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
-        references: {
-          model: 'VEHICLE_BRAND',
-          key: 'id',
-        },
       },
       ownerProfileId: {
         type: DataTypes.INTEGER(11),
@@ -73,5 +53,28 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'VEHICLE',
     },
   );
-  return vehicle;
+
+  Vehicle.associate = function (models) {
+    models.Vehicle.hasOne(models.VehicleType, {
+      foreignKey: 'id',
+      sourceKey: 'vehicleTypeId',
+    });
+    models.Vehicle.hasOne(models.VehicleColor, {
+      foreignKey: 'id',
+      sourceKey: 'colorId',
+    });
+    models.Vehicle.hasOne(models.VehicleBodyStyle, {
+      foreignKey: 'id',
+      sourceKey: 'bodyTypeId',
+    });
+    models.Vehicle.hasOne(models.VehicleBrand, {
+      foreignKey: 'id',
+      sourceKey: 'brandId',
+    });
+    models.Vehicle.hasMany(models.TowedVehicle, {
+      foreignKey: 'plate',
+      sourceKey: 'plate',
+    });
+  };
+  return Vehicle;
 };

@@ -2,7 +2,8 @@
 const httpStatus = require('http-status');
 const moment = require('moment');
 const sequelize = require('sequelize');
-const db = require('../config/db');
+// const db = require('../config/db');
+const db = require('../models');
 const { RESPONSE_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Araç';

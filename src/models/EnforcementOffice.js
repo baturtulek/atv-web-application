@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const enforcementOffice = sequelize.define(
+  const EnforcementOffice = sequelize.define(
     'EnforcementOffice',
     {
       id: {
@@ -22,5 +22,5 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'ENFORCEMENT_OFFICE',
     },
   );
-  return enforcementOffice;
+  return EnforcementOffice;
 };

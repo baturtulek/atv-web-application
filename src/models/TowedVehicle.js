@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const towedVehicle = sequelize.define(
+  const TowedVehicle = sequelize.define(
     'TowedVehicle',
     {
       plate: {
@@ -19,26 +19,14 @@ module.exports = function (sequelize, DataTypes) {
       staffId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
-        references: {
-          model: 'USER',
-          key: 'id',
-        },
       },
       parkingLotId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
-        references: {
-          model: 'PARKING_LOT',
-          key: 'id',
-        },
       },
       stateId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
-        references: {
-          model: 'VEHICLE_STATE',
-          key: 'id',
-        },
       },
       entranceParkingLotDate: {
         type: DataTypes.STRING(255),
@@ -55,5 +43,24 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'TOWED_VEHICLE',
     },
   );
-  return towedVehicle;
+
+  TowedVehicle.associate = function (models) {
+    models.TowedVehicle.belongsTo(models.Vehicle, {
+      foreignKey: 'plate',
+      sourceKey: 'plate',
+    });
+    models.TowedVehicle.hasOne(models.User, {
+      foreignKey: 'id',
+      sourceKey: 'staffId',
+    });
+    models.TowedVehicle.hasOne(models.ParkingLot, {
+      foreignKey: 'id',
+      sourceKey: 'parkingLotId',
+    });
+    models.TowedVehicle.hasOne(models.VehicleState, {
+      foreignKey: 'id',
+      sourceKey: 'stateId',
+    });
+  };
+  return TowedVehicle;
 };

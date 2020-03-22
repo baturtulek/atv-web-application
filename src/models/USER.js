@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const user = sequelize.define(
+  const User = sequelize.define(
     'User',
     {
       id: {
@@ -55,5 +55,12 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'USER',
     },
   );
-  return user;
+
+  User.associate = function (models) {
+    models.User.hasOne(models.UserRole, {
+      foreignKey: 'id',
+      sourceKey: 'roleId',
+    });
+  };
+  return User;
 };

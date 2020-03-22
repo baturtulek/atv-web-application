@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const vehicleColor = sequelize.define(
+  const VehicleColor = sequelize.define(
     'VehicleColor',
     {
       id: {
@@ -20,5 +20,5 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'VEHICLE_COLOR',
     },
   );
-  return vehicleColor;
+  return VehicleColor;
 };

@@ -6,13 +6,13 @@ const helmet = require('helmet');
 const path = require('path');
 const hbs = require('express-handlebars');
 const morgan = require('morgan');
-const db = require('./config/db');
+const db = require('./models');
 const hbsHelpers = require('./utils/hbsHelpers');
 const { validateUserSession, validateUserRole } = require('./utils/authentication');
 
 const app = express();
 
-db.connection
+db.sequelize
   .authenticate()
   .then(() => {
     console.log('Connection has been established successfully.');

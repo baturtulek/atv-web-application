@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const competency = sequelize.define(
+  const Competency = sequelize.define(
     'Competency',
     {
       id: {
@@ -19,5 +19,5 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'COMPETENCY',
     },
   );
-  return competency;
+  return Competency;
 };

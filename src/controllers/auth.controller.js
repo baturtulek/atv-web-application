@@ -1,5 +1,6 @@
 const moment = require('moment');
-const db = require('../config/db');
+// const db = require('../config/db');
+const db = require('../models');
 const { comparePasswords } = require('../utils/authentication');
 const { RESPONSE_MESSAGE } = require('../messages');
 const { getRoleCompetencies } = require('../controllers/competency.controller');

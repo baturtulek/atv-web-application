@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const vehicleBodyStyle = sequelize.define(
+  const VehicleBodyStyle = sequelize.define(
     'VehicleBodyStyle',
     {
       id: {
@@ -20,5 +20,5 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'VEHICLE_BODY_STYLE',
     },
   );
-  return vehicleBodyStyle;
+  return VehicleBodyStyle;
 };

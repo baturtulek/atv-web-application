@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const additionalFee = sequelize.define(
+  const AdditionalFee = sequelize.define(
     'AdditionalFee',
     {
       id: {
@@ -23,5 +23,5 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'ADDITIONAL_FEE',
     },
   );
-  return additionalFee;
+  return AdditionalFee;
 };

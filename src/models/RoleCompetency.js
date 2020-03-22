@@ -1,24 +1,16 @@
 module.exports = function (sequelize, DataTypes) {
-  const roleCompetency = sequelize.define(
+  const RoleCompetency = sequelize.define(
     'RoleCompetency',
     {
       roleId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         primaryKey: true,
-        references: {
-          model: 'USER_ROLE',
-          key: 'id',
-        },
       },
       competencyNo: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         primaryKey: true,
-        references: {
-          model: 'COMPETENCY',
-          key: 'id',
-        },
       },
     },
     {
@@ -27,5 +19,16 @@ module.exports = function (sequelize, DataTypes) {
       tableName: 'ROLE_COMPETENCY',
     },
   );
-  return roleCompetency;
+
+  RoleCompetency.associate = function (models) {
+    models.RoleCompetency.hasMany(models.UserRole, {
+      foreignKey: 'id',
+      sourceKey: 'roleId',
+    });
+    models.RoleCompetency.hasMany(models.Competency, {
+      foreignKey: 'id',
+      sourceKey: 'competencyNo',
+    });
+  };
+  return RoleCompetency;
 };
