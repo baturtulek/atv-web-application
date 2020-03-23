@@ -2,30 +2,30 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const chalk = require('chalk');
-
-const env = process.env.NODE_ENV || 'development';
-const config = require('../config/dbConfig.js')[env];
+const DB_CONFIG = require('../config/DB_CONFIG.js')[process.env.NODE_ENV];
 
 const db = {};
-const sequelize = new Sequelize(config);
-const basename = path.basename(__filename);
+const sequelize = new Sequelize(DB_CONFIG);
 
 const initializeDatabase = () => {
   loadModels();
+  makeModelAssociations();
   serve();
 };
 
 const loadModels = () => {
-  fs
-    .readdirSync(__dirname)
+  const basename = path.basename(__filename);
+  fs.readdirSync(__dirname)
     .filter((file) => {
-      return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
+      return (file !== basename);
     })
     .forEach((file) => {
       const model = sequelize.import(path.join(__dirname, file));
       db[model.name] = model;
     });
+};
 
+const makeModelAssociations = () => {
   Object.keys(db).forEach((modelName) => {
     if (db[modelName].associate) {
       db[modelName].associate(db);
@@ -36,7 +36,7 @@ const loadModels = () => {
 const serve = async () => {
   try {
     await sequelize.authenticate();
-    console.log(chalk.green.bold('Database Connection has been established successfully.'));
+    console.log(chalk.green.bold('Database connection has been established successfully.'));
   } catch (error) {
     chalk.red.bold(error);
   }

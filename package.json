@@ -1,7 +1,7 @@
 {
   "title": "ATV",
-  "name": "atv-restful-api",
-  "description": "Vehicle Towing Automation System Rest API",
+  "name": "atv-web-application",
+  "description": "Vehicle Towing Automation System",
   "version": "0.0.1",
   "private": true,
   "author": "Ankara Trafik Vakfı",

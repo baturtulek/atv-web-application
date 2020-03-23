@@ -54,26 +54,26 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  Vehicle.associate = (models) => {
-    models.Vehicle.hasOne(models.VehicleType, {
+  Vehicle.associate = (db) => {
+    db.Vehicle.hasMany(db.TowedVehicle, {
+      foreignKey: 'plate',
+      sourceKey: 'plate',
+    });
+    db.Vehicle.hasOne(db.VehicleType, {
       foreignKey: 'id',
       sourceKey: 'vehicleTypeId',
     });
-    models.Vehicle.hasOne(models.VehicleColor, {
+    db.Vehicle.hasOne(db.VehicleColor, {
       foreignKey: 'id',
       sourceKey: 'colorId',
     });
-    models.Vehicle.hasOne(models.VehicleBodyStyle, {
+    db.Vehicle.hasOne(db.VehicleBodyStyle, {
       foreignKey: 'id',
       sourceKey: 'bodyTypeId',
     });
-    models.Vehicle.hasOne(models.VehicleBrand, {
+    db.Vehicle.hasOne(db.VehicleBrand, {
       foreignKey: 'id',
       sourceKey: 'brandId',
-    });
-    models.Vehicle.hasMany(models.TowedVehicle, {
-      foreignKey: 'plate',
-      sourceKey: 'plate',
     });
   };
   return Vehicle;
