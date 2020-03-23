@@ -1,4 +1,4 @@
-module.exports = function (sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
   const Vehicle = sequelize.define(
     'Vehicle',
     {
@@ -54,7 +54,7 @@ module.exports = function (sequelize, DataTypes) {
     },
   );
 
-  Vehicle.associate = function (models) {
+  Vehicle.associate = (models) => {
     models.Vehicle.hasOne(models.VehicleType, {
       foreignKey: 'id',
       sourceKey: 'vehicleTypeId',

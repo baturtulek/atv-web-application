@@ -1,4 +1,4 @@
-module.exports = function (sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
   const TowedVehicle = sequelize.define(
     'TowedVehicle',
     {
@@ -44,7 +44,7 @@ module.exports = function (sequelize, DataTypes) {
     },
   );
 
-  TowedVehicle.associate = function (models) {
+  TowedVehicle.associate = (models) => {
     models.TowedVehicle.belongsTo(models.Vehicle, {
       foreignKey: 'plate',
       sourceKey: 'plate',

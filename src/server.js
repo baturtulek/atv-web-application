@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const http = require('http');
 const app = require('./app');
-const { initializeDatabase } = require('./models');
+const { initializeDatabase } = require('./models/DB');
 const { loadAppCompetencyList } = require('./controllers/competency.controller');
 
 const server = http.createServer(app);

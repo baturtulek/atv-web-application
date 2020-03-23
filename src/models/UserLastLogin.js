@@ -1,4 +1,4 @@
-module.exports = function (sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
   const UserLastLogin = sequelize.define(
     'UserLastLogin',
     {
@@ -23,7 +23,7 @@ module.exports = function (sequelize, DataTypes) {
     },
   );
 
-  UserLastLogin.associate = function (models) {
+  UserLastLogin.associate = (models) => {
     models.UserLastLogin.hasOne(models.User, {
       foreignKey: 'id',
       sourceKey: 'userId',

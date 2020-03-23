@@ -1,11 +1,8 @@
 /* eslint-disable prefer-const */
-/* eslint-disable consistent-return */
-/* eslint-disable max-len */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-globals */
-/* eslint-disable no-restricted-syntax */
 const { Op } = require('sequelize');
-const { db } = require('../models');
+const { db } = require('../models/DB');
 const { RESPONSE_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Profil';

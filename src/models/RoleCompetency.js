@@ -1,4 +1,4 @@
-module.exports = function (sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
   const RoleCompetency = sequelize.define(
     'RoleCompetency',
     {
@@ -20,7 +20,7 @@ module.exports = function (sequelize, DataTypes) {
     },
   );
 
-  RoleCompetency.associate = function (models) {
+  RoleCompetency.associate = (models) => {
     models.RoleCompetency.hasMany(models.UserRole, {
       foreignKey: 'id',
       sourceKey: 'roleId',

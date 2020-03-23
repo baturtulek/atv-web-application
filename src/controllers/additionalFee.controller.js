@@ -1,5 +1,5 @@
 
-const { db } = require('../models');
+const { db } = require('../models/DB');
 const { RESPONSE_MESSAGE } = require('../messages');
 
 const ROUTE_NAME = 'Ek Ücret';

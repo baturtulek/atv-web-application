@@ -1,4 +1,4 @@
-const { db } = require('../models');
+const { db } = require('../models/DB');
 const authentication = require('../utils/authentication');
 const { RESPONSE_MESSAGE } = require('../messages');
 
