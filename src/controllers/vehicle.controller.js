@@ -73,7 +73,7 @@ exports.addVehicle = async (req, res) => {
 
     const date = moment().tz('Europe/Istanbul').format();
 
-    const createdVehicle = await db.Vehicle.create({
+    await db.Vehicle.upsert({
       plate: vehicle.plate,
       chassisNo: vehicle.chassisNo,
       trusteeNo: vehicle.trusteeNo,
@@ -92,18 +92,17 @@ exports.addVehicle = async (req, res) => {
       },
     });
 
-    if (createdVehicle) {
-      await db.TowedVehicle.update(
-        { stateId: vehicle.stateId, entranceParkingLotDate: date },
-        { where: { stateId: parseInt(vehicleStatus.id), plate: vehicle.plate } },
-      );
-      req.session.flashMessages = {
-        message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`,
-        type: 'success',
-      };
-      // return the appropiate view that confirms vehicle has been added
-      return res.redirect('/vehicle/add');
-    }
+    await db.TowedVehicle.update(
+      { stateId: vehicle.stateId, entranceParkingLotDate: date },
+      { where: { stateId: parseInt(vehicleStatus.id), plate: vehicle.plate } },
+    );
+
+    req.session.flashMessages = {
+      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`,
+      type: 'success',
+    };
+    // return the appropiate view that confirms vehicle has been added
+    return res.redirect('/vehicle/add');
   } catch (exception) {
     req.session.flashMessages = {
       message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`,
