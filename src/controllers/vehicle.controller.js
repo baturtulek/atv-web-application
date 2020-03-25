@@ -1,6 +1,5 @@
 const httpStatus = require('http-status');
 const moment = require('moment');
-const sequelize = require('sequelize');
 const { db } = require('../models/DB');
 const { RESPONSE_MESSAGE } = require('../messages');
 
@@ -121,7 +120,7 @@ exports.searchVehicleView = (req, res) => {
 exports.searchVehicle = async (req, res) => {
   const { plate } = req.body;
   try {
-    const { Op } = sequelize;
+    const { Op } = db.Sequelize;
     const vehicleStatus = await statusIdOtopark();
     const vehicles = await db.TowedVehicle.findAll({
       include: [

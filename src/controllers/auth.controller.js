@@ -1,8 +1,8 @@
-const moment = require('moment');
 const { db } = require('../models/DB');
 const { comparePasswords } = require('../utils/authentication');
 const { RESPONSE_MESSAGE } = require('../messages');
 const { getRoleCompetencies } = require('../controllers/competency.controller');
+const { getFormattedTimeStamp } = require('../utils/timezoneHelpers');
 
 exports.loginView = (req, res) => {
   if (res.locals.session.user) {
@@ -69,10 +69,6 @@ const updateUserLastLogin = (userId, ip) => {
   db.UserLastLogin.upsert({
     userId,
     ip,
-    lastLogin: getCurrentTimeStamp(),
+    lastLogin: getFormattedTimeStamp('YYYY-MM-DD HH:mm:ss'),
   });
-};
-
-const getCurrentTimeStamp = () => {
-  return moment().tz('Europe/Istanbul').format('YYYY-MM-DD HH:mm:ss');
 };

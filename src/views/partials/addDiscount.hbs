@@ -16,12 +16,14 @@
           oninput="setCustomValidity('')">
           
           <label class="col-form-label">Park İndirimi (%)</label>
-          <input type="text" class="form-control" name="parkDiscount" id="parkDiscount" placeholder="" value="{{discount.parkDiscount}}" required
+          <input type="number" class="form-control" name="parkDiscount" id="parkDiscount" placeholder="0" value="{{discount.parkDiscount}}" required
+            min="0" max="100"
             oninvalid="this.setCustomValidity('Lütfen park indirimini girin.')"
             oninput="setCustomValidity('')">
 
           <label class="col-form-label">Transfer İndirimi (%)</label>
-          <input type="text" class="form-control" name="transferDiscount" id="transferDiscount" placeholder="" value="{{discount.transferDiscount}}" required
+          <input type="number" class="form-control" name="transferDiscount" id="transferDiscount" placeholder="0" value="{{discount.transferDiscount}}" required
+            min="0" max="100"
             oninvalid="this.setCustomValidity('Lütfen transfer indirimini girin.')"
             oninput="setCustomValidity('')">
       </div>

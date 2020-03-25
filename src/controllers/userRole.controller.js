@@ -1,7 +1,6 @@
 /* eslint-disable prefer-const */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-globals */
-const { Op } = require('sequelize');
 const { db } = require('../models/DB');
 const { RESPONSE_MESSAGE } = require('../messages');
 
@@ -85,6 +84,7 @@ exports.addUserRole = async (req, res) => {
 
 exports.userRoleUpdateView = async (req, res) => {
   const { id } = req.params;
+  const { Op } = db.Sequelize;
   try {
     const role = await db.UserRole.findOne({
       raw: true,

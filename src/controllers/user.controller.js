@@ -1,6 +1,7 @@
 const { db } = require('../models/DB');
 const authentication = require('../utils/authentication');
 const { RESPONSE_MESSAGE } = require('../messages');
+const { getNullableInput, getCheckboxStatus } = require('../utils/formHelpers');
 
 const ROUTE_NAME = 'Kullanıcı';
 
@@ -123,18 +124,4 @@ const createUserObject = async (user) => {
     updatedUser.password = await authentication.hashPassword(user.password);
   }
   return updatedUser;
-};
-
-const getNullableInput = (input) => {
-  if (input === '' || input === undefined) {
-    return null;
-  }
-  return input;
-};
-
-const getCheckboxStatus = (input) => {
-  if (input == undefined) {
-    return false;
-  }
-  return true;
 };

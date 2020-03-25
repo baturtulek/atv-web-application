@@ -1,6 +1,7 @@
-const moment = require('moment');
 const { db } = require('../models/DB');
 const { RESPONSE_MESSAGE } = require('../messages');
+const { getNullableInput, getCheckboxStatus } = require('../utils/formHelpers');
+const { getFormattedTimeStamp } = require('../utils/timezoneHelpers');
 
 const ROUTE_NAME = 'Çekici Firma';
 
@@ -30,7 +31,7 @@ exports.addTowFirm = async (req, res) => {
       provinceCode: towFirm.provinceCode,
       phoneNumber: getNullableInput(towFirm.phoneNumber),
       faxNumber: getNullableInput(towFirm.faxNumber),
-      registrationDate: getCurrentTimeStamp(),
+      registrationDate: getFormattedTimeStamp('YYYY-MM-DD HH:mm:ss'),
       isActive: getCheckboxStatus(towFirm.isActive),
     });
     req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`, type: 'success' };
@@ -108,22 +109,4 @@ exports.deleteTowFirm = async (req, res) => {
     req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETE_ERROR}`, type: 'danger' };
     return res.redirect('/towfirm/list');
   }
-};
-
-const getCurrentTimeStamp = () => {
-  return moment().tz('Europe/Istanbul').format('YYYY-MM-DD HH:mm:ss');
-};
-
-const getCheckboxStatus = (input) => {
-  if (input == undefined) {
-    return false;
-  }
-  return true;
-};
-
-const getNullableInput = (input) => {
-  if (input === '' || input === undefined) {
-    return null;
-  }
-  return input;
 };

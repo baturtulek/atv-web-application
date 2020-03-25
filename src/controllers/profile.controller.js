@@ -1,6 +1,7 @@
 const { db } = require('../models/DB');
 const authentication = require('../utils/authentication');
 const { RESPONSE_MESSAGE } = require('../messages');
+const { getNullableInput } = require('../utils/formHelpers');
 
 const ROUTE_NAME = 'Profil';
 
@@ -85,11 +86,4 @@ const getUserData = async (id) => {
     raw: true,
   });
   return user;
-};
-
-const getNullableInput = (input) => {
-  if (input === '' || input === undefined) {
-    return null;
-  }
-  return input;
 };
