@@ -182,8 +182,10 @@
 </div>
 
 <script>
-  $('#sidebar .navbar-nav li a').on('click', function () {
-    $('#sidebar .navbar-nav').find('li.active').removeClass('active');
-    $(this).parent('li').addClass('active');
+   $(document).ready(() => {
+    $('#sidebar .navbar-nav li a').on('click', function () {
+      $('#sidebar .navbar-nav').find('li.active').removeClass('active');
+      $(this).parent('li').addClass('active');
+    });
   });
 </script>
