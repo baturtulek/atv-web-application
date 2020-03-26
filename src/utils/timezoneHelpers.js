@@ -1,5 +1,5 @@
 const moment = require('moment');
 
-exports.getCurrentTimeStamp = (timeFomat) => {
+exports.getFormattedTimeStamp = (timeFomat) => {
   return moment().tz('Europe/Istanbul').format(timeFomat);
 };
