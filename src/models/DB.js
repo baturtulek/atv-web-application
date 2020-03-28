@@ -2,11 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const chalk = require('chalk');
-const DB_CONFIG = require('../config/DB_CONFIG.js')[process.env.NODE_ENV];
+const dbConfig = require('../config/dbConfig.js')[process.env.NODE_ENV];
 
 const db = {};
 db.Sequelize = Sequelize;
-const sequelize = new Sequelize(DB_CONFIG);
+const sequelize = new Sequelize(dbConfig);
 
 const initializeDatabase = () => {
   loadModels();

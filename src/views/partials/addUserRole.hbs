@@ -1,10 +1,10 @@
 <div class="partial-container">
   <div class="form-container">
+    {{> components/showMessage }}
     <header class="form-navigation">
       <a href="/role/list"><i class="fa fa-list"></i> Listele</a>
       <span>Profil İşlemleri</span>
     </header>
-    {{> components/showMessage }}
     <form class="border border-light" action="/role/{{endPoint}}" method="POST">
       <div class="form-inside-container mb-2 ml-3">
         <input type="hidden" name="id" value="{{role.id}}">

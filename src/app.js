@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const path = require('path');
 const hbs = require('express-handlebars');
 const morgan = require('morgan');
-const hbsHelpers = require('./HBSHelpers');
+const hbsHelpers = require('./hbsHelpers');
 const { validateUserSession, validateUserRole } = require('./utils/authentication');
 
 const app = express();

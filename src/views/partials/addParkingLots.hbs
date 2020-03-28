@@ -1,71 +1,55 @@
 <div class="partial-container">
   <div class="form-container">
+    {{> components/showMessage }}
     <header class="form-navigation">
       <a href="/parkinglot/list"><i class="fa fa-list"></i> Listele</a>
       <span>Otopark İşlemleri</span>
     </header>
-     {{> components/showMessage }}
-
     <form class="border border-light" action="/parkinglot/{{endPoint}}" method="POST">
-      <div class="form-group row row-cols-3">
+      <div class="form-inside-container">
         <input type="hidden" name="id" value="{{parkingLot.id}}">
-        <div class="col">
-          <label class="col-sm-2 col-form-label">Adı</label>
-          <input type="text" class="form-control" name="name" id="name" required pattern=".*\S+.*" value="{{parkingLot.name}}"
-            oninvalid="this.setCustomValidity('Lütfen otopark adını girin.')"
-            oninput="setCustomValidity('')">
-        </div>
-        
-        <div class="col">
-          <label class="col-form-label">Yetkili</label>
-          <select class="browser-default custom-select" name="staffId" id="staffId" required>
-            {{#each parkingLotUsers}}
-              <option value="{{this.id}}"
-                {{#ifEquals this.id ../parkingLot.staffId}}
-                selected
-                {{/ifEquals}}
-              >
-                {{this.name}} {{this.surname}}
-              </option>
-            {{/each}}
-          </select>
-        </div>
-        
-        <div class="col">
-          <label class="col-sm-2 col-form-label">Tip</label>
-          <select class="browser-default custom-select" name="parkingTypeId" id="parkingTypeId" required>
-            {{#each parkingLotType}}
-              <option value="{{this.id}}"
-                {{#ifEquals this.id ../parkingLot.parkingTypeId}}
-                selected
-                {{/ifEquals}}
-              >
-                {{this.description}}
-              </option>
-            {{/each}}
-          </select>
-        </div>
+        <label class="col-form-label">Adı</label>
+        <input type="text" class="form-control" name="name" id="name" required pattern=".*\S+.*"
+          value="{{parkingLot.name}}" oninvalid="this.setCustomValidity('Lütfen otopark adını girin.')"
+          oninput="setCustomValidity('')">
+
+        <label class="col-form-label">Yetkili</label>
+        <select class="browser-default custom-select" name="staffId" id="staffId" required>
+          {{#each parkingLotUsers}}
+          <option value="{{this.id}}" {{#ifEquals this.id ../parkingLot.staffId}} selected {{/ifEquals}}>
+            {{this.name}} {{this.surname}}
+          </option>
+          {{/each}}
+        </select>
+
+        <label class="col-form-label">Tip</label>
+        <select class="browser-default custom-select" name="parkingTypeId" id="parkingTypeId" required>
+          {{#each parkingLotType}}
+          <option value="{{this.id}}" {{#ifEquals this.id ../parkingLot.parkingTypeId}} selected {{/ifEquals}}>
+            {{this.description}}
+          </option>
+          {{/each}}
+        </select>
+
+        <label class="col-form-label">Adres</label>
+        <textarea class="form-control" rows="3" name="address" id="address" required pattern=".*\S+.*"
+          oninvalid="this.setCustomValidity('Lütfen otopark adresini girin.')"
+          oninput="setCustomValidity('')">{{parkingLot.address}}</textarea>
+
+        <label class="col-form-label">Açıklama</label>
+        <textarea class="form-control" rows="3" name="description"
+          id="description">{{parkingLot.description}}</textarea>
       </div>
-      
+
       <div class="form-group row row-cols-3">
-        <div class="col">
-          <label class="col-sm-2 col-form-label">Adres</label>
-          <textarea class="form-control" rows="2" name="address" id="address" required pattern=".*\S+.*"
-            oninvalid="this.setCustomValidity('Lütfen otopark adresini girin.')"
-            oninput="setCustomValidity('')">{{parkingLot.address}}</textarea>
-        </div>
-        <div class="col mr-auto">
-          <label class="col-sm-2 col-form-label">Açıklama</label>
-          <textarea class="form-control" rows="2" name="description" id="description">{{parkingLot.description}}</textarea>
-        </div>
-        <div class="col-auto grid-button-group">
-          <button type="button" class="btn-info" id="resetButton"><i class="fa fa-refresh"></i>Sıfırla</button>
-          <button type="submit" class="btn-success" id="submitButton"><i class="fa fa-save"></i>
-          {{#ifEquals "add" endPoint}}
+        <div class="col-auto grid-button-group ml-auto">
+          <button type="button" class="btn-info" id="resetButton"><i class="fas fa-sync-alt"></i>Sıfırla</button>
+          <button type="submit" class="btn-success"><i class="fas fa-save"></i>
+            {{#ifEquals "add" endPoint}}
             Ekle
-          {{else}}
+            {{else}}
             Güncelle
-          {{/ifEquals}}
+            {{/ifEquals}}
           </button>
         </div>
       </div>

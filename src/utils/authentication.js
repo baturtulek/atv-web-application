@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { getRouteCompetencyId } = require('./ROUTE_COMPETENCY');
+const { getRouteCompetencyId } = require('../routes/ROUTE_COMPETENCY');
 
 const hashRounds = 10;
 

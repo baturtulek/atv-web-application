@@ -1,10 +1,6 @@
 <div class="partial-container">
   <div class="form-container">
-    {{#if flashMessages.message}}
-    <div class="alert alert-{{flashMessages.type}} flashMessage" role="alert" style="border-radius: 8px 8px 8px 8px;">
-      {{flashMessages.message}}
-    </div>
-    {{/if}}
+    {{> components/showMessage }}
     <div class="mt-3">
       <h4 class="pl-2">Profilim</h4>
       <hr>
@@ -26,7 +22,7 @@
         <input type="text" class="form-control" name="surname" id="surname" value="{{user.surname}}">
 
         <label class="col-form-label">E-Mail</label>
-        <input type="text" class="form-control" name="email" id="email" value="{{user.email}}">
+        <input type="email" class="form-control" name="email" id="email" value="{{user.email}}">
 
         <label class="col-form-label">Telefon Numarası</label>
         <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" value="{{user.phoneNumber}}">

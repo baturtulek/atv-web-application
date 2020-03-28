@@ -11,6 +11,7 @@ html {
 .dataTables_wrapper{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 6px 1px rgba(0, 0, 0, 0.1);
   padding: 30px 20px;
+  border-radius: 0 0 8px 8px;
 }
 
 body {
@@ -293,7 +294,7 @@ a.header-logo span {
 
 .form-navigation a {
   color: white;
-  font-size: 14px;
+  font-size: 15px;
   margin-right: 3px;
 }
 
@@ -312,13 +313,12 @@ a.header-logo span {
 }
 
 .flashMessage {
-  font-size: 14px;
+  font-size: 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 48px;
+  height: 50px;
   padding: 4px 12px 2px 20px;
-  border-radius: 0 0 8px 8px;
 }
 
 /* ---------- TABLE ---------- */

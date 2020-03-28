@@ -1,7 +1,7 @@
 
 const gulp = require('gulp');
 const merge = require('merge-stream');
-const gulpConfig = require('./gulp-config.js');
+const gulpConfig = require('./src/config/gulpConfig.js');
 
 const { vendorFiles } = gulpConfig;
 

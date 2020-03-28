@@ -1,25 +1,23 @@
 <div class="table-container">
   <div>
-  <div class="form-container">
-    <header class="form-navigation">
-      <a href="/vehicle/add"><i class="fas fa-plus"></i> Ekle</a>
-      <span>Araç Giriş/Çıkış İşlemleri</span>
-    </header>
-    {{> components/showMessage }}
-
-    <form class="border border-light" action="/vehicle/search" method="POST"> 
-      <div class="form-group row row-cols-2">
-        <div class="col">
-          <input name="plate" type="text" class="form-control" placeholder="Araç plakasını girin">
+    <div class="form-container">
+      {{> components/showMessage }}
+      <header class="form-navigation">
+        <a href="/vehicle/add"><i class="fas fa-plus"></i> Ekle</a>
+        <span>Araç Giriş/Çıkış İşlemleri</span>
+      </header>
+      <form class="border border-light" action="/vehicle/search" method="POST">
+        <div class="form-group row row-cols-2">
+          <div class="col">
+            <input name="plate" type="text" class="form-control" placeholder="Araç plakasını girin">
+          </div>
+          <div class="col">
+            <button type="button submit" class="btn btn-primary"><i class="fas fa-search"></i>
+          </div>
         </div>
-        <div class="col">
-          <button type="button submit" class="btn btn-primary"><i class="fas fa-search"></i>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
-</div>
-
   {{#if vehicles}}
   <table class="table table-striped">
     <thead>
@@ -35,9 +33,9 @@
         <th class="column1">{{@index}}</th>
         <td class="column2">{{this.plate}}</td>
         <td class="column3">
-            <a href="/vehicle/exit?plate={{this.plate}}">
-              <i class="fa fa-pencil-square-o fa-m btn btn-primary" aria-hidden="true" ></i>
-            </a>
+          <a href="/vehicle/exit?plate={{this.plate}}">
+            <i class="fa fa-pencil-square-o fa-m btn btn-primary" aria-hidden="true"></i>
+          </a>
         </td>
       </tr>
       {{/each}}

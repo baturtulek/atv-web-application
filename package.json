@@ -49,8 +49,9 @@
     "sequelize": "^5.21.3"
   },
   "scripts": {
+    "build": "gulp build",
     "start": "NODE_ENV=development node ./src/server.js",
-    "build:dev": "NODE_ENV=development gulp build & nodemon ./src/server.js",
+    "build:dev": "NODE_ENV=development nodemon ./src/server.js",
     "build:win": "SET NODE_ENV=development& nodemon ./src/server.js"
   },
   "devDependencies": {

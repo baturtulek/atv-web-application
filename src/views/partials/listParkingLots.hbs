@@ -1,40 +1,38 @@
 <div class="table-container">
+  {{> components/showMessage }}
   <header class="form-navigation">
     <a href="/parkinglot/add"><i class="fas fa-plus"></i> Ekle</a>
     <span>Otopark İşlemleri</span>
   </header>
   <table class="table table-striped">
-  
-    {{> components/showMessage }}
-
     <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Adı</th>
-      <th scope="col">Açıklama</th>
-      <th scope="col">Tipi</th>
-      <th scope="col">Yetkili</th>
-      <th scope="col"></th>
-    </tr>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Adı</th>
+        <th scope="col">Açıklama</th>
+        <th scope="col">Tipi</th>
+        <th scope="col">Yetkili</th>
+        <th scope="col"></th>
+      </tr>
     </thead>
     <tbody>
-    {{#each parkinglotList}}
+      {{#each parkinglotList}}
       <tr>
         <td class="column1"> {{incrementByOne @index}}</td>
         <td class="column2"> {{this.name}} </td>
         <td class="column3"> {{this.description}} </td>
         <td class="column4"> {{this.[ParkingType.description]}} </td>
-        <td class="column5"> {{this.[User.name]}}  {{this.[User.surname]}}</td>
+        <td class="column5"> {{this.[User.name]}} {{this.[User.surname]}}</td>
         <td class="column6" style="text-align:center; width:85px;">
           <a href="/parkinglot/update/{{this.id}}">
-            <i class="far fa-edit fa-sm btn btn-success" aria-hidden="true" ></i>
+            <i class="far fa-edit fa-sm btn btn-success" aria-hidden="true"></i>
           </a>
           <a href="/parkinglot/delete/{{this.id}}" onclick="return confirm('Silmek istediğinize emin misiniz ?');">
             <i class="fas fa-trash fa-sm btn btn-danger" aria-hidden="true"></i>
           </a>
         </td>
       </tr>
-    {{/each}}
+      {{/each}}
     </tbody>
   </table>
 

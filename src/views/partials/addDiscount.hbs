@@ -1,11 +1,10 @@
 <div class="partial-container">
   <div class="form-container">
+    {{> components/showMessage }}
     <header class="form-navigation">
       <a href="/discount/list"><i class="fa fa-list"></i> Listele</a>
       <span>İndirim İşlemleri</span>
     </header>
-    {{> components/showMessage }}
-
     <form class="border border-light" id='form' action="/discount/{{endPoint}}" method="POST">
       <div class="form-inside-container">
         <input type="hidden" name="id" value="{{discount.id}}">
