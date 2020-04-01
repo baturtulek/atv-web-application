@@ -1,9 +1,8 @@
+const i18n = require('../services/i18n');
+const routeNames = require('../locales/routeNamesTR.json');
 const { db } = require('../models/DB');
-const { RESPONSE_MESSAGE } = require('../messages');
 const { getNullableInput, getCheckboxStatus } = require('../utils/formHelpers');
 const { getFormattedTimeStamp } = require('../utils/timezoneHelpers');
-
-const ROUTE_NAME = 'Çekici Firma';
 
 exports.listTowFirms = async (req, res) => {
   const towFirmList = await db.TowFirm.findAll({
@@ -34,11 +33,17 @@ exports.addTowFirm = async (req, res) => {
       registrationDate: getFormattedTimeStamp('YYYY-MM-DD HH:mm:ss'),
       isActive: getCheckboxStatus(towFirm.isActive),
     });
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`, type: 'success' };
+    req.session.flashMessages = {
+      message: i18n.__('ADDED', routeNames.TOW_FIRM),
+      type: 'success',
+    };
     return res.redirect('/towfirm/add');
   } catch (error) {
     console.log(error);
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`, type: 'danger' };
+    req.session.flashMessages = {
+      message: i18n.__('ADD_ERROR', routeNames.TOW_FIRM),
+      type: 'danger',
+    };
     return res.redirect('/towfirm/add');
   }
 };
@@ -64,7 +69,6 @@ exports.updateTowFirmView = async (req, res) => {
 };
 
 exports.updateTowFirm = async (req, res) => {
-  console.log('UPATE TOW FIRM');
   const towFirm = req.body;
   try {
     await db.TowFirm.update(
@@ -83,10 +87,16 @@ exports.updateTowFirm = async (req, res) => {
         raw: true,
       },
     );
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`, type: 'success' };
+    req.session.flashMessages = {
+      message: i18n.__('UPDATED', routeNames.TOW_FIRM),
+      type: 'success',
+    };
     return res.redirect(`/towfirm/update/${towFirm.id}`);
   } catch (error) {
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`, type: 'danger' };
+    req.session.flashMessages = {
+      message: i18n.__('UPDATE_ERROR', routeNames.TOW_FIRM),
+      type: 'danger',
+    };
     return res.redirect(`/towfirm/update/${towFirm.id}`);
   }
 };
@@ -103,10 +113,16 @@ exports.deleteTowFirm = async (req, res) => {
     await db.TowFirm.destroy({
       where: { id },
     });
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETED}`, type: 'success' };
+    req.session.flashMessages = {
+      message: i18n.__('DELETED', routeNames.TOW_FIRM),
+      type: 'success',
+    };
     return res.redirect('/towfirm/list');
   } catch (error) {
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETE_ERROR}`, type: 'danger' };
+    req.session.flashMessages = {
+      message: i18n.__('DELETE_ERROR', routeNames.TOW_FIRM),
+      type: 'danger',
+    };
     return res.redirect('/towfirm/list');
   }
 };

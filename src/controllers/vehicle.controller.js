@@ -1,9 +1,8 @@
 const httpStatus = require('http-status');
 const moment = require('moment');
+const i18n = require('../services/i18n');
+const routeNames = require('../locales/routeNamesTR.json');
 const { db } = require('../models/DB');
-const { RESPONSE_MESSAGE } = require('../messages');
-
-const ROUTE_NAME = 'Araç';
 
 const statusIdOtopark = async () => {
   const vehicleStatus = await db.VehicleState.findOne({
@@ -97,14 +96,13 @@ exports.addVehicle = async (req, res) => {
     );
 
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`,
+      message: i18n.__('ADDED', routeNames.VEHICLE),
       type: 'success',
     };
-    // return the appropiate view that confirms vehicle has been added
     return res.redirect('/vehicle/add');
   } catch (exception) {
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`,
+      message: i18n.__('ADD_ERROR', routeNames.VEHICLE),
       type: 'danger',
     };
     return res.redirect('/vehicle/add');
@@ -139,7 +137,7 @@ exports.searchVehicle = async (req, res) => {
     });
     if (!vehicles.length > 0) {
       req.session.flashMessages = {
-        message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.SEARCH_ERROR}`,
+        message: i18n.__('SEARCH_ERROR', routeNames.VEHICLE),
         type: 'danger',
       };
       return res.redirect('/vehicle/search');
@@ -150,7 +148,7 @@ exports.searchVehicle = async (req, res) => {
     });
   } catch (err) {
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.SEARCH_ERROR}`,
+      message: i18n.__('SEARCH_ERROR', routeNames.VEHICLE),
       type: 'danger',
     };
     console.log('err', err);
@@ -230,7 +228,7 @@ exports.exitVehicle = async (req, res) => {
     // const now = moment().tz('Europe/Istanbul');
     // const diff = now.diff(entrance, 'h');
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.EXIT_VEHICLE_SUCCESS}`,
+      message: i18n.__('EXIT_VEHICLE_SUCCESS', routeNames.VEHICLE),
       type: 'success',
     };
     return res.redirect('/vehicle/search');

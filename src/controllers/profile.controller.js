@@ -1,9 +1,8 @@
+const i18n = require('../services/i18n');
+const routeNames = require('../locales/routeNamesTR.json');
 const { db } = require('../models/DB');
 const authentication = require('../utils/authentication');
-const { RESPONSE_MESSAGE } = require('../messages');
 const { getNullableInput } = require('../utils/formHelpers');
-
-const ROUTE_NAME = 'Profil';
 
 exports.profileView = async (req, res) => {
   const { user } = res.locals.session;
@@ -39,10 +38,16 @@ exports.updateProfileInfo = async (req, res) => {
     );
     const updatedUser = await getUserData(id);
     req.session.user = updatedUser;
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`, type: 'success' };
+    req.session.flashMessages = {
+      message: i18n.__('UPDATED', routeNames.PROFILE),
+      type: 'success',
+    };
     return res.redirect('/profile');
   } catch (error) {
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`, type: 'danger' };
+    req.session.flashMessages = {
+      message: i18n.__('UPDATE_ERROR', routeNames.PROFILE),
+      type: 'danger',
+    };
     return res.redirect('/profile');
   }
 };
@@ -53,11 +58,17 @@ exports.updateProfilePassword = async (req, res) => {
   try {
     const result = await authentication.comparePasswords(user.currentPassword, password);
     if (!result) {
-      req.session.flashMessages = { message: `${RESPONSE_MESSAGE.OLD_PASSWORD_INVALID}`, type: 'danger' };
+      req.session.flashMessages = {
+        message: i18n.__('OLD_PASSWORD_INVALID'),
+        type: 'danger',
+      };
       return res.redirect('/profile');
     }
     if (user.newpassword1 !== user.newpassword2) {
-      req.session.flashMessages = { message: `${RESPONSE_MESSAGE.NEW_PASSWORDS_NOT_MATCHES}`, type: 'danger' };
+      req.session.flashMessages = {
+        message: i18n.__('NEW_PASSWORDS_NOT_MATCHES'),
+        type: 'danger',
+      };
       return res.redirect('/profile');
     }
     const hashedPassword = await authentication.hashPassword(user.newpassword1);
@@ -72,10 +83,16 @@ exports.updateProfilePassword = async (req, res) => {
     );
     const updatedUser = await getUserData(username);
     req.session.user = updatedUser;
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`, type: 'success' };
+    req.session.flashMessages = {
+      message: i18n.__('UPDATED', routeNames.PROFILE),
+      type: 'success',
+    };
     return res.redirect('/profile');
   } catch (error) {
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`, type: 'danger' };
+    req.session.flashMessages = {
+      message: i18n.__('UPDATE_ERROR', routeNames.PROFILE),
+      type: 'danger',
+    };
     return res.redirect('/profile');
   }
 };

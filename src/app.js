@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const path = require('path');
 const hbs = require('express-handlebars');
 const morgan = require('morgan');
+const i18n = require('./services/i18n');
 const hbsHelpers = require('./hbsHelpers');
 const { validateUserSession, validateUserRole } = require('./utils/authentication');
 
@@ -17,6 +18,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use(i18n.init);
 
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, '/views'));

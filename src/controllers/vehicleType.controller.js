@@ -1,7 +1,6 @@
+const i18n = require('../services/i18n');
+const routeNames = require('../locales/routeNamesTR.json');
 const { db } = require('../models/DB');
-const { RESPONSE_MESSAGE } = require('../messages');
-
-const ROUTE_NAME = 'Araç Tipi';
 
 exports.addVehicleTypeView = (req, res) => {
   res.render('layouts/main', {
@@ -19,11 +18,17 @@ exports.addVehicleType = async (req, res) => {
       fee,
     });
     if (vehicleType) {
-      req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`, type: 'success' };
+      req.session.flashMessages = {
+        message: i18n.__('ADDED', routeNames.VEHICLE_TYPE),
+        type: 'success',
+      };
       return res.redirect('/vehicletype/add');
     }
   } catch (error) {
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`, type: 'danger' };
+    req.session.flashMessages = {
+      message: i18n.__('ADD_ERROR', routeNames.VEHICLE_TYPE),
+      type: 'danger',
+    };
     return res.redirect('/vehicletype/add');
   }
 };
@@ -69,10 +74,16 @@ exports.updateVehicleType = async (req, res) => {
       { name, description, fee },
       { where: { id } },
     );
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`, type: 'success' };
+    req.session.flashMessages = {
+      message: i18n.__('UPDATED', routeNames.VEHICLE_TYPE),
+      type: 'success',
+    };
     return res.redirect(`/vehicletype/update/${id}`);
   } catch (error) {
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`, type: 'danger' };
+    req.session.flashMessages = {
+      message: i18n.__('UPDATE_ERROR', routeNames.VEHICLE_TYPE),
+      type: 'danger',
+    };
     return res.redirect(`/vehicletype/update/${id}`);
   }
 };
@@ -93,10 +104,16 @@ exports.deleteVehicleType = async (req, res) => {
         id,
       },
     });
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETED}`, type: 'success' };
+    req.session.flashMessages = {
+      message: i18n.__('DELETED', routeNames.VEHICLE_TYPE),
+      type: 'success',
+    };
     return res.redirect('/vehicletype/list');
   } catch (error) {
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETE_ERROR}`, type: 'danger' };
+    req.session.flashMessages = {
+      message: i18n.__('DELETE_ERROR', routeNames.VEHICLE_TYPE),
+      type: 'danger',
+    };
     return res.redirect('/vehicletype/list');
   }
 };
