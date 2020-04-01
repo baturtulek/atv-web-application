@@ -3,7 +3,7 @@
 /* eslint-disable no-restricted-globals */
 const i18n = require('../services/i18n');
 const routeNames = require('../locales/routeNamesTR.json');
-const { db } = require('../models/DB');
+const { db } = require('../services/sequelize');
 
 exports.listUserRoles = async (req, res) => {
   try {

@@ -1,5 +1,5 @@
 const i18n = require('../services/i18n');
-const { db } = require('../models/DB');
+const { db } = require('../services/sequelize');
 const { comparePasswords } = require('../utils/authentication');
 const { getRoleCompetencies } = require('../controllers/competency.controller');
 const { getFormattedTimeStamp } = require('../utils/timezoneHelpers');

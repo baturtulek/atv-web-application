@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const chalk = require('chalk');
-const dbConfig = require('../config/dbConfig.js')[process.env.NODE_ENV];
+const dbConfig = require('../config/dbConfig')[process.env.NODE_ENV];
 
 const db = {};
 db.Sequelize = Sequelize;
@@ -15,13 +15,9 @@ const initializeDatabase = () => {
 };
 
 const loadModels = () => {
-  const basename = path.basename(__filename);
-  fs.readdirSync(__dirname)
-    .filter((file) => {
-      return (file !== basename);
-    })
+  fs.readdirSync('./src/models')
     .forEach((file) => {
-      const model = sequelize.import(path.join(__dirname, file));
+      const model = sequelize.import(path.join('../models/', file));
       db[model.name] = model;
     });
 };
