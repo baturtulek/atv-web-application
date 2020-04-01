@@ -21,7 +21,10 @@ const prepareVendorFiles = () => {
   const fontAwesomeWebfonts = gulp
     .src(vendorFiles.src.fontAwesomeWebFonts)
     .pipe(gulp.dest(vendorFiles.public.fontAwesomeWebFonts));
-  const datatables = gulp
+  const datatablesJquery = gulp
+    .src(vendorFiles.src.datatableJs)
+    .pipe(gulp.dest(vendorFiles.public.datatableJs));
+  const datatablesJs = gulp
     .src(vendorFiles.src.datatableJs)
     .pipe(gulp.dest(vendorFiles.public.datatableJs));
   const datatablesCss = gulp
@@ -29,11 +32,12 @@ const prepareVendorFiles = () => {
     .pipe(gulp.dest(vendorFiles.public.datatableCss));
   return merge(
     jquery,
-    datatables,
     popperJs,
     bootstrap,
     fontAwesomeCSS,
     fontAwesomeWebfonts,
+    datatablesJquery,
+    datatablesJs,
     datatablesCss,
   );
 };
