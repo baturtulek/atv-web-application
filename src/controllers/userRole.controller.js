@@ -1,10 +1,9 @@
 /* eslint-disable prefer-const */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-globals */
-const { db } = require('../models/DB');
-const { RESPONSE_MESSAGE } = require('../messages');
-
-const ROUTE_NAME = 'Profil';
+const i18n = require('../services/i18n');
+const routeNames = require('../locales/routeNamesTR.json');
+const { db } = require('../services/sequelize');
 
 exports.listUserRoles = async (req, res) => {
   try {
@@ -62,20 +61,20 @@ exports.addUserRole = async (req, res) => {
         }
       }
       req.session.flashMessages = {
-        message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`,
+        message: i18n.__('ADDED', routeNames.USER_ROLE),
         type: 'success',
       };
       return res.redirect('/role/add');
     }
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.IN_USE}`,
+      message: i18n.__('IN_USE', routeNames.USER_ROLE),
       type: 'danger',
     };
     return res.redirect('/role/add');
   } catch (error) {
     console.log(error);
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`,
+      message: i18n.__('ADD_ERROR', routeNames.USER_ROLE),
       type: 'danger',
     };
     return res.redirect('/role/add');
@@ -139,9 +138,8 @@ exports.userRoleUpdate = async (req, res) => {
         id,
       },
     });
-
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
+      message: i18n.__('UPDATE_ERROR', routeNames.USER_ROLE),
       type: 'danger',
     };
     if (!foundRole) return res.redirect(`/role/update/${id}`);
@@ -172,13 +170,13 @@ exports.userRoleUpdate = async (req, res) => {
       }
     }
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`,
+      message: i18n.__('UPDATED', routeNames.USER_ROLE),
       type: 'success',
     };
     return res.redirect(`/role/update/${id}`);
   } catch (error) {
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
+      message: i18n.__('UPDATE_ERROR', routeNames.USER_ROLE),
       type: 'danger',
     };
     return res.redirect(`/role/update/${id}`);
@@ -223,9 +221,16 @@ exports.deleteUserRole = async (req, res) => {
         id,
       },
     });
-    return res.redirect('/role/list?success=deleted');
+    req.session.flashMessages = {
+      message: i18n.__('DELETED', routeNames.USER_ROLE),
+      type: 'success',
+    };
+    return res.redirect('/role/list');
   } catch (ex) {
-    console.log(ex);
-    return res.redirect('/role/list?error=delete_error');
+    req.session.flashMessages = {
+      message: i18n.__('DELETE_ERROR', routeNames.USER_ROLE),
+      type: 'danger',
+    };
+    return res.redirect('/role/list');
   }
 };

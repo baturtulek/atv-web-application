@@ -1,9 +1,8 @@
-const { db } = require('../models/DB');
+const i18n = require('../services/i18n');
+const routeNames = require('../locales/routeNamesTR.json');
+const { db } = require('../services/sequelize');
 const authentication = require('../utils/authentication');
-const { RESPONSE_MESSAGE } = require('../messages');
 const { getNullableInput, getCheckboxStatus } = require('../utils/formHelpers');
-
-const ROUTE_NAME = 'Kullanıcı';
 
 exports.listUserView = async (req, res) => {
   const userList = await db.User.findAll({
@@ -42,7 +41,7 @@ exports.addUser = async (req, res) => {
   });
   if (dbUser.length !== 0) {
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.IN_USE}`,
+      message: i18n.__('IN_USE', routeNames.USER),
       type: 'danger',
     };
     return res.redirect('/user/add');
@@ -59,10 +58,16 @@ exports.addUser = async (req, res) => {
       phoneNumber: getNullableInput(user.phoneNumber),
       isActive: getCheckboxStatus(user.isActive),
     });
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`, type: 'success' };
+    req.session.flashMessages = {
+      message: i18n.__('ADDED', routeNames.USER),
+      type: 'success',
+    };
     return res.redirect('/user/add');
   } catch (error) {
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`, type: 'danger' };
+    req.session.flashMessages = {
+      message: i18n.__('ADD_ERROR', routeNames.USER),
+      type: 'danger',
+    };
     return res.redirect('/user/add');
   }
 };
@@ -102,10 +107,16 @@ exports.updateUser = async (req, res) => {
         },
         raw: true,
       });
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`, type: 'success' };
+    req.session.flashMessages = {
+      message: i18n.__('UPDATED', routeNames.USER),
+      type: 'success',
+    };
     return res.redirect(`/user/update/${user.id}`);
   } catch (error) {
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`, type: 'danger' };
+    req.session.flashMessages = {
+      message: i18n.__('UPDATE_ERROR', routeNames.USER),
+      type: 'danger',
+    };
     return res.redirect(`/user/update/${user.id}`);
   }
 };

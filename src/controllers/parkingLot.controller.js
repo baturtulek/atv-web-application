@@ -1,7 +1,6 @@
-const { db } = require('../models/DB');
-const { RESPONSE_MESSAGE } = require('../messages');
-
-const ROUTE_NAME = 'Otopark';
+const i18n = require('../services/i18n');
+const routeNames = require('../locales/routeNamesTR.json');
+const { db } = require('../services/sequelize');
 
 exports.listParkingLots = async (req, res) => {
   const parkinglotList = await db.ParkingLot.findAll({
@@ -52,13 +51,13 @@ exports.addNewParkingLot = async (req, res) => {
       parkingTypeId: parkingLot.parkingTypeId,
     });
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`,
+      message: i18n.__('ADDED', routeNames.PARKING_LOT),
       type: 'success',
     };
     return res.redirect('/parkinglot/add');
   } catch (error) {
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`,
+      message: i18n.__('ADD_ERROR', routeNames.PARKING_LOT),
       type: 'danger',
     };
     return res.redirect('/parkinglot/add');
@@ -115,13 +114,13 @@ exports.updateParkingLot = async (req, res) => {
       },
     );
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`,
+      message: i18n.__('UPDATED', routeNames.PARKING_LOT),
       type: 'success',
     };
     return res.redirect(`/parkinglot/update/${parkingLot.id}`);
   } catch (error) {
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
+      message: i18n.__('UPDATE_ERROR', routeNames.PARKING_LOT),
       type: 'danger',
     };
     return res.redirect(`/parkinglot/update/${parkingLot.id}`);
@@ -141,13 +140,13 @@ exports.deleteParkingLot = async (req, res) => {
       where: { id },
     });
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETED}`,
+      message: i18n.__('DELETED', routeNames.PARKING_LOT),
       type: 'success',
     };
     return res.redirect('/parkinglot/list');
   } catch (error) {
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETE_ERROR}`,
+      message: i18n.__('DELETE_ERROR', routeNames.PARKING_LOT),
       type: 'danger',
     };
     return res.redirect('/parkinglot/list');

@@ -1,8 +1,6 @@
-
-const { db } = require('../models/DB');
-const { RESPONSE_MESSAGE } = require('../messages');
-
-const ROUTE_NAME = 'İndirim';
+const i18n = require('../services/i18n');
+const routeNames = require('../locales/routeNamesTR.json');
+const { db } = require('../services/sequelize');
 
 exports.listDiscounts = async (req, res) => {
   const discountList = await db.Discount.findAll({
@@ -30,13 +28,13 @@ exports.addDiscount = async (req, res) => {
       transferDiscount: discount.transferDiscount,
     });
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`,
+      message: i18n.__('ADDED', routeNames.DISCOUNT),
       type: 'success',
     };
     return res.redirect('/discount/add');
   } catch (error) {
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`,
+      message: i18n.__('ADD_ERROR', routeNames.DISCOUNT),
       type: 'danger',
     };
     return res.redirect('/discount/add');
@@ -80,13 +78,13 @@ exports.updateDiscount = async (req, res) => {
       },
     );
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`,
+      message: i18n.__('UPDATED', routeNames.DISCOUNT),
       type: 'success',
     };
     return res.redirect(`/discount/update/${discount.id}`);
   } catch (error) {
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`,
+      message: i18n.__('UPDATE_ERROR', routeNames.DISCOUNT),
       type: 'danger',
     };
     return res.redirect(`/discount/update/${discount.id}`);
@@ -106,13 +104,13 @@ exports.deleteDiscount = async (req, res) => {
       where: { id },
     });
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETED}`,
+      message: i18n.__('DELETED', routeNames.DISCOUNT),
       type: 'success',
     };
     return res.redirect('/discount/list');
   } catch (error) {
     req.session.flashMessages = {
-      message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETE_ERROR}`,
+      mmessage: i18n.__('DELETE_ERROR', routeNames.DISCOUNT),
       type: 'danger',
     };
     return res.redirect('/discount/list');

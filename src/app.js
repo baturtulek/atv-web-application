@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const path = require('path');
 const hbs = require('express-handlebars');
 const morgan = require('morgan');
+const i18n = require('./services/i18n');
 const hbsHelpers = require('./hbsHelpers');
 const { validateUserSession, validateUserRole } = require('./utils/authentication');
 
@@ -14,7 +15,7 @@ const app = express();
 app.use(morgan('dev'));
 app.use(compression());
 app.use(helmet());
-app.use(express.json());
+app.use(i18n.init);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 

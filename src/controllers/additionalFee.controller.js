@@ -1,8 +1,6 @@
-
-const { db } = require('../models/DB');
-const { RESPONSE_MESSAGE } = require('../messages');
-
-const ROUTE_NAME = 'Ek Ücret';
+const i18n = require('../services/i18n');
+const routeNames = require('../locales/routeNamesTR.json');
+const { db } = require('../services/sequelize');
 
 exports.listAdditionalFees = async (req, res) => {
   const additionalFeeList = await db.AdditionalFee.findAll({
@@ -28,10 +26,16 @@ exports.addAdditionalFee = async (req, res) => {
       name: additionalFee.name,
       fee: additionalFee.fee,
     });
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADDED}`, type: 'success' };
+    req.session.flashMessages = {
+      message: i18n.__('ADDED', routeNames.ADDITIONAL_FEE),
+      type: 'success',
+    };
     return res.redirect('/additionalfee/add');
   } catch (error) {
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.ADD_ERROR}`, type: 'danger' };
+    req.session.flashMessages = {
+      message: i18n.__('ADD_ERROR', routeNames.ADDITIONAL_FEE),
+      type: 'danger',
+    };
     return res.redirect('/additionalfee/add');
   }
 };
@@ -71,10 +75,16 @@ exports.updateAdditionalFee = async (req, res) => {
         raw: true,
       },
     );
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATED}`, type: 'success' };
+    req.session.flashMessages = {
+      message: i18n.__('UPDATED', routeNames.ADDITIONAL_FEE),
+      type: 'success',
+    };
     return res.redirect(`/additionalfee/update/${additionalFee.id}`);
   } catch (error) {
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.UPDATE_ERROR}`, type: 'danger' };
+    req.session.flashMessages = {
+      message: i18n.__('UPDATE_ERROR', routeNames.ADDITIONAL_FEE),
+      type: 'danger',
+    };
     return res.redirect(`/additionalfee/update/${additionalFee.id}`);
   }
 };
@@ -91,10 +101,16 @@ exports.deleteAdditionalFee = async (req, res) => {
     await db.AdditionalFee.destroy({
       where: { id },
     });
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETED}`, type: 'success' };
+    req.session.flashMessages = {
+      message: i18n.__('DELETED', routeNames.ADDITIONAL_FEE),
+      type: 'success',
+    };
     return res.redirect('/additionalfee/list');
   } catch (error) {
-    req.session.flashMessages = { message: `${ROUTE_NAME} ${RESPONSE_MESSAGE.DELETE_ERROR}`, type: 'danger' };
+    req.session.flashMessages = {
+      message: i18n.__('DELETE_ERROR', routeNames.ADDITIONAL_FEE),
+      type: 'danger',
+    };
     return res.redirect('/additionalfee/list');
   }
 };
