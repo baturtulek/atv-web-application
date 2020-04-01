@@ -15,10 +15,9 @@ const app = express();
 app.use(morgan('dev'));
 app.use(compression());
 app.use(helmet());
-app.use(express.json());
+app.use(i18n.init);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-app.use(i18n.init);
 
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, '/views'));
