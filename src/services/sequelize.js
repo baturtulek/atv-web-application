@@ -1,33 +1,16 @@
-const fs = require('fs');
-const path = require('path');
 const Sequelize = require('sequelize');
 const chalk = require('chalk');
 const dbConfig = require('../config/dbConfig')[process.env.NODE_ENV];
+const { loadModels, makeModelAssociations } = require('../models');
 
 const db = {};
 db.Sequelize = Sequelize;
 const sequelize = new Sequelize(dbConfig);
 
 const initializeDatabase = () => {
-  loadModels();
-  makeModelAssociations();
+  loadModels(db, sequelize);
+  makeModelAssociations(db);
   serve();
-};
-
-const loadModels = () => {
-  fs.readdirSync('./src/models')
-    .forEach((file) => {
-      const model = sequelize.import(path.join('../models/', file));
-      db[model.name] = model;
-    });
-};
-
-const makeModelAssociations = () => {
-  Object.keys(db).forEach((modelName) => {
-    if (db[modelName].associate) {
-      db[modelName].associate(db);
-    }
-  });
 };
 
 const serve = async () => {

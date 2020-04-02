@@ -22,7 +22,7 @@ const prepareVendorFiles = () => {
     .src(vendorFiles.src.fontAwesomeWebFonts)
     .pipe(gulp.dest(vendorFiles.public.fontAwesomeWebFonts));
   const datatablesJquery = gulp
-    .src(vendorFiles.src.datatableJs)
+    .src(vendorFiles.src.datatableJquery)
     .pipe(gulp.dest(vendorFiles.public.datatableJs));
   const datatablesJs = gulp
     .src(vendorFiles.src.datatableJs)

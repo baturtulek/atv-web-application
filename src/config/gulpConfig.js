@@ -21,7 +21,7 @@ const vendorFiles = {
     fontAwesomeCss: './node_modules/@fortawesome/fontawesome-free/css/**/*',
     fontAwesomeWebFonts: './node_modules/@fortawesome/fontawesome-free/webfonts/**/*',
     datatableJquery: './node_modules/datatables.net/js/jquery.dataTables.js',
-    datatableJs: './node_modules/datatables.net/js/dataTables.bootstrap4.js',
+    datatableJs: './node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js',
     datatableCss: './node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css',
   },
   public: {
