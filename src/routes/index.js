@@ -5,10 +5,10 @@ const path = require('path');
 
 module.exports = (app) => {
   const ROUTE_COMPETENCY = 'ROUTE_COMPETENCY.js';
-  const basename = path.basename(__filename);
+  const filename = path.basename(__filename);
   fs.readdirSync(__dirname)
     .filter((file) => {
-      return (file !== basename) && (file !== ROUTE_COMPETENCY);
+      return (file !== filename) && (file !== ROUTE_COMPETENCY);
     })
     .forEach((file) => {
       require(`./${file}`)(app);

@@ -1,22 +1,22 @@
 const fs = require('fs');
 const path = require('path');
 
-exports.loadModels = (db, sequelize) => {
-  const basename = path.basename(__filename);
+exports.loadModels = (DB, sequelize) => {
+  const filename = path.basename(__filename);
   fs.readdirSync(__dirname)
     .filter((file) => {
-      return (file !== basename);
+      return (file !== filename);
     })
     .forEach((file) => {
       const model = sequelize.import(path.join(__dirname, file));
-      db[model.name] = model;
+      DB[model.name] = model;
     });
 };
 
-exports.makeModelAssociations = (db) => {
-  Object.keys(db).forEach((modelName) => {
-    if (db[modelName].associate) {
-      db[modelName].associate(db);
+exports.makeModelAssociations = (DB) => {
+  Object.keys(DB).forEach((modelName) => {
+    if (DB[modelName].associate) {
+      DB[modelName].associate(DB);
     }
   });
 };
