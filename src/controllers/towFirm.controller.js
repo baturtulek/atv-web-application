@@ -1,11 +1,11 @@
 const i18n = require('../services/i18n');
 const routeNames = require('../locales/routeNamesTR.json');
-const { db } = require('../services/sequelize');
+const { DB } = require('../services/sequelize');
 const { getNullableInput, getCheckboxStatus } = require('../utils/formHelpers');
 const { getFormattedTimeStamp } = require('../utils/timezoneHelpers');
 
 exports.listTowFirms = async (req, res) => {
-  const towFirmList = await db.TowFirm.findAll({
+  const towFirmList = await DB.TowFirm.findAll({
     raw: true,
   });
   return res.render('layouts/main', {
@@ -24,7 +24,7 @@ exports.addTowFirmView = async (req, res) => {
 exports.addTowFirm = async (req, res) => {
   const towFirm = req.body;
   try {
-    await db.TowFirm.create({
+    await DB.TowFirm.create({
       code: towFirm.code,
       name: towFirm.name,
       provinceCode: towFirm.provinceCode,
@@ -51,7 +51,7 @@ exports.addTowFirm = async (req, res) => {
 exports.updateTowFirmView = async (req, res) => {
   const { id } = req.params;
   try {
-    const towFirm = await db.TowFirm.findOne({
+    const towFirm = await DB.TowFirm.findOne({
       where: { id },
       raw: true,
     });
@@ -71,7 +71,7 @@ exports.updateTowFirmView = async (req, res) => {
 exports.updateTowFirm = async (req, res) => {
   const towFirm = req.body;
   try {
-    await db.TowFirm.update(
+    await DB.TowFirm.update(
       {
         code: towFirm.code,
         name: towFirm.name,
@@ -104,13 +104,13 @@ exports.updateTowFirm = async (req, res) => {
 exports.deleteTowFirm = async (req, res) => {
   const { id } = req.params;
   try {
-    const towFirm = await db.TowFirm.findOne({
+    const towFirm = await DB.TowFirm.findOne({
       where: { id },
     });
     if (!towFirm) {
       return res.redirect('/towfirm/list');
     }
-    await db.TowFirm.destroy({
+    await DB.TowFirm.destroy({
       where: { id },
     });
     req.session.flashMessages = {

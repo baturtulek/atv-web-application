@@ -1,9 +1,9 @@
 const i18n = require('../services/i18n');
 const routeNames = require('../locales/routeNamesTR.json');
-const { db } = require('../services/sequelize');
+const { DB } = require('../services/sequelize');
 
 exports.listAdditionalFees = async (req, res) => {
-  const additionalFeeList = await db.AdditionalFee.findAll({
+  const additionalFeeList = await DB.AdditionalFee.findAll({
     raw: true,
   });
   return res.render('layouts/main', {
@@ -22,7 +22,7 @@ exports.addAdditionalFeeView = async (req, res) => {
 exports.addAdditionalFee = async (req, res) => {
   const additionalFee = req.body;
   try {
-    await db.AdditionalFee.create({
+    await DB.AdditionalFee.create({
       name: additionalFee.name,
       fee: additionalFee.fee,
     });
@@ -43,7 +43,7 @@ exports.addAdditionalFee = async (req, res) => {
 exports.updateAdditionalFeeView = async (req, res) => {
   const { id } = req.params;
   try {
-    const additionalFee = await db.AdditionalFee.findOne({
+    const additionalFee = await DB.AdditionalFee.findOne({
       where: { id },
       raw: true,
     });
@@ -63,7 +63,7 @@ exports.updateAdditionalFeeView = async (req, res) => {
 exports.updateAdditionalFee = async (req, res) => {
   const additionalFee = req.body;
   try {
-    await db.AdditionalFee.update(
+    await DB.AdditionalFee.update(
       {
         name: additionalFee.name,
         fee: additionalFee.fee,
@@ -92,13 +92,13 @@ exports.updateAdditionalFee = async (req, res) => {
 exports.deleteAdditionalFee = async (req, res) => {
   const { id } = req.params;
   try {
-    const additionalFee = await db.AdditionalFee.findOne({
+    const additionalFee = await DB.AdditionalFee.findOne({
       where: { id },
     });
     if (!additionalFee) {
       return res.redirect('/additionalfee/list');
     }
-    await db.AdditionalFee.destroy({
+    await DB.AdditionalFee.destroy({
       where: { id },
     });
     req.session.flashMessages = {

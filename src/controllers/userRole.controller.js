@@ -3,11 +3,11 @@
 /* eslint-disable no-restricted-globals */
 const i18n = require('../services/i18n');
 const routeNames = require('../locales/routeNamesTR.json');
-const { db } = require('../services/sequelize');
+const { DB } = require('../services/sequelize');
 
 exports.listUserRoles = async (req, res) => {
   try {
-    const userRoleList = await db.UserRole.findAll({
+    const userRoleList = await DB.UserRole.findAll({
       raw: true,
     });
     return res.render('layouts/main', {
@@ -21,7 +21,7 @@ exports.listUserRoles = async (req, res) => {
 
 exports.addUserRoleView = async (req, res) => {
   try {
-    const competencies = await db.Competency.findAll({
+    const competencies = await DB.Competency.findAll({
       raw: true,
     });
     return res.render('layouts/main', {
@@ -41,20 +41,20 @@ exports.addUserRole = async (req, res) => {
     competencyIds[index] = parseInt(element);
   });
   try {
-    const found = await db.UserRole.findOne({
+    const found = await DB.UserRole.findOne({
       where: {
         role,
       },
     });
 
     if (!found && role !== '') {
-      const createdRole = await db.UserRole.create({
+      const createdRole = await DB.UserRole.create({
         role,
       });
 
       for (const id of competencyIds) {
         if (!isNaN(id)) {
-          await db.RoleCompetency.create({
+          await DB.RoleCompetency.create({
             roleId: createdRole.id,
             competencyNo: id,
           });
@@ -83,19 +83,19 @@ exports.addUserRole = async (req, res) => {
 
 exports.userRoleUpdateView = async (req, res) => {
   const { id } = req.params;
-  const { Op } = db.Sequelize;
+  const { Op } = DB.Sequelize;
   try {
-    const role = await db.UserRole.findOne({
+    const role = await DB.UserRole.findOne({
       raw: true,
       where: {
         id,
       },
     });
     if (!role) return res.redirect('/role/list');
-    const competencies = await db.Competency.findAll({
+    const competencies = await DB.Competency.findAll({
       raw: true,
     });
-    let userRoleCompetencies = await db.RoleCompetency.findAll({
+    let userRoleCompetencies = await DB.RoleCompetency.findAll({
       raw: true,
       where: {
         roleId: id,
@@ -104,7 +104,7 @@ exports.userRoleUpdateView = async (req, res) => {
     userRoleCompetencies.forEach((element, index) => {
       userRoleCompetencies[index] = element.competencyNo;
     });
-    userRoleCompetencies = await db.Competency.findAll({
+    userRoleCompetencies = await DB.Competency.findAll({
       raw: true,
       where: {
         id: {
@@ -133,7 +133,7 @@ exports.userRoleUpdate = async (req, res) => {
     competencyIds[index] = parseInt(element);
   });
   try {
-    const foundRole = await db.UserRole.findOne({
+    const foundRole = await DB.UserRole.findOne({
       where: {
         id,
       },
@@ -144,7 +144,7 @@ exports.userRoleUpdate = async (req, res) => {
     };
     if (!foundRole) return res.redirect(`/role/update/${id}`);
 
-    await db.UserRole.update({
+    await DB.UserRole.update({
       role,
     },
     {
@@ -153,14 +153,14 @@ exports.userRoleUpdate = async (req, res) => {
       },
       raw: true,
     });
-    await db.RoleCompetency.destroy({
+    await DB.RoleCompetency.destroy({
       where: {
         roleId: id,
       },
     });
     for (const competencyNo of competencyIds) {
       if (!isNaN(id)) {
-        await db.RoleCompetency.upsert({
+        await DB.RoleCompetency.upsert({
           roleId: id,
           competencyNo,
         },
@@ -186,7 +186,7 @@ exports.userRoleUpdate = async (req, res) => {
 exports.deleteUserRole = async (req, res) => {
   const { id } = req.params;
   try {
-    const found = await db.UserRole.findOne({
+    const found = await DB.UserRole.findOne({
       where: {
         id,
       },
@@ -194,14 +194,14 @@ exports.deleteUserRole = async (req, res) => {
     if (!found) {
       return res.redirect('/role/list');
     }
-    const usersWithTheRole = await db.User.findAll({
+    const usersWithTheRole = await DB.User.findAll({
       where: {
         roleId: id,
       },
       raw: true,
     });
     for (const user of usersWithTheRole) {
-      await db.User.update({
+      await DB.User.update({
         roleId: null,
       },
       {
@@ -211,12 +211,12 @@ exports.deleteUserRole = async (req, res) => {
         raw: true,
       });
     }
-    await db.RoleCompetency.destroy({
+    await DB.RoleCompetency.destroy({
       where: {
         roleId: id,
       },
     });
-    await db.UserRole.destroy({
+    await DB.UserRole.destroy({
       where: {
         id,
       },

@@ -35,12 +35,12 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  ParkingLot.associate = (db) => {
-    db.ParkingLot.hasOne(db.User, {
+  ParkingLot.associate = (DB) => {
+    DB.ParkingLot.hasOne(DB.User, {
       foreignKey: 'id',
       sourceKey: 'staffId',
     });
-    db.ParkingLot.hasOne(db.ParkingType, {
+    DB.ParkingLot.hasOne(DB.ParkingType, {
       foreignKey: 'id',
       sourceKey: 'parkingTypeId',
     });

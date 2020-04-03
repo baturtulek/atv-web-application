@@ -20,12 +20,12 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  RoleCompetency.associate = (db) => {
-    db.RoleCompetency.hasMany(db.UserRole, {
+  RoleCompetency.associate = (DB) => {
+    DB.RoleCompetency.hasMany(DB.UserRole, {
       foreignKey: 'id',
       sourceKey: 'roleId',
     });
-    db.RoleCompetency.hasMany(db.Competency, {
+    DB.RoleCompetency.hasMany(DB.Competency, {
       foreignKey: 'id',
       sourceKey: 'competencyNo',
     });

@@ -2,10 +2,10 @@ const httpStatus = require('http-status');
 const moment = require('moment');
 const i18n = require('../services/i18n');
 const routeNames = require('../locales/routeNamesTR.json');
-const { db } = require('../services/sequelize');
+const { DB } = require('../services/sequelize');
 
 const statusIdOtopark = async () => {
-  const vehicleStatus = await db.VehicleState.findOne({
+  const vehicleStatus = await DB.VehicleState.findOne({
     where: {
       description: 'Otoparkta',
     },
@@ -14,30 +14,30 @@ const statusIdOtopark = async () => {
 };
 
 exports.addVehicleView = async (req, res) => {
-  const vehiclePlates = await db.TowedVehicle.findAll({
+  const vehiclePlates = await DB.TowedVehicle.findAll({
     raw: true,
     where: {
       stateId: 2,
     },
   });
 
-  const vehicleTypes = await db.VehicleType.findAll({
+  const vehicleTypes = await DB.VehicleType.findAll({
     raw: true,
   });
 
-  const vehicleColors = await db.VehicleColor.findAll({
+  const vehicleColors = await DB.VehicleColor.findAll({
     raw: true,
   });
 
-  const vehicleBodyTypes = await db.VehicleBodyStyle.findAll({
+  const vehicleBodyTypes = await DB.VehicleBodyStyle.findAll({
     raw: true,
   });
 
-  const vehicleBrands = await db.VehicleBrand.findAll({
+  const vehicleBrands = await DB.VehicleBrand.findAll({
     raw: true,
   });
 
-  const vehicleStates = await db.VehicleState.findAll({
+  const vehicleStates = await DB.VehicleState.findAll({
     raw: true,
   });
 
@@ -55,7 +55,7 @@ exports.addVehicleView = async (req, res) => {
 exports.addVehicle = async (req, res) => {
   const vehicle = req.body;
   try {
-    const towedVehicle = await db.TowedVehicle.findOne({
+    const towedVehicle = await DB.TowedVehicle.findOne({
       where: {
         plate: vehicle.plate,
       },
@@ -71,7 +71,7 @@ exports.addVehicle = async (req, res) => {
 
     const date = moment().tz('Europe/Istanbul').format();
 
-    await db.Vehicle.upsert({
+    await DB.Vehicle.upsert({
       plate: vehicle.plate,
       chassisNo: vehicle.chassisNo,
       trusteeNo: vehicle.trusteeNo,
@@ -84,13 +84,13 @@ exports.addVehicle = async (req, res) => {
       ownerProfileId: parseInt(vehicle.ownerProfileId),
     });
 
-    const vehicleStatus = await db.VehicleState.findOne({
+    const vehicleStatus = await DB.VehicleState.findOne({
       where: {
         description: 'Transfer Halinde',
       },
     });
 
-    await db.TowedVehicle.update(
+    await DB.TowedVehicle.update(
       { stateId: vehicle.stateId, entranceParkingLotDate: date },
       { where: { stateId: parseInt(vehicleStatus.id), plate: vehicle.plate } },
     );
@@ -118,12 +118,12 @@ exports.searchVehicleView = (req, res) => {
 exports.searchVehicle = async (req, res) => {
   const { plate } = req.body;
   try {
-    const { Op } = db.Sequelize;
+    const { Op } = DB.Sequelize;
     const vehicleStatus = await statusIdOtopark();
-    const vehicles = await db.TowedVehicle.findAll({
+    const vehicles = await DB.TowedVehicle.findAll({
       include: [
         {
-          model: db.Vehicle,
+          model: DB.Vehicle,
           attributes: ['chassisNo', 'modelYear'],
         },
       ],
@@ -160,21 +160,21 @@ exports.exitVehicleView = async (req, res) => {
   const { plate } = req.query;
   try {
     const vehicleStatus = await statusIdOtopark();
-    const towVehicle = await db.TowedVehicle.findOne({
+    const towVehicle = await DB.TowedVehicle.findOne({
       where: {
         plate, stateId: parseInt(vehicleStatus.id),
       },
       raw: true,
     });
 
-    const vehicle = await db.Vehicle.findOne({
+    const vehicle = await DB.Vehicle.findOne({
       where: {
         plate,
       },
       raw: true,
     });
 
-    const vehicleTypes = await db.VehicleType.findAll({
+    const vehicleTypes = await DB.VehicleType.findAll({
       raw: true,
     });
 
@@ -182,7 +182,7 @@ exports.exitVehicleView = async (req, res) => {
       return res.redirect('/vehicle/search');
     }
 
-    const discountByRole = await db.Discount.findAll({
+    const discountByRole = await DB.Discount.findAll({
       raw: true,
     });
     // newDate.locale('tr').format('LLLL')
@@ -205,13 +205,13 @@ exports.exitVehicle = async (req, res) => {
   const { plate } = req.body;
   try {
     const exitDate = moment().tz('Europe/Istanbul').format();
-    const vehicleStatusExit = await db.VehicleState.findOne({
+    const vehicleStatusExit = await DB.VehicleState.findOne({
       where: {
         description: 'Çıkış Yaptı',
       },
     });
     const vehicleStatus = await statusIdOtopark();
-    await db.TowedVehicle.update(
+    await DB.TowedVehicle.update(
       {
         stateId: parseInt(vehicleStatusExit.id),
         exitParkingLotDate: exitDate,

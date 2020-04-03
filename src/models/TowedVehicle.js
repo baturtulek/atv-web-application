@@ -44,20 +44,20 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  TowedVehicle.associate = (db) => {
-    db.TowedVehicle.belongsTo(db.Vehicle, {
+  TowedVehicle.associate = (DB) => {
+    DB.TowedVehicle.belongsTo(DB.Vehicle, {
       foreignKey: 'plate',
       sourceKey: 'plate',
     });
-    db.TowedVehicle.hasOne(db.User, {
+    DB.TowedVehicle.hasOne(DB.User, {
       foreignKey: 'id',
       sourceKey: 'staffId',
     });
-    db.TowedVehicle.hasOne(db.ParkingLot, {
+    DB.TowedVehicle.hasOne(DB.ParkingLot, {
       foreignKey: 'id',
       sourceKey: 'parkingLotId',
     });
-    db.TowedVehicle.hasOne(db.VehicleState, {
+    DB.TowedVehicle.hasOne(DB.VehicleState, {
       foreignKey: 'id',
       sourceKey: 'stateId',
     });

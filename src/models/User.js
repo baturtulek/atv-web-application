@@ -57,8 +57,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  User.associate = (db) => {
-    db.User.hasOne(db.UserRole, {
+  User.associate = (DB) => {
+    DB.User.hasOne(DB.UserRole, {
       foreignKey: 'id',
       sourceKey: 'roleId',
     });

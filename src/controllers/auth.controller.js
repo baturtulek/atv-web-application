@@ -1,5 +1,5 @@
 const i18n = require('../services/i18n');
-const { db } = require('../services/sequelize');
+const { DB } = require('../services/sequelize');
 const { comparePasswords } = require('../utils/authentication');
 const { getRoleCompetencies } = require('../controllers/competency.controller');
 const { getFormattedTimeStamp } = require('../utils/timezoneHelpers');
@@ -67,7 +67,7 @@ const getClientIpAddress = (request) => {
 };
 
 const getUserFromDb = async (username) => {
-  const user = await db.User.findOne({
+  const user = await DB.User.findOne({
     where: { username },
     raw: true,
   });
@@ -75,7 +75,7 @@ const getUserFromDb = async (username) => {
 };
 
 const updateUserLastLogin = (userId, ip) => {
-  db.UserLastLogin.upsert({
+  DB.UserLastLogin.upsert({
     userId,
     ip,
     lastLogin: getFormattedTimeStamp('YYYY-MM-DD HH:mm:ss'),

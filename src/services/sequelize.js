@@ -1,15 +1,15 @@
 const Sequelize = require('sequelize');
 const chalk = require('chalk');
-const dbConfig = require('../config/dbConfig')[process.env.NODE_ENV];
+const dbConfig = require('../config/dbConfig');
 const { loadModels, makeModelAssociations } = require('../models');
 
-const db = {};
-db.Sequelize = Sequelize;
+const DB = {};
+DB.Sequelize = Sequelize;
 const sequelize = new Sequelize(dbConfig);
 
 const initializeDatabase = () => {
-  loadModels(db, sequelize);
-  makeModelAssociations(db);
+  loadModels(DB, sequelize);
+  makeModelAssociations(DB);
   serve();
 };
 
@@ -22,4 +22,4 @@ const serve = async () => {
   }
 };
 
-module.exports = { db, initializeDatabase };
+module.exports = { DB, initializeDatabase };

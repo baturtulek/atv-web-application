@@ -1,9 +1,9 @@
 const i18n = require('../services/i18n');
 const routeNames = require('../locales/routeNamesTR.json');
-const { db } = require('../services/sequelize');
+const { DB } = require('../services/sequelize');
 
 exports.listEnforcementOffices = async (req, res) => {
-  const enforcementOfficeList = await db.EnforcementOffice.findAll({
+  const enforcementOfficeList = await DB.EnforcementOffice.findAll({
     raw: true,
   });
   return res.render('layouts/main', {
@@ -22,7 +22,7 @@ exports.addEnforcementOfficeView = async (req, res) => {
 exports.addEnforcementOffice = async (req, res) => {
   const enforcementOffice = req.body;
   try {
-    await db.EnforcementOffice.create({
+    await DB.EnforcementOffice.create({
       name: enforcementOffice.name,
       description: enforcementOffice.description,
     });
@@ -43,7 +43,7 @@ exports.addEnforcementOffice = async (req, res) => {
 exports.updateEnfocementOfficeView = async (req, res) => {
   const { id } = req.params;
   try {
-    const enforcementOffice = await db.EnforcementOffice.findOne({
+    const enforcementOffice = await DB.EnforcementOffice.findOne({
       where: { id },
       raw: true,
     });
@@ -63,7 +63,7 @@ exports.updateEnfocementOfficeView = async (req, res) => {
 exports.updateEnfocementOffice = async (req, res) => {
   const enforcementOffice = req.body;
   try {
-    await db.EnforcementOffice.update(
+    await DB.EnforcementOffice.update(
       {
         name: enforcementOffice.name,
         description: enforcementOffice.description,
@@ -92,13 +92,13 @@ exports.updateEnfocementOffice = async (req, res) => {
 exports.deleteEnfocementOffice = async (req, res) => {
   const { id } = req.params;
   try {
-    const enforcementOffice = await db.EnforcementOffice.findOne({
+    const enforcementOffice = await DB.EnforcementOffice.findOne({
       where: { id },
     });
     if (!enforcementOffice) {
       return res.redirect('/enforcementoffice/list');
     }
-    await db.EnforcementOffice.destroy({
+    await DB.EnforcementOffice.destroy({
       where: { id },
     });
     req.session.flashMessages = {

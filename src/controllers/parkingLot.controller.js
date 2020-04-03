@@ -1,17 +1,17 @@
 const i18n = require('../services/i18n');
 const routeNames = require('../locales/routeNamesTR.json');
-const { db } = require('../services/sequelize');
+const { DB } = require('../services/sequelize');
 
 exports.listParkingLots = async (req, res) => {
-  const parkinglotList = await db.ParkingLot.findAll({
+  const parkinglotList = await DB.ParkingLot.findAll({
     raw: true,
     include: [
       {
-        model: db.ParkingType,
+        model: DB.ParkingType,
         attributes: ['description'],
       },
       {
-        model: db.User,
+        model: DB.User,
         attributes: ['name', 'surname'],
       },
     ],
@@ -23,10 +23,10 @@ exports.listParkingLots = async (req, res) => {
 };
 
 exports.addParkingLotView = async (req, res) => {
-  const parkingLotType = await db.ParkingType.findAll({
+  const parkingLotType = await DB.ParkingType.findAll({
     raw: true,
   });
-  const parkingLotUsers = await db.User.findAll({
+  const parkingLotUsers = await DB.User.findAll({
     where: {
       roleId: 2,
     },
@@ -43,7 +43,7 @@ exports.addParkingLotView = async (req, res) => {
 exports.addNewParkingLot = async (req, res) => {
   const parkingLot = req.body;
   try {
-    await db.ParkingLot.create({
+    await DB.ParkingLot.create({
       name: parkingLot.name,
       address: parkingLot.address,
       description: parkingLot.description,
@@ -66,17 +66,17 @@ exports.addNewParkingLot = async (req, res) => {
 
 exports.updateParkingLotView = async (req, res) => {
   const { id } = req.params;
-  const parkingLotType = await db.ParkingType.findAll({
+  const parkingLotType = await DB.ParkingType.findAll({
     raw: true,
   });
-  const parkingLotUsers = await db.User.findAll({
+  const parkingLotUsers = await DB.User.findAll({
     where: {
       roleId: 2,
     },
     raw: true,
   });
   try {
-    const parkingLot = await db.ParkingLot.findOne({
+    const parkingLot = await DB.ParkingLot.findOne({
       where: { id },
       raw: true,
     });
@@ -98,7 +98,7 @@ exports.updateParkingLotView = async (req, res) => {
 exports.updateParkingLot = async (req, res) => {
   const parkingLot = req.body;
   try {
-    await db.ParkingLot.update(
+    await DB.ParkingLot.update(
       {
         name: parkingLot.name,
         address: parkingLot.address,
@@ -130,13 +130,13 @@ exports.updateParkingLot = async (req, res) => {
 exports.deleteParkingLot = async (req, res) => {
   const { id } = req.params;
   try {
-    const parkingLot = await db.ParkingLot.findOne({
+    const parkingLot = await DB.ParkingLot.findOne({
       where: { id },
     });
     if (!parkingLot) {
       return res.redirect('/parkinglot/list');
     }
-    await db.ParkingLot.destroy({
+    await DB.ParkingLot.destroy({
       where: { id },
     });
     req.session.flashMessages = {

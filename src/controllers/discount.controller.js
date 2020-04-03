@@ -1,9 +1,9 @@
 const i18n = require('../services/i18n');
 const routeNames = require('../locales/routeNamesTR.json');
-const { db } = require('../services/sequelize');
+const { DB } = require('../services/sequelize');
 
 exports.listDiscounts = async (req, res) => {
-  const discountList = await db.Discount.findAll({
+  const discountList = await DB.Discount.findAll({
     raw: true,
   });
   return res.render('layouts/main', {
@@ -22,7 +22,7 @@ exports.addDiscountView = async (req, res) => {
 exports.addDiscount = async (req, res) => {
   const discount = req.body;
   try {
-    await db.Discount.create({
+    await DB.Discount.create({
       name: discount.name,
       parkDiscount: discount.parkDiscount,
       transferDiscount: discount.transferDiscount,
@@ -44,7 +44,7 @@ exports.addDiscount = async (req, res) => {
 exports.updateDiscountView = async (req, res) => {
   const { id } = req.params;
   try {
-    const discount = await db.Discount.findOne({
+    const discount = await DB.Discount.findOne({
       where: { id },
       raw: true,
     });
@@ -64,7 +64,7 @@ exports.updateDiscountView = async (req, res) => {
 exports.updateDiscount = async (req, res) => {
   const discount = req.body;
   try {
-    await db.Discount.update(
+    await DB.Discount.update(
       {
         name: discount.name,
         parkDiscount: discount.parkDiscount,
@@ -94,13 +94,13 @@ exports.updateDiscount = async (req, res) => {
 exports.deleteDiscount = async (req, res) => {
   const { id } = req.params;
   try {
-    const discount = await db.Discount.findOne({
+    const discount = await DB.Discount.findOne({
       where: { id },
     });
     if (!discount) {
       return res.redirect('/discount/list');
     }
-    await db.Discount.destroy({
+    await DB.Discount.destroy({
       where: { id },
     });
     req.session.flashMessages = {

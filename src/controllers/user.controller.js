@@ -1,15 +1,15 @@
 const i18n = require('../services/i18n');
 const routeNames = require('../locales/routeNamesTR.json');
-const { db } = require('../services/sequelize');
+const { DB } = require('../services/sequelize');
 const authentication = require('../utils/authentication');
 const { getNullableInput, getCheckboxStatus } = require('../utils/formHelpers');
 
 exports.listUserView = async (req, res) => {
-  const userList = await db.User.findAll({
+  const userList = await DB.User.findAll({
     raw: true,
     include: [
       {
-        model: db.UserRole,
+        model: DB.UserRole,
         attributes: ['role'],
       },
     ],
@@ -21,7 +21,7 @@ exports.listUserView = async (req, res) => {
 };
 
 exports.addUserView = async (req, res) => {
-  const userRole = await db.UserRole.findAll({
+  const userRole = await DB.UserRole.findAll({
     raw: true,
   });
   return res.render('layouts/main', {
@@ -33,7 +33,7 @@ exports.addUserView = async (req, res) => {
 
 exports.addUser = async (req, res) => {
   const user = req.body;
-  const dbUser = await db.User.findAll({
+  const dbUser = await DB.User.findAll({
     where: {
       username: user.username,
     },
@@ -48,7 +48,7 @@ exports.addUser = async (req, res) => {
   }
   try {
     const hashedPassword = await authentication.hashPassword(user.password);
-    await db.User.create({
+    await DB.User.create({
       name: user.name,
       surname: user.surname,
       username: user.username,
@@ -74,11 +74,11 @@ exports.addUser = async (req, res) => {
 
 exports.updateUserView = async (req, res) => {
   const { id } = req.params;
-  const userRole = await db.UserRole.findAll({
+  const userRole = await DB.UserRole.findAll({
     raw: true,
   });
   try {
-    const user = await db.User.findOne({
+    const user = await DB.User.findOne({
       where: { id },
       raw: true,
     });
@@ -100,7 +100,7 @@ exports.updateUser = async (req, res) => {
   const user = req.body;
   try {
     const updatedUserObject = await createUserObject(user);
-    await db.User.update(updatedUserObject,
+    await DB.User.update(updatedUserObject,
       {
         where: {
           id: user.id,

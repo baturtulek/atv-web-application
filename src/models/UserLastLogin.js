@@ -23,8 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  UserLastLogin.associate = (db) => {
-    db.UserLastLogin.hasOne(db.User, {
+  UserLastLogin.associate = (DB) => {
+    DB.UserLastLogin.hasOne(DB.User, {
       foreignKey: 'id',
       sourceKey: 'userId',
     });

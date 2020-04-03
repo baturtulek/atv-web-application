@@ -1,12 +1,12 @@
 const i18n = require('../services/i18n');
 const routeNames = require('../locales/routeNamesTR.json');
-const { db } = require('../services/sequelize');
+const { DB } = require('../services/sequelize');
 const authentication = require('../utils/authentication');
 const { getNullableInput } = require('../utils/formHelpers');
 
 exports.profileView = async (req, res) => {
   const { user } = res.locals.session;
-  const userRole = await db.UserRole.findOne({
+  const userRole = await DB.UserRole.findOne({
     where: {
       id: user.roleId,
     },
@@ -23,7 +23,7 @@ exports.updateProfileInfo = async (req, res) => {
   const { id } = res.locals.session.user;
   const user = req.body;
   try {
-    await db.User.update(
+    await DB.User.update(
       {
         name: user.name,
         surname: user.surname,
@@ -72,7 +72,7 @@ exports.updateProfilePassword = async (req, res) => {
       return res.redirect('/profile');
     }
     const hashedPassword = await authentication.hashPassword(user.newpassword1);
-    await db.User.update(
+    await DB.User.update(
       {
         password: hashedPassword,
       },
@@ -98,7 +98,7 @@ exports.updateProfilePassword = async (req, res) => {
 };
 
 const getUserData = async (id) => {
-  const user = await db.User.findOne({
+  const user = await DB.User.findOne({
     where: { id },
     raw: true,
   });

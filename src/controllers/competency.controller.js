@@ -1,4 +1,4 @@
-const { db } = require('../services/sequelize');
+const { DB } = require('../services/sequelize');
 
 const competencyList = [];
 
@@ -22,17 +22,16 @@ exports.getAppCompetencyList = async () => {
 };
 
 exports.getAllCompetencies = async () => {
-  const appCompetency = await db.Competency.findAll({
+  const appCompetency = await DB.Competency.findAll({
     raw: true,
   });
   return appCompetency;
 };
 
 exports.getRoleCompetencies = async (roleId) => {
-  const roleCompetencyList = await db.RoleCompetency.findAll({
+  const roleCompetencyList = await DB.RoleCompetency.findAll({
     where: { roleId },
     raw: true,
   });
   return roleCompetencyList;
 };
-

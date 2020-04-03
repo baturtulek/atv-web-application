@@ -1,6 +1,6 @@
 const i18n = require('../services/i18n');
 const routeNames = require('../locales/routeNamesTR.json');
-const { db } = require('../services/sequelize');
+const { DB } = require('../services/sequelize');
 
 exports.addVehicleTypeView = (req, res) => {
   res.render('layouts/main', {
@@ -12,7 +12,7 @@ exports.addVehicleTypeView = (req, res) => {
 exports.addVehicleType = async (req, res) => {
   const { name, description, fee } = req.body;
   try {
-    const vehicleType = await db.VehicleType.create({
+    const vehicleType = await DB.VehicleType.create({
       name,
       description,
       fee,
@@ -34,7 +34,7 @@ exports.addVehicleType = async (req, res) => {
 };
 
 exports.listVehicleType = async (req, res) => {
-  const vehicleTypes = await db.VehicleType.findAll({
+  const vehicleTypes = await DB.VehicleType.findAll({
     raw: true,
   });
   if (vehicleTypes) {
@@ -48,7 +48,7 @@ exports.listVehicleType = async (req, res) => {
 exports.updateVehicleTypeView = async (req, res) => {
   const { id } = req.params;
   try {
-    const vehicleType = await db.VehicleType.findOne({
+    const vehicleType = await DB.VehicleType.findOne({
       where: { id },
       raw: true,
     });
@@ -70,7 +70,7 @@ exports.updateVehicleType = async (req, res) => {
   const { name, description, fee } = req.body;
 
   try {
-    await db.VehicleType.update(
+    await DB.VehicleType.update(
       { name, description, fee },
       { where: { id } },
     );
@@ -91,7 +91,7 @@ exports.updateVehicleType = async (req, res) => {
 exports.deleteVehicleType = async (req, res) => {
   const { id } = req.params;
   try {
-    const type = await db.VehicleType.findOne({
+    const type = await DB.VehicleType.findOne({
       where: {
         id,
       },
@@ -99,7 +99,7 @@ exports.deleteVehicleType = async (req, res) => {
     if (!type) {
       return res.redirect('/vehicletype/list');
     }
-    await db.VehicleType.destroy({
+    await DB.VehicleType.destroy({
       where: {
         id,
       },
