@@ -18,7 +18,8 @@ const serve = async () => {
     await sequelize.authenticate();
     console.log(chalk.green.bold('Database connection has been established successfully.'));
   } catch (error) {
-    chalk.red.bold(error);
+    console.log(chalk.red.bold(`DATABASE ERROR: ${error}`));
+    process.exit();
   }
 };
 
