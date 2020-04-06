@@ -1,4 +1,4 @@
-<div id="sidebar" class="collapse in" data-toggle="collapse">
+<div id="sidebar" class="collapse in" data-toggle="collapse" style="width: 240px">
   <ul class="nav navbar-nav nav-collapse">
 
     <!-- Atestaş -->
@@ -177,8 +177,13 @@
       </div>
     </li>
   {{/isUserCompetencyIncludesRoute}}
-
+    
   </ul>
+<!--  <ul id="sidebar-collapse" onclick="hideF()">-->
+<!--    <span>-->
+<!--      <i class="fas fa-angle-double-left"></i>-->
+<!--    </span>-->
+<!--  </ul>-->
 </div>
 
 <script>
@@ -188,4 +193,11 @@
       $(this).parent('li').addClass('active');
     });
   });
+   
+  hideF = () => {
+    document.getElementById("sidebar").style.width = "48px";
+    document.querySelector('.panel-default').classList.add('sidebar-hide-ul');
+    document.querySelector("#sidebar-collapse > span > i").classList.remove('fa-angle-double-left');
+    document.querySelector("#sidebar-collapse > span > i").classList.add('fa-angle-double-right');
+  }
 </script>

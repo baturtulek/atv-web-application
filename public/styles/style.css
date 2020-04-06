@@ -178,11 +178,13 @@ a.header-logo span {
 #sidebar {
   display: flex;
   flex-direction: column;
-  min-width: 240px;
+  justify-content: space-between;
+  width: 240px;
   height: calc(100vh - 60px);
   overflow: hidden;
   background-color: #2a3542;
   z-index: 1000;
+  transition: 0.5s ease;
 }
 
 .navbar-nav .panel {
@@ -250,6 +252,26 @@ a.header-logo span {
   text-decoration: none;
 }
 
+#sidebar-collapse {
+  color: #17a2b8;
+  background-color: #232c38;
+  font-size: 28px;
+  text-align: center;
+  cursor: pointer;
+}
+
+#sidebar-collapse:hover {
+  color: #232c38;
+  background-color: #17a2b8;
+}
+
+#sidebar-collapse.active {
+  color: red;
+}
+
+.sidebar-hide-ul {
+  display: none;
+}
 /* ---------- FORM ---------- */
 
 .grid-button-group {
