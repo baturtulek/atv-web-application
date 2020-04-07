@@ -54,6 +54,42 @@ p {
   overflow: auto;
 }
 
+/* ---------- BUTTONS ---------- */
+
+.btn {
+  letter-spacing: 0.02em;
+}
+
+.btn-info {
+  background-color: #58c9f3;
+  border-color: #58c9f3;
+}
+
+.btn-info:hover {
+  background-color: #31b0d5;
+  border-color: #269abc;
+}
+
+.btn-success {
+  background-color: #78CD51;
+  border-color: #78CD51;
+}
+
+.btn-success:hover {
+  background-color: #6dbb4a;
+  border-color: #6dbb4a;
+}
+
+.btn-danger {
+  background-color: #ff4d4a;
+  border-color: #ff4d4a;
+}
+
+.btn-danger:hover {
+  background-color: #ec483d;
+  border-color: #ec483d;
+}
+
 /* ---------- LOGIN ---------- */
 
 #login form {
@@ -86,7 +122,7 @@ p {
   display: block;
   float: left;
   height: 50px;
-  font-size: 24px;
+  font-size: 18px;
   line-height: 50px;
   text-align: center;
   width: 50px;
@@ -156,6 +192,11 @@ a.header-logo {
 
 a.header-logo span {
   color: #FF6C60;
+}
+
+.nav-profile {
+  border: 1px solid #f0f0f8;
+  border-radius: 5px;
 }
 
 .login-buttons-align {
@@ -245,7 +286,6 @@ a.header-logo span {
   font-size: 13px;
   padding: 10px 15px;
   display: block;
-  vertical-align: middle;
 }
 
 #sidebar ul li a:hover {
