@@ -8,13 +8,13 @@
     <form class="border border-light" action="/vehicletype/{{endPoint}}/{{vehicleType.id}}" method="POST">
       <div class="form-inside-container">
           <label class="col-form-label">Adı</label>
-          <input type="text" class="form-control" name="name" id="name" placeholder="Araç Tipi" value={{vehicleType.name}}>
+          <input type="text" class="form-control" name="name" id="name" value={{vehicleType.name}}>
 
           <label class="col-form-label">Açıklama</label>
-          <input type="text" class="form-control" name="description" id="description" placeholder="Açıklama" value="{{vehicleType.description}}">
+          <input type="text" class="form-control" name="description" id="description" value="{{vehicleType.description}}">
 
           <label class="col-form-label">Ücret (₺)</label>
-          <input type="text" class="form-control" name="fee" id="fee" placeholder="Ücret" value="{{vehicleType.fee}}">
+          <input type="text" class="form-control" name="fee" id="fee" value="{{vehicleType.fee}}">
       </div>
       
       <div class="form-group row row-cols-3">

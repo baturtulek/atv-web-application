@@ -12,34 +12,36 @@
             <input name="plate" type="text" class="form-control" placeholder="Araç plakasını girin">
           </div>
           <div class="col">
-            <button type="button submit" class="btn btn-primary"><i class="fas fa-search"></i>
+            <button type="button submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
           </div>
         </div>
       </form>
     </div>
   </div>
   {{#if vehicles}}
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Plaka</th>
-        <th scope="col">Çıkış</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each vehicles}}
-      <tr>
-        <th class="column1">{{@index}}</th>
-        <td class="column2">{{this.plate}}</td>
-        <td class="column3">
-          <a href="/vehicle/exit?plate={{this.plate}}">
-            <i class="far fa-edit fa-sm btn btn-primary" aria-hidden="true"></i>
-          </a>
-        </td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-  {{/if}}
+    <div style="margin: 12px 16px;">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Plaka</th>
+            <th scope="col">Çıkış</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each vehicles}}
+          <tr>
+            <th class="column1">{{@index}}</th>
+            <td class="column2">{{this.plate}}</td>
+            <td class="column3">
+              <a href="/vehicle/exit?plate={{this.plate}}">
+                <i class="far fa-edit fa-sm btn btn-primary" aria-hidden="true"></i>
+              </a>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+      {{/if}}
+    </div>
 </div>

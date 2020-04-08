@@ -6,13 +6,13 @@
       <span>Profil İşlemleri</span>
     </header>
     <form class="border border-light" action="/role/{{endPoint}}" method="POST">
-      <div class="form-inside-container mb-2 ml-3">
+      <div class="form-inside-container">
         <input type="hidden" name="id" value="{{role.id}}">
         <label class="col-form-label">Profil Adı</label>
         <input type="text" class="form-control" name="role" id="role" required pattern=".*\S+.*" value="{{role.role}}">
       </div>
       <hr />
-      <div class="form-inside-container ml-3">
+      <div class="form-addrole-container">
         {{#each competencies}}
           <label class="col-form-label">{{this.description}}</label>
         <div class="pl-5 pt-2">
