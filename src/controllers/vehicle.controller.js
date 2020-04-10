@@ -1,8 +1,8 @@
 const httpStatus = require('http-status');
-const moment = require('moment');
 const i18n = require('../services/i18n');
 const routeNames = require('../locales/routeNamesTR.json');
 const { DB } = require('../services/sequelize');
+const { getFormattedTimeStamp } = require('../utils/timezoneHelpers');
 
 const statusIdOtopark = async () => {
   const vehicleStatus = await DB.VehicleState.findOne({
@@ -69,7 +69,7 @@ exports.addVehicle = async (req, res) => {
       return res.status(httpStatus.NOT_FOUND).json(result);
     }
 
-    const date = moment().tz('Europe/Istanbul').format();
+    const date = getFormattedTimeStamp('YYYY-MM-DD HH:mm:ss');
 
     await DB.Vehicle.upsert({
       plate: vehicle.plate,
@@ -109,9 +109,14 @@ exports.addVehicle = async (req, res) => {
   }
 };
 
-exports.searchVehicleView = (req, res) => {
+exports.searchVehicleView = async (req, res) => {
+  const vehicleStates = await DB.VehicleState.findAll({
+    raw: true,
+  });
+
   return res.render('layouts/main', {
     partialName: 'searchVehicle',
+    vehicleStates,
   });
 };
 
@@ -119,22 +124,37 @@ exports.searchVehicle = async (req, res) => {
   const { plate } = req.body;
   try {
     const { Op } = DB.Sequelize;
-    const vehicleStatus = await statusIdOtopark();
     const vehicles = await DB.TowedVehicle.findAll({
+      raw: true,
       include: [
         {
           model: DB.Vehicle,
           attributes: ['chassisNo', 'modelYear'],
+        },
+        {
+          model: DB.ParkingLot,
+          attributes: ['name'],
+        },
+        {
+          model: DB.VehicleState,
+          attributes: ['description'],
         },
       ],
       where: {
         plate: {
           [Op.like]: `%${plate}%`,
         },
-        stateId: parseInt(vehicleStatus.id),
       },
+    });
+
+    const parkingLots = await DB.ParkingLot.findAll({
       raw: true,
     });
+
+    const vehicleStates = await DB.VehicleState.findAll({
+      raw: true,
+    });
+
     if (!vehicles.length > 0) {
       req.session.flashMessages = {
         message: i18n.__('SEARCH_ERROR', routeNames.VEHICLE),
@@ -145,6 +165,8 @@ exports.searchVehicle = async (req, res) => {
     return res.render('layouts/main', {
       partialName: 'searchVehicle',
       vehicles,
+      parkingLots,
+      vehicleStates,
     });
   } catch (err) {
     req.session.flashMessages = {
@@ -185,10 +207,7 @@ exports.exitVehicleView = async (req, res) => {
     const discountByRole = await DB.Discount.findAll({
       raw: true,
     });
-    // newDate.locale('tr').format('LLLL')
-    // const entrance = moment(vehicle.entranceParkingLotDate);
-    // const now = moment().tz('Europe/Istanbul');
-    // const diff = now.diff(entrance, 'h');
+
     return res.render('layouts/main', {
       partialName: 'exitVehicle',
       discountByRole,
@@ -204,7 +223,7 @@ exports.exitVehicleView = async (req, res) => {
 exports.exitVehicle = async (req, res) => {
   const { plate } = req.body;
   try {
-    const exitDate = moment().tz('Europe/Istanbul').format();
+    const exitDate = getFormattedTimeStamp('YYYY-MM-DD HH:mm:ss');
     const vehicleStatusExit = await DB.VehicleState.findOne({
       where: {
         description: 'Çıkış Yaptı',
@@ -223,10 +242,6 @@ exports.exitVehicle = async (req, res) => {
         raw: true,
       },
     );
-    // newDate.locale('tr').format('LLLL')
-    // const entrance = moment(vehicle.entranceParkingLotDate);
-    // const now = moment().tz('Europe/Istanbul');
-    // const diff = now.diff(entrance, 'h');
     req.session.flashMessages = {
       message: i18n.__('EXIT_VEHICLE_SUCCESS', routeNames.VEHICLE),
       type: 'success',
