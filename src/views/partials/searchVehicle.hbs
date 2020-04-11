@@ -54,20 +54,20 @@
             <td class="column5">{{entranceParkingLotDate}}</td>
             <td class="column6">{{exitParkingLotDate}}</td>
             <td class="column7">{{lookup this 'VehicleState.description'}}</td>
-            {{#if exitParkingLotDate}}
+            {{#ifEquals (lookup this 'VehicleState.description') 'Otoparkta' }}
+           <td class="column8">
+              <a href="/vehicle/exit?plate={{../this.plate}}">
+                <i class="far fa-edit fa-sm btn btn-primary" aria-hidden="true"></i>
+              </a>
+            </td>
+            {{/ifEquals}}
+            {{#ifNotEquals (lookup this 'VehicleState.description') 'Otoparkta' }}
             <td class="column8">
               <a style="pointer-events: none; cursor: default;">
                 <i class="far fa-edit fa-sm btn btn-secondary" aria-hidden="true"></i>
               </a>
             </td>
-            {{/if}}
-            {{#unless exitParkingLotDate}}
-            <td class="column8">
-              <a href="/vehicle/exit?plate={{plate}}">
-                <i class="far fa-edit fa-sm btn btn-primary" aria-hidden="true"></i>
-              </a>
-            </td>
-            {{/unless }}
+            {{/ifNotEquals}}
             <script>
             </script>
           </tr>

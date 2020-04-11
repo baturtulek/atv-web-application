@@ -36,19 +36,32 @@
         </div>
         <div class="col">
            <label class="col-form-label">Araç Sahibi</label>
-          <select class="browser-default custom-select" name="discountRoleId" id="discountRoleId" required>
+           <div class="form-control">
+             <input type="radio" name="discount" id="DiscountYes" value="Yes" onclick="hideRoleSelect()" required> İndirim Var
+             <input type="radio" name="discount" id="DiscountNo" value="No" onclick="hideRoleSelect()" required> İndirim Yok
+           </div>
+        </div>
+        <div class="col">
+          <label class="col-form-label">Rol</label>
+          <select class="browser-default custom-select" name="discountRoleId" id="discountRoleId" disabled="true" required>
+            <option value="">Rol Seçin</option>
             {{#each discountByRole}}
-              <option value="{{this.id}}"
-                {{#ifEquals this.id ../discountByRole.id}}
-                selected
-                {{/ifEquals}}
-              >
+              <option value="{{this.id}}">
                 {{this.name}}
               </option>
             {{/each}}
           </select>
-        </div>
-        <div class="col">
+          <script>
+            function hideRoleSelect(){
+              if ($("#DiscountYes").is(":checked")) {
+                  $("#discountRoleId").removeAttr("disabled");
+              }
+              if ($("#DiscountNo").is(":checked")) {
+                  $("#discountRoleId").attr("disabled","disabled");
+                  $('#discountRoleId').prop('selectedIndex', 0);
+              }
+            }
+          </script>
         </div>
       </div>
 
