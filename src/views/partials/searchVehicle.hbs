@@ -14,7 +14,10 @@
           </div>
           <div class="col">
             <label class="col-form-label">Transfer Durumu</label>
-            <select class="browser-default custom-select" name="stateId" id="stateId" required>
+            <select class="browser-default custom-select" name="stateId" id="stateId">
+              <option value="">
+                Transfer Durumu
+              </option>
               {{#each vehicleStates}}
               <option value="{{this.id}}">
                 {{this.description}}
@@ -23,6 +26,30 @@
             </select>
           </div>
           <div class="col">
+            
+          </div>
+        </div>
+        <div class="form-group row row-cols-4">
+          <div class="col">
+            <label class="col-form-label">Parka Giriş Tarihi Başlangıç</label>
+            <input name="parkingLotEntranceBegin" type="text" class="form-control" placeholder="Araç plakasını girin">
+          </div>
+          <div class="col">
+            <label class="col-form-label">Parktan Giriş Tarihi Bitiş</label>
+            <input name="parkingLotEntranceEnd" type="text" class="form-control" placeholder="Araç plakasını girin">
+          </div>
+          <div class="col">
+            <label class="col-form-label">Parktan Çıkış Tarihi Başlangıç</label>
+            <input name="parkingLotExitBegin" type="text" class="form-control" placeholder="Araç plakasını girin">
+          </div>
+          <div class="col">
+            <label class="col-form-label">Parktan Çıkış Tarihi Bitiş</label>
+            <input name="parkingLotExitEnd" type="text" class="form-control" placeholder="Araç plakasını girin">
+          </div>
+        </div>
+        <div class="form-group row row-cols-4" >
+          <div class="col">
+            <label>Ara</label>
             <button type="button submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
           </div>
         </div>

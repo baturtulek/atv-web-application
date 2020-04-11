@@ -121,9 +121,55 @@ exports.searchVehicleView = async (req, res) => {
 };
 
 exports.searchVehicle = async (req, res) => {
-  const { plate } = req.body;
+  const {
+    plate, stateId, parkingLotEntranceBegin, parkingLotEntranceEnd,
+    parkingLotExitBegin, parkingLotExitEnd,
+  } = req.body;
+  const whereStatement = {};
+
   try {
     const { Op } = DB.Sequelize;
+
+    whereStatement.plate = {
+      [Op.like]: `%${plate}%`,
+    };
+    if (stateId) {
+      whereStatement.stateId = stateId;
+    }
+    if (parkingLotEntranceBegin && parkingLotEntranceEnd) {
+      whereStatement.entranceParkingLotDate = {
+        [Op.and]: {
+          [Op.gte]: parkingLotEntranceBegin,
+          [Op.lte]: parkingLotEntranceEnd,
+        },
+      };
+    } else if (parkingLotEntranceBegin && !parkingLotEntranceEnd) {
+      whereStatement.entranceParkingLotDate = {
+        [Op.gte]: parkingLotEntranceBegin,
+      };
+    } else if (!parkingLotEntranceBegin && parkingLotEntranceEnd) {
+      whereStatement.entranceParkingLotDate = {
+        [Op.lte]: parkingLotEntranceEnd,
+      };
+    }
+
+    if (parkingLotExitBegin && parkingLotExitEnd) {
+      whereStatement.exitParkingLotDate = {
+        [Op.and]: {
+          [Op.gte]: parkingLotExitBegin,
+          [Op.lte]: parkingLotExitEnd,
+        },
+      };
+    } else if (parkingLotExitBegin && !parkingLotExitEnd) {
+      whereStatement.exitParkingLotDate = {
+        [Op.gte]: parkingLotExitBegin,
+      };
+    } else if (!parkingLotExitBegin && parkingLotExitEnd) {
+      whereStatement.exitParkingLotDate = {
+        [Op.lte]: parkingLotExitEnd,
+      };
+    }
+
     const vehicles = await DB.TowedVehicle.findAll({
       raw: true,
       include: [
@@ -140,11 +186,7 @@ exports.searchVehicle = async (req, res) => {
           attributes: ['description'],
         },
       ],
-      where: {
-        plate: {
-          [Op.like]: `%${plate}%`,
-        },
-      },
+      where: whereStatement,
     });
 
     const parkingLots = await DB.ParkingLot.findAll({
