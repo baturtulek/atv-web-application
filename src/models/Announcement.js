@@ -6,6 +6,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
+      },
+      title: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
       },
       isActive: {
         type: DataTypes.TINYINT(1),
@@ -37,6 +42,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       roleId: {
         type: DataTypes.INTEGER(11),
+        allowNull: false,
+      },
+      content: {
+        type: DataTypes.TEXT,
         allowNull: false,
       },
     },

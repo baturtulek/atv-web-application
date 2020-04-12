@@ -1,4 +1,4 @@
-const enforcementOfficeController = require('../controllers/enforcementOffice.contorller');
+const enforcementOfficeController = require('../controllers/enforcementOffice.controller');
 
 const routes = (app) => {
   app

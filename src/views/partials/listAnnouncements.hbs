@@ -1,0 +1,39 @@
+
+<div class="table-container">
+  <table class="table table-striped">
+    {{> components/showMessage }}
+    <header class="form-navigation">
+      <a href="/announcement/add"><i class="fas fa-plus"></i> Ekle</a>
+      <span>İcra Kurumu İşlemleri</span>
+    </header>
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Duyuru / Kampanya Başlığı</th>
+      <th scope="col">Başlangıç Tarihi</th>
+      <th scope="col">Bitiş Tarihi</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each announcementList}}
+      <tr>
+        <td class="column1"> {{incrementByOne @index}}</td>
+        <td class="column2"> {{this.title}} </td>
+        <td class="column3"> {{this.startDate}} </td>
+        <td class="column3"> {{this.endDate}} </td>
+
+        <td class="column4" style="text-align:center; width:85px;">
+          <a href="/announcement/update/{{this.id}}">
+            <i class="far fa-edit fa-sm btn btn-success" aria-hidden="true" ></i>
+          </a>
+          <a href="/announcement/delete/{{this.id}}" onclick="return confirm('Silmek istediğinize emin misiniz ?');">
+            <i class="fas fa-trash fa-sm btn btn-danger" aria-hidden="true"></i>
+          </a>
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+
+</div>

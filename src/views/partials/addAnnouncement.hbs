@@ -1,0 +1,94 @@
+<div class="partial-container">
+  <div class="form-container">
+     {{> components/showMessage }}
+    <header class="form-navigation">
+      <a href="/announcement/list"><i class="fa fa-list"></i> Listele</a>
+      <span>İcra Kurumu İşlemleri</span>
+    </header>
+    <form class="border border-light" id='form' action="/announcement/{{endPoint}}" method="POST">
+      <div class="form-inside-container">
+        <input type="hidden" name="id" value="{{announcement.id}}">
+
+        <label class="col-form-label">Duyuru Başlığı</label>
+        <input type="text" class="form-control" name="title" id="title" placeholder="" value="{{announcement.title}}" required
+          oninvalid="this.setCustomValidity('Lütfen duyuru başlığı girin.')"
+          oninput="setCustomValidity('')">
+          
+          <label class="col-form-label">Duyuru İçerigi</label>
+          <input type="text" class="form-control" name="content" id="content" placeholder="" value="{{announcement.content}}" required
+            oninvalid="this.setCustomValidity('Lütfen duyuru içeriğini girin.')"
+            oninput="setCustomValidity('')">
+      </div>
+      <div class="form-group row row-cols-3">
+          <div class="col">
+          <label class="col-form-label">Aktif</label>
+          <select class="browser-default custom-select" name="isActive" id="isActive" required>
+              <option value="0">
+              Hayır
+            </option>
+            <option value="1">
+              Evet
+            </option>
+          </select>
+          </div>
+           <div class="col">
+          <label class="col-form-label">Flash Anons</label>
+          <select class="browser-default custom-select" name="isFlash" id="isFlash" required>
+              <option value="0">
+              Hayır
+            </option>
+            <option value="1">
+              Evet
+            </option>
+          </select>
+          </div>
+          <div class="col">
+               <label class="col-form-label">Duyuru Başlangıç</label>
+          <input type="text" class="form-control" name="startDate" id="startDate" placeholder="" value="{{announcement.startDate}}" required
+            oninvalid="this.setCustomValidity('Lütfen duyuru başlangıcini girin.')"
+            oninput="setCustomValidity('')">
+          </div>
+          <div class="col">
+               <label class="col-form-label">Duyuru Bitiş</label>
+          <input type="text" class="form-control" name="endDate" id="endDate" placeholder="" value="{{announcement.endDate}}" required
+            oninvalid="this.setCustomValidity('Lütfen duyuru bitişini girin.')"
+            oninput="setCustomValidity('')">
+          </div>
+           <div class="col">
+          <label class="col-form-label">Profil Adi</label>
+          <select class="browser-default custom-select" name="roleId" id="roleId" required>
+              {{#each roles}}
+            <option value="{{this.id}}">
+              {{this.role}}
+            </option>
+            {{/each}}
+          </select>
+          </div>
+      </div>
+      
+      <div class="form-group row row-cols-3">
+        <div class="col-auto grid-button-group ml-auto">
+            <button type="button" class="btn btn-info btn-sm" id="resetButton"><i class="fas fa-sync-alt"></i>Sıfırla</button>
+            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i>
+            {{#ifEquals "add" endPoint}}
+            Ekle
+            {{else}}
+            Güncelle
+            {{/ifEquals}}
+            </button>
+        </div>
+    </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $('#resetButton').on('click', function () {
+    $('#title').val('');
+    $('#content').val('');
+    $('#isActive').val('');
+    $('#isFlash').val('');
+    $('#startDate').val('');
+    $('#endDate').val('');
+  });
+</script>

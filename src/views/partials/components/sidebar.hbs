@@ -157,6 +157,22 @@
                     </div>
                   </div>
                 </li>
+                {{/isUserCompetencyIncludesRoute}}
+
+                {{#isUserCompetencyIncludesRoute ../session.userCompetencyList ../appCompetencyList.DUYURU_YONETIMI}}
+                <li class="panel panel-default" id="dropdown">
+                  <a data-toggle="collapse" href="#announcementOperations">
+                    <i class="fas fa-angle-right"></i> Duyuru Yönetimi
+                  </a>
+                  <div id="announcementOperations" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ul class="nav navbar-nav">
+                        <li><a href="/announcement/add"><i class="fas fa-circle"></i> Duyuru Ekle</a></li>
+                        <li><a href="/announcement/list"><i class="fas fa-circle"></i> Duyuru Listele</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
               {{/isUserCompetencyIncludesRoute}}
               {{#isUserCompetencyIncludesRoute ../session.userCompetencyList ../appCompetencyList.PROFIL_ISLEMLERI}}
                 <li class="panel panel-default" id="dropdown">

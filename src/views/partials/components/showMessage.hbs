@@ -2,4 +2,9 @@
       <div class="alert alert-{{flashMessages.type}} flashMessage" role="alert">
         {{flashMessages.message}}
       </div>
+         {{#if flashMessages.error}}
+      <div class="alert alert-{{flashMessages.type}} flashMessage" role="alert">
+        {{flashMessages.error}}
+      </div>
+        {{/if}}
     {{/if}}
