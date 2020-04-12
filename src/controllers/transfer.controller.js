@@ -4,10 +4,10 @@ const { DB } = require('../services/sequelize');
 
 exports.addTransfer = async (req, res) => {
   const [parkingLots, vehicleStates] = await Promise.all([
-    await DB.ParkingLot.findAll({
+    DB.ParkingLot.findAll({
       raw: true,
     }),
-    await DB.VehicleState.findAll({
+    DB.VehicleState.findAll({
       raw: true,
     }),
   ]);

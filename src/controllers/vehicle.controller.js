@@ -23,23 +23,22 @@ exports.addVehicleView = async (req, res) => {
     });
 
     const [vehicleTypes, vehicleColors, vehicleBodyTypes, vehicleBrands, vehicleStates] = await Promise.all([
-      await DB.VehicleType.findAll({
+      DB.VehicleType.findAll({
         raw: true,
       }),
-      await DB.VehicleColor.findAll({
+      DB.VehicleColor.findAll({
         raw: true,
       }),
-      await DB.VehicleBodyStyle.findAll({
+      DB.VehicleBodyStyle.findAll({
         raw: true,
       }),
-      await DB.VehicleBrand.findAll({
+      DB.VehicleBrand.findAll({
         raw: true,
       }),
-      await DB.VehicleState.findAll({
+      DB.VehicleState.findAll({
         raw: true,
       }),
     ]);
-
     return res.render('layouts/main', {
       partialName: 'entranceVehicle',
       vehiclePlates,
