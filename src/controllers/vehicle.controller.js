@@ -14,42 +14,44 @@ const statusIdOtopark = async () => {
 };
 
 exports.addVehicleView = async (req, res) => {
-  const vehiclePlates = await DB.TowedVehicle.findAll({
-    raw: true,
-    where: {
-      stateId: 2,
-    },
-  });
+  try {
+    const vehiclePlates = await DB.TowedVehicle.findAll({
+      raw: true,
+      where: {
+        stateId: 2,
+      },
+    });
 
-  const vehicleTypes = await DB.VehicleType.findAll({
-    raw: true,
-  });
+    const [vehicleTypes, vehicleColors, vehicleBodyTypes, vehicleBrands, vehicleStates] = await Promise.all([
+      await DB.VehicleType.findAll({
+        raw: true,
+      }),
+      await DB.VehicleColor.findAll({
+        raw: true,
+      }),
+      await DB.VehicleBodyStyle.findAll({
+        raw: true,
+      }),
+      await DB.VehicleBrand.findAll({
+        raw: true,
+      }),
+      await DB.VehicleState.findAll({
+        raw: true,
+      }),
+    ]);
 
-  const vehicleColors = await DB.VehicleColor.findAll({
-    raw: true,
-  });
-
-  const vehicleBodyTypes = await DB.VehicleBodyStyle.findAll({
-    raw: true,
-  });
-
-  const vehicleBrands = await DB.VehicleBrand.findAll({
-    raw: true,
-  });
-
-  const vehicleStates = await DB.VehicleState.findAll({
-    raw: true,
-  });
-
-  return res.render('layouts/main', {
-    partialName: 'entranceVehicle',
-    vehiclePlates,
-    vehicleTypes,
-    vehicleColors,
-    vehicleBodyTypes,
-    vehicleBrands,
-    vehicleStates,
-  });
+    return res.render('layouts/main', {
+      partialName: 'entranceVehicle',
+      vehiclePlates,
+      vehicleTypes,
+      vehicleColors,
+      vehicleBodyTypes,
+      vehicleBrands,
+      vehicleStates,
+    });
+  } catch (error) {
+    console.log('error');
+  }
 };
 
 exports.addVehicle = async (req, res) => {
