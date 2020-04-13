@@ -375,7 +375,7 @@ a.header-logo span {
 .form-navigation a {
   color: white;
   font-size: 15px;
-  margin-right: 3px;
+  margin-left: 12px;
 }
 
 .form-navigation a:hover {
@@ -401,6 +401,16 @@ a.header-logo span {
   padding: 4px 12px 2px 20px;
 }
 
+.form-navigation-active {
+  align-items: center;
+  padding: 20px 14px 20px 14px;
+  background-color: white;
+}
+
+.form-navigation-passive {
+  margin-left: 14px;
+  padding: 0 9px;
+}
 /* ---------- TABLE ---------- */
 
 .table-container {

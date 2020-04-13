@@ -2,7 +2,12 @@
   <div class="form-container">
     {{> components/showMessage }}
     <header class="form-navigation">
-      <a href="/vehicle/search"><i class="fas fa-search"></i> Ara</a>
+      <div class="d-flex align-items-center">
+        <span><i class="fas fa-angle-right fa-2x"></i></span>
+        <a class="form-navigation-active" style="color: #17a2b8;" href="/vehicle/add"><i
+                class="fas fa-plus"></i> Ekle</a>
+        <a href="/vehicle/search"><i class="fas fa-search"></i> Ara</a>
+      </div>
       <span>Araç Giriş/Çıkış İşlemleri</span>
     </header>
     <form class="border border-light" action="" method="POST">
