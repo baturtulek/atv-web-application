@@ -15,6 +15,9 @@ const routes = (app) => {
     .route('/vehicle/exit')
     .get(vehicleController.exitVehicleView)
     .post(vehicleController.exitVehicle);
+  app
+    .route('/vehicle/calculate')
+    .post(vehicleController.calculatePrice);
 };
 
 module.exports = routes;

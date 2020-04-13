@@ -1,9 +1,10 @@
-<div class="partial-container">
+<div class="table-container">
   <div class="form-container">
   
     {{> components/showMessage }}
 
     <form class="border border-light" action="/vehicle/exit" method="POST">
+
       <div class="form-group row row-cols-3">
         <div class="col">
           <label class="col-form-label">Plate</label>
@@ -11,12 +12,13 @@
         </div>
         <div class="col">
              <label class="col-form-label">Araç Giriş Tarihi</label>
-            <input name="entranceParkingLotDate" type="text" class="form-control" value="{{towVehicle.entranceParkingLotDate}}" readonly>
+            <input class="form-control" name="entranceParkingLotDate" id="entranceParkingLotDate" type="text"  value="{{towVehicle.entranceParkingLotDate}}" readonly>
         </div>
         <div class="col">
-          <label class="col-form-label">Şasi No</label>
-          <input name="chassisNo" type="text" class="form-control" value="{{vehicle.chassisNo}}" readonly>
+          <label class="col-form-label">Çıkış Tarihi</label>
+          <input class="form-control" name="exitDate"  id="exitDate" value="{{exitDate}}" readonly>
         </div>
+        <input  class="form-control" name="towedDate" type="hidden"   id="towedDate" value="{{towVehicle.towedDate}}">
       </div>
 
       <div class="form-group row row-cols-3">
@@ -51,38 +53,105 @@
               </option>
             {{/each}}
           </select>
-          <script>
-            function hideRoleSelect(){
-              if ($("#DiscountYes").is(":checked")) {
-                  $("#discountRoleId").removeAttr("disabled");
-              }
-              if ($("#DiscountNo").is(":checked")) {
-                  $("#discountRoleId").attr("disabled","disabled");
-                  $('#discountRoleId').prop('selectedIndex', 0);
-              }
-            }
-          </script>
         </div>
       </div>
 
       <div class="form-group row row-cols-3">
         <div class="col">
+          <label class="col-form-label">Teslim Alan Kişi</label>
+          <input class="form-control" name="receiver" id="receiver" >
         </div>
         <div class="col">
+          <label class="col-form-label">Çekici Bilgisi</label>
+          <input class="form-control" name="staffId" id="staffId" value="{{lookup towVehicle 'User.name'}} {{lookup towVehicle 'User.surname'}}" readonly>
         </div>
         <div class="col">
+          <label class="col-form-label">Bulunduğu Otopark</label>
+          <input class="form-control" name="parkingLot" id="parkingLot" value="{{lookup towVehicle 'ParkingLot.name'}}" readonly>
       </div>
       </div>
       
       <div class="form-group row row-cols-3">
+        <div class="col">
+          <label class="col-form-label">Ek İşlem</label>
+          <select class="browser-default custom-select" name="additionalFee" id="additionalFee">
+            <option value="">Ek Ücret</option>
+            {{#each additionalFee}}
+              <option value="{{this.fee}}">
+                {{this.name}}
+              </option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-group row row-cols-3">
         <div class="col mr-auto">
-
         </div>
         <div class="col-auto grid-button-group">
           <button type="button" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i>Sıfırla</button>
+          <button type="button" onclick="calculate();" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i>Ücret Hesaplama</button>
           <button type="button submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i>Çıkış</button>
         </div>
       </div>
     </form>
   </div>
+<div id="price" style="display: flex;  margin: auto; width: 25%; height:25%; border-radius:200px; padding: 10px; text-align: center; justify-content: center;
+  align-items: center;"></div>
 </div>
+
+<script>
+  function calculate(){
+    let plate = $("#plate").val()
+    let entranceParkingLotDate = $("#entranceParkingLotDate").val()
+    let discountRoleId = $("#discountRoleId").val()
+    let vehicleTypeId = $("#vehicleTypeId").val()
+    let discount = $("#DiscountYes").is(":checked")
+    let towedDate = $("#towedDate").val()
+    let exitDate = $("#exitDate").val()
+    let additionalFee = $("#additionalFee").val()
+    
+    $(document).ready(function () {
+    const endPoint = "/vehicle/calculate";
+      $.ajax({
+        url: endPoint,
+        type: "POST",
+        dataType: 'json',
+        data: {
+          plate: plate,
+          towedDate: towedDate,
+          entranceParkingLotDate: entranceParkingLotDate,
+          exitDate: exitDate,
+          vehicleTypeId: vehicleTypeId,
+          discount: discount,
+          discountRoleId: discountRoleId,
+          additionalFee: additionalFee
+        },
+        success: function (result) {
+          var priceDiv = document.getElementById("price");
+          priceDiv.style["border"] = "3px outset";
+          priceDiv.style["box-shadow"] = "5px 10px 18px grey"
+          priceDiv.innerHTML = `<p class='display-4 lead'>${result.price} ₺</p>`
+        },
+        error: function (error) {
+          var priceDiv = document.getElementById("price");
+          priceDiv.style["border"] = "3px outset";
+          priceDiv.style["box-shadow"] = "5px 10px 18px grey"
+          priceDiv.innerHTML = `<p class='display-5 lead'>Maalesef bir hata oluştu</p>`
+        }
+      });
+    });
+  }
+</script>
+
+<script>
+  function hideRoleSelect(){
+    if ($("#DiscountYes").is(":checked")) {
+        $("#discountRoleId").removeAttr("disabled");
+    }
+    if ($("#DiscountNo").is(":checked")) {
+        $("#discountRoleId").attr("disabled","disabled");
+        $('#discountRoleId').prop('selectedIndex', 0);
+    }
+  }
+</script>

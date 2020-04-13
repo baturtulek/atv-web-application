@@ -12,5 +12,6 @@
 	"OLD_PASSWORD_INVALID": "Eski şifreniz hatalı.",
 	"NEW_PASSWORDS_NOT_MATCHES": "Girdiğiniz yeni şifreler uyuşmuyor.",
 	"EXIT_VEHICLE_SUCCESS": "%s çıkışı yapıldı.",
+	"EXIT_VEHICLE_ERROR": "%s çıkışı yapılamadı",
 	"INTERNAL_ERROR": "Sistem hatası."
 }

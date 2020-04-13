@@ -1,3 +1,4 @@
+const moment = require('moment');
 const httpStatus = require('http-status');
 const i18n = require('../services/i18n');
 const routeNames = require('../locales/routeNamesTR.json');
@@ -224,24 +225,40 @@ exports.searchVehicle = async (req, res) => {
 exports.exitVehicleView = async (req, res) => {
   const { plate } = req.query;
   try {
+    const exitDate = getFormattedTimeStamp('YYYY-MM-DD HH:mm:ss');
+
     const vehicleStatus = await statusIdOtopark();
-    const towVehicle = await DB.TowedVehicle.findOne({
-      where: {
-        plate, stateId: parseInt(vehicleStatus.id),
-      },
-      raw: true,
-    });
 
-    const vehicle = await DB.Vehicle.findOne({
-      where: {
-        plate,
-      },
-      raw: true,
-    });
-
-    const vehicleTypes = await DB.VehicleType.findAll({
-      raw: true,
-    });
+    const [towVehicle, vehicle, additionalFee, vehicleTypes] = await Promise.all([
+      DB.TowedVehicle.findOne({
+        include: [
+          {
+            model: DB.User,
+            attributes: ['name', 'surname'],
+          },
+          {
+            model: DB.ParkingLot,
+            attributes: ['name'],
+          },
+        ],
+        where: {
+          plate, stateId: parseInt(vehicleStatus.id),
+        },
+        raw: true,
+      }),
+      DB.Vehicle.findOne({
+        where: {
+          plate,
+        },
+        raw: true,
+      }),
+      DB.AdditionalFee.findAll({
+        raw: true,
+      }),
+      DB.VehicleType.findAll({
+        raw: true,
+      }),
+    ]);
 
     if (!vehicle) {
       return res.redirect('/vehicle/search');
@@ -257,16 +274,20 @@ exports.exitVehicleView = async (req, res) => {
       towVehicle,
       vehicle,
       vehicleTypes,
+      exitDate,
+      additionalFee,
     });
   } catch (err) {
+    console.log('ERROR', err);
     return res.redirect('/vehicle/search');
   }
 };
 
 exports.exitVehicle = async (req, res) => {
-  const { plate } = req.body;
+  const {
+    plate, exitDate, towedDate, receiver, 
+  } = req.body;
   try {
-    const exitDate = getFormattedTimeStamp('YYYY-MM-DD HH:mm:ss');
     const vehicleStatusExit = await DB.VehicleState.findOne({
       where: {
         description: 'Çıkış Yaptı',
@@ -277,20 +298,85 @@ exports.exitVehicle = async (req, res) => {
       {
         stateId: parseInt(vehicleStatusExit.id),
         exitParkingLotDate: exitDate,
+        receiver,
       },
       {
         where: {
-          plate, stateId: parseInt(vehicleStatus.id),
+          plate, towedDate, stateId: parseInt(vehicleStatus.id),
         },
         raw: true,
       },
     );
+
     req.session.flashMessages = {
       message: i18n.__('EXIT_VEHICLE_SUCCESS', routeNames.VEHICLE),
       type: 'success',
     };
     return res.redirect('/vehicle/search');
   } catch (err) {
-    return res.redirect('/vehicle/search');
+    req.session.flashMessages = {
+      message: i18n.__('EXIT_VEHICLE_ERROR', routeNames.VEHICLE),
+      type: 'danger',
+    };
+    return res.redirect(`/vehicle/exit?plate=${plate}`);
+  }
+};
+
+exports.calculatePrice = async (req, res) => {
+  const vehicle = req.body;
+  const entranceDate = moment(vehicle.entranceParkingLotDate);
+  const exitDate = moment(vehicle.exitDate);
+
+  let roleDiscount = null;
+
+  const dayDiff = exitDate.diff(entranceDate, 'hours');
+
+  try {
+    const vehicleFee = await DB.VehicleType.findOne({
+      attributes: ['fee'],
+      raw: true,
+      where: {
+        id: vehicle.vehicleTypeId,
+      },
+    });
+
+    if (vehicle.discount) {
+      roleDiscount = await DB.Discount.findOne({
+        attributes: ['parkDiscount'],
+        raw: true,
+        where: {
+          id: vehicle.discountRoleId,
+        },
+      });
+    }
+
+    // eslint-disable-next-line max-len
+    let resultPrice = +((dayDiff) * (vehicleFee.fee)) + +(vehicle.additionalFee);
+
+    if (roleDiscount) {
+      // eslint-disable-next-line max-len
+      resultPrice -= ((resultPrice) * (roleDiscount.parkDiscount)) / (100);
+    }
+    console.log('vehicle', vehicle);
+    console.log('result price', resultPrice);
+    await DB.TowedVehicle.update(
+      {
+        price: resultPrice,
+      },
+      {
+        where: {
+          plate: vehicle.plate, towedDate: vehicle.towedDate,
+        },
+        raw: true,
+      },
+    );
+
+    return res.status(200).json({
+      price: resultPrice,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      error: err,
+    });
   }
 };
