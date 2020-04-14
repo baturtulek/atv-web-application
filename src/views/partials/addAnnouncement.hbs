@@ -14,7 +14,7 @@
         <span>Duyuru Yönetimi</span>
       </header>
       <form class="border border-light" id='form' action="/announcement/{{endPoint}}" method="POST">
-        <div class="form-inside-container">
+        <div class="form-inside-container" style="margin-bottom: 8px;"> 
           <input type="hidden" name="id" value="{{announcement.id}}">
 
           <label class="col-form-label">Duyuru Başlığı</label>
@@ -30,7 +30,7 @@
                  oninput="setCustomValidity('')">
         </div>
         <div class="form-group row row-cols-3">
-          <div class="col">
+          <div class="col" style="margin-bottom: 24px;">
             <label class="col-form-label">Aktif</label>
             <select class="browser-default custom-select" name="isActive" id="isActive" required>
               <option value="0">
@@ -41,7 +41,7 @@
               </option>
             </select>
           </div>
-          <div class="col">
+          <div class="col" style="margin-bottom: 24px;">
             <label class="col-form-label">Flash Anons</label>
             <select class="browser-default custom-select" name="isFlash" id="isFlash" required>
               <option value="0">
@@ -52,21 +52,7 @@
               </option>
             </select>
           </div>
-          <div class="col">
-            <label class="col-form-label">Duyuru Başlangıç</label>
-            <input type="text" class="form-control" name="startDate" id="startDate" placeholder=""
-                   value="{{announcement.startDate}}" required
-                   oninvalid="this.setCustomValidity('Lütfen duyuru başlangıcini girin.')"
-                   oninput="setCustomValidity('')">
-          </div>
-          <div class="col">
-            <label class="col-form-label">Duyuru Bitiş</label>
-            <input type="text" class="form-control" name="endDate" id="endDate" placeholder=""
-                   value="{{announcement.endDate}}" required
-                   oninvalid="this.setCustomValidity('Lütfen duyuru bitişini girin.')"
-                   oninput="setCustomValidity('')">
-          </div>
-          <div class="col">
+          <div class="col" style="margin-bottom: 1624;">
             <label class="col-form-label">Profil Adi</label>
             <select class="browser-default custom-select" name="roleId" id="roleId" required>
               {{#each roles}}
@@ -76,19 +62,32 @@
               {{/each}}
             </select>
           </div>
-        </div>
-
-        <div class="form-group row row-cols-3">
-          <div class="col-auto grid-button-group ml-auto">
-            <button type="button" class="btn btn-info btn-sm" id="resetButton"><i class="fas fa-sync-alt"></i>Sıfırla
-            </button>
-            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i>
-              {{#ifEquals "add" endPoint}}
-                Ekle
-              {{else}}
-                Güncelle
-              {{/ifEquals}}
-            </button>
+          <div class="col" style="margin-bottom: 16px;">
+            <label class="col-form-label">Duyuru Başlangıç</label>
+            <input type="text" class="form-control date datepicker-icon" name="startDate" id="startDate" placeholder="&#xf073"
+                   value="{{announcement.startDate}}" required
+                   oninvalid="this.setCustomValidity('Lütfen duyuru başlangıcini girin.')"
+                   oninput="setCustomValidity('')">
+          </div>
+          <div class="col" style="margin-bottom: 16px;">
+            <label class="col-form-label">Duyuru Bitiş</label>
+            <input type="text" class="form-control date datepicker-icon" 
+                   name="endDate" id="endDate" placeholder="&#xf073"
+                   value="{{announcement.endDate}}" required
+                   oninvalid="this.setCustomValidity('Lütfen duyuru bitişini girin.')"
+                   oninput="setCustomValidity('')">
+          </div>
+          <div class="form-group row row-cols-3">
+            <div class="col-auto grid-button-group ml-auto">
+              <button type="button" class="btn btn-info btn-sm" id="resetButton"><i class="fas fa-sync-alt"></i>Sıfırla</button>
+              <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i>
+                {{#ifEquals "add" endPoint}}
+                  Ekle
+                {{else}}
+                  Güncelle
+                {{/ifEquals}}
+              </button>
+            </div>
           </div>
         </div>
       </form>
@@ -96,6 +95,14 @@
   </div>
 </div>
 <script>
+  $('.date').datepicker({
+    language: "tr",
+    format: "dd-mm-yyyy",
+    autoclose: true,
+    todayHighlight: true,
+    orientation: "bottom left"
+  });
+  
   $('#resetButton').on('click', function () {
     $('#title').val('');
     $('#content').val('');

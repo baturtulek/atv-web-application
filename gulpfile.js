@@ -30,6 +30,9 @@ const prepareVendorFiles = () => {
   const datatablesCss = gulp
     .src(vendorFiles.src.datatableCss)
     .pipe(gulp.dest(vendorFiles.public.datatableCss));
+  const bootstrapDatepicker = gulp
+    .src(vendorFiles.src.bootstrapDatepicker)
+    .pipe(gulp.dest(vendorFiles.public.bootstrapDatepicker));
   return merge(
     jquery,
     popperJs,
@@ -39,6 +42,7 @@ const prepareVendorFiles = () => {
     datatablesJquery,
     datatablesJs,
     datatablesCss,
+    bootstrapDatepicker
   );
 };
 

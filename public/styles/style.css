@@ -15,6 +15,7 @@ body {
 
 .outer-container {
   width: 100%;
+  height: calc(100vh - 60px);
   background-color: #f1f2f7;
   overflow: auto;
   padding-left: 240px;
@@ -558,4 +559,14 @@ input:checked + .slider:before {
 
 .input-group-append span{ 
   background-color:#DBDBDB;
+}
+
+.datepicker-icon {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  content: "\f073";
+}
+
+.datepicker-icon:focus {
+  outline: none;
 }
