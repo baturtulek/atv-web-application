@@ -23,7 +23,7 @@ exports.getRouteCompetencyId = async (route) => {
     case 'towfirm':
       return competencyList.CEKICI_FIRMA_ISLEMLERI;
     case 'transfer':
-      return competencyList.OTOPARK_ISLEMLERI;
+      return competencyList.TRANSFER_ISLEMLERI;
     case 'announcement':
       return competencyList.DUYURU_YONETIMI;
   }

@@ -5,8 +5,13 @@
       <header class="form-navigation">
         <div class="d-flex align-items-center">
           <span><i class="fas fa-angle-right fa-2x"></i></span>
-          <a class="form-navigation-active" style="color: #17a2b8;" href="/discount/add"><i class="fas fa-plus"></i>
-            Ekle</a>
+          <a class="form-navigation-active" style="color: #17a2b8;" href="">
+            {{#ifEquals "add" endPoint}}
+              <i class="fas fa-plus"></i>Ekle
+            {{else}}
+              <i class="fas fa-edit"></i>Düzenle
+            {{/ifEquals}}
+          </a>
           <a class="form-navigation-passive" href="/discount/list">
             <i class="fas fa-list"></i> Listele
           </a>
