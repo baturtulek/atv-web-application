@@ -1,70 +1,72 @@
-<div class="partial-container">
-  <div class="form-container">
-    {{> components/showMessage }}
-    <header class="form-navigation">      
-      <div class="d-flex align-items-center">
-        <span><i class="fas fa-angle-right fa-2x"></i></span>
-        <a class="form-navigation-active" style="color: #17a2b8;" href="/parkinglot/add"><i
-                class="fas fa-plus"></i> Ekle</a>
-        <a class="form-navigation-passive" href="/parkinglot/list"><i class="fas fa-list"></i> Listele</a>
-      </div>
-      <span>Otopark İşlemleri</span>
-    </header>
-    <form class="border border-light" action="/parkinglot/{{endPoint}}" method="POST">
-      <div class="form-inside-container">
-        <input type="hidden" name="id" value="{{parkingLot.id}}">
-        <label class="col-form-label">Adı</label>
-        <input type="text" class="form-control" name="name" id="name" required pattern=".*\S+.*"
-          value="{{parkingLot.name}}" oninvalid="this.setCustomValidity('Lütfen otopark adını girin.')"
-          oninput="setCustomValidity('')">
-
-        <label class="col-form-label">Yetkili</label>
-        <select class="browser-default custom-select" name="staffId" id="staffId" required>
-          {{#each parkingLotUsers}}
-          <option value="{{this.id}}" {{#ifEquals this.id ../parkingLot.staffId}} selected {{/ifEquals}}>
-            {{this.name}} {{this.surname}}
-          </option>
-          {{/each}}
-        </select>
-
-        <label class="col-form-label">Tip</label>
-        <select class="browser-default custom-select" name="parkingTypeId" id="parkingTypeId" required>
-          {{#each parkingLotType}}
-          <option value="{{this.id}}" {{#ifEquals this.id ../parkingLot.parkingTypeId}} selected {{/ifEquals}}>
-            {{this.description}}
-          </option>
-          {{/each}}
-        </select>
-        
-        <label class="col-form-label"></label><span></span>
-
-        
-        <label class="col-form-label">Adres</label>
-        <textarea class="form-control" rows="3" name="address" id="address" required pattern=".*\S+.*"
-          oninvalid="this.setCustomValidity('Lütfen otopark adresini girin.')"
-          oninput="setCustomValidity('')">{{parkingLot.address}}</textarea>
-
-        <label class="col-form-label">Açıklama</label>
-        <textarea class="form-control" rows="3" name="description"
-          id="description">{{parkingLot.description}}</textarea>
-      </div>
-
-      <div class="form-group row row-cols-3">
-        <div class="col-auto grid-button-group ml-auto">
-          <button type="button" class=" btn btn-info btn-sm" id="resetButton"><i class="fas fa-sync-alt"></i>Sıfırla</button>
-          <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i>
-            {{#ifEquals "add" endPoint}}
-            Ekle
-            {{else}}
-            Güncelle
-            {{/ifEquals}}
-          </button>
+<div class="outer-container">
+  <div class="partial-container">
+    <div class="form-container">
+      {{> components/showMessage }}
+      <header class="form-navigation">
+        <div class="d-flex align-items-center">
+          <span><i class="fas fa-angle-right fa-2x"></i></span>
+          <a class="form-navigation-active" style="color: #17a2b8;" href="/parkinglot/add"><i
+                  class="fas fa-plus"></i> Ekle</a>
+          <a class="form-navigation-passive" href="/parkinglot/list"><i class="fas fa-list"></i> Listele</a>
         </div>
-      </div>
-    </form>
+        <span>Otopark İşlemleri</span>
+      </header>
+      <form class="border border-light" action="/parkinglot/{{endPoint}}" method="POST">
+        <div class="form-inside-container">
+          <input type="hidden" name="id" value="{{parkingLot.id}}">
+          <label class="col-form-label">Adı</label>
+          <input type="text" class="form-control" name="name" id="name" required pattern=".*\S+.*"
+                 value="{{parkingLot.name}}" oninvalid="this.setCustomValidity('Lütfen otopark adını girin.')"
+                 oninput="setCustomValidity('')">
+
+          <label class="col-form-label">Yetkili</label>
+          <select class="browser-default custom-select" name="staffId" id="staffId" required>
+            {{#each parkingLotUsers}}
+              <option value="{{this.id}}" {{#ifEquals this.id ../parkingLot.staffId}} selected {{/ifEquals}}>
+                {{this.name}} {{this.surname}}
+              </option>
+            {{/each}}
+          </select>
+
+          <label class="col-form-label">Tip</label>
+          <select class="browser-default custom-select" name="parkingTypeId" id="parkingTypeId" required>
+            {{#each parkingLotType}}
+              <option value="{{this.id}}" {{#ifEquals this.id ../parkingLot.parkingTypeId}} selected {{/ifEquals}}>
+                {{this.description}}
+              </option>
+            {{/each}}
+          </select>
+
+          <label class="col-form-label"></label><span></span>
+
+
+          <label class="col-form-label">Adres</label>
+          <textarea class="form-control" rows="3" name="address" id="address" required pattern=".*\S+.*"
+                    oninvalid="this.setCustomValidity('Lütfen otopark adresini girin.')"
+                    oninput="setCustomValidity('')">{{parkingLot.address}}</textarea>
+
+          <label class="col-form-label">Açıklama</label>
+          <textarea class="form-control" rows="3" name="description"
+                    id="description">{{parkingLot.description}}</textarea>
+        </div>
+
+        <div class="form-group row row-cols-3">
+          <div class="col-auto grid-button-group ml-auto">
+            <button type="button" class=" btn btn-info btn-sm" id="resetButton"><i class="fas fa-sync-alt"></i>Sıfırla
+            </button>
+            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i>
+              {{#ifEquals "add" endPoint}}
+                Ekle
+              {{else}}
+                Güncelle
+              {{/ifEquals}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
-
 <script>
   $('#resetButton').on('click', function () {
     $('#name').val('');

@@ -1,103 +1,106 @@
-<div class="partial-container">
-  <div class="form-container">
-    {{> components/showMessage }}
-    <header class="form-navigation">
-      <div class="d-flex align-items-center">
-        <span><i class="fas fa-angle-right fa-2x"></i></span>
-        <a class="form-navigation-active" style="color: #17a2b8;" href="/vehicle/add"><i
-                class="fas fa-plus"></i> Ekle</a>
-        <a href="/vehicle/search"><i class="fas fa-search"></i> Ara</a>
-      </div>
-      <span>Araç Giriş/Çıkış İşlemleri</span>
-    </header>
-    <form class="border border-light" action="" method="POST">
-      <div class="form-group row row-cols-3">
-        <div class="col">
-          <label class="col-form-label">Plaka</label>
-          <select class="browser-default custom-select" name="plate" id="plate" required>
-            {{#each vehiclePlates}}
-            <option value="{{this.plate}}">
-              {{this.plate}}
-            </option>
-            {{/each}}
-          </select>
+<div class="outer-container">
+  <div class="partial-container">
+    <div class="form-container">
+      {{> components/showMessage }}
+      <header class="form-navigation">
+        <div class="d-flex align-items-center">
+          <span><i class="fas fa-angle-right fa-2x"></i></span>
+          <a class="form-navigation-active" style="color: #17a2b8;" href="/vehicle/add"><i
+                  class="fas fa-plus"></i> Ekle</a>
+          <a href="/vehicle/search"><i class="fas fa-search"></i> Ara</a>
         </div>
-        <div class="col">
-          <label class="col-form-label">Tip</label>
-          <select class="browser-default custom-select" name="vehicleTypeId" id="vehicleTypeId" required>
-            {{#each vehicleTypes}}
-            <option value="{{this.id}}">
-              {{this.name}}
-            </option>
-            {{/each}}
-          </select>
+        <span>Araç Giriş/Çıkış İşlemleri</span>
+      </header>
+      <form class="border border-light" action="" method="POST">
+        <div class="form-group row row-cols-3">
+          <div class="col">
+            <label class="col-form-label">Plaka</label>
+            <select class="browser-default custom-select" name="plate" id="plate" required>
+              {{#each vehiclePlates}}
+                <option value="{{this.plate}}">
+                  {{this.plate}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="col">
+            <label class="col-form-label">Tip</label>
+            <select class="browser-default custom-select" name="vehicleTypeId" id="vehicleTypeId" required>
+              {{#each vehicleTypes}}
+                <option value="{{this.id}}">
+                  {{this.name}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="col">
+            <label class="col-form-label">Şasi No</label>
+            <input name="chassisNo" type="text" class="form-control" required>
+          </div>
         </div>
-        <div class="col">
-          <label class="col-form-label">Şasi No</label>
-          <input name="chassisNo" type="text" class="form-control" required>
-        </div>
-      </div>
 
-      <div class="form-group row row-cols-3">
-        <div class="col">
-          <label class="col-form-label">Marka</label>
-          <select class="browser-default custom-select" name="brandId" id="brandId" required>
-            {{#each vehicleBrands}}
-            <option value="{{this.id}}">
-              {{this.description}}
-            </option>
-            {{/each}}
-          </select>
+        <div class="form-group row row-cols-3">
+          <div class="col">
+            <label class="col-form-label">Marka</label>
+            <select class="browser-default custom-select" name="brandId" id="brandId" required>
+              {{#each vehicleBrands}}
+                <option value="{{this.id}}">
+                  {{this.description}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="col">
+            <label class="col-form-label">Model Yılı</label>
+            <input name="modelYear" type="text" class="form-control" required>
+          </div>
+          <div class="col">
+            <label class="col-form-label">Kasa Tipi</label>
+            <select class="browser-default custom-select" name="bodyTypeId" id="bodyTypeId" required>
+              {{#each vehicleBodyTypes}}
+                <option value="{{this.id}}">
+                  {{this.description}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
         </div>
-        <div class="col">
-          <label class="col-form-label">Model Yılı</label>
-          <input name="modelYear" type="text" class="form-control" required>
-        </div>
-        <div class="col">
-          <label class="col-form-label">Kasa Tipi</label>
-          <select class="browser-default custom-select" name="bodyTypeId" id="bodyTypeId" required>
-            {{#each vehicleBodyTypes}}
-            <option value="{{this.id}}">
-              {{this.description}}
-            </option>
-            {{/each}}
-          </select>
-        </div>
-      </div>
 
-      <div class="form-group row row-cols-3">
-        <div class="col">
-          <label class="col-form-label">Renk</label>
-          <select class="browser-default custom-select" name="colorId" id="colorId" required>
-            {{#each vehicleColors}}
-            <option value="{{this.id}}">
-              {{this.description}}
-            </option>
-            {{/each}}
-          </select>
+        <div class="form-group row row-cols-3">
+          <div class="col">
+            <label class="col-form-label">Renk</label>
+            <select class="browser-default custom-select" name="colorId" id="colorId" required>
+              {{#each vehicleColors}}
+                <option value="{{this.id}}">
+                  {{this.description}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="col">
+            <label class="col-form-label">Motor No</label>
+            <input name="engineNo" type="text" class="form-control">
+          </div>
+          <div class="col">
+            <label class="col-form-label">Transfer Durumu</label>
+            <select class="browser-default custom-select" name="stateId" id="stateId" required>
+              {{#each vehicleStates}}
+                <option value="{{this.id}}">
+                  {{this.description}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
         </div>
-        <div class="col">
-          <label class="col-form-label">Motor No</label>
-          <input name="engineNo" type="text" class="form-control">
+        <div class="form-group row row-cols-3">
+          <div class="col-auto grid-button-group ml-auto">
+            <button type="button" class="btn btn-info btn-sm" id="resetButtonPassword"><i
+                    class="fas fa-sync-alt"></i>Sıfırla
+            </button>
+            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i>Güncelle</button>
+          </div>
         </div>
-        <div class="col">
-          <label class="col-form-label">Transfer Durumu</label>
-          <select class="browser-default custom-select" name="stateId" id="stateId" required>
-            {{#each vehicleStates}}
-            <option value="{{this.id}}">
-              {{this.description}}
-            </option>
-            {{/each}}
-          </select>
-        </div>
-      </div>
-      <div class="form-group row row-cols-3">
-        <div class="col-auto grid-button-group ml-auto">
-          <button type="button" class="btn btn-info btn-sm" id="resetButtonPassword"><i
-              class="fas fa-sync-alt"></i>Sıfırla</button>
-          <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i>Güncelle</button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
-</div>
+</div>  
