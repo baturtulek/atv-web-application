@@ -87,6 +87,22 @@
                   </div>
                 </li>
               {{/isUserCompetencyIncludesRoute}}
+              {{#isUserCompetencyIncludesRoute ../session.userCompetencyList
+                                               ../appCompetencyList.YILLIK_IZIN_ISLEMLERI}}
+                <li class="panel panel-default" id="dropdown">
+                  <a data-toggle="collapse" href="#annualleave">
+                    <i class="fas fa-angle-right"></i> Yıllık İzin İşlemleri
+                  </a>
+                  <div id="annualleave" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ul class="nav navbar-nav">
+                        <li><a href="/annualleave/request"><i class="fas fa-circle"></i> Yıllık İzin İsteği</a></li>
+                         <li><a href="/annualleave/list"><i class="fas fa-circle"></i> Yıllık İzinleri Listele</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              {{/isUserCompetencyIncludesRoute}}
               {{#isUserCompetencyIncludesRoute ../session.userCompetencyList ../appCompetencyList.EK_UCRET_ISLEMLERI}}
                 <li class="panel panel-default" id="dropdown">
                   <a data-toggle="collapse" href="#additionalfee">
