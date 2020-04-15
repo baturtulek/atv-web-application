@@ -70,8 +70,9 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Plaka</th>
-        <th scope="col">Şasi No</th>
+        {{!-- <th scope="col">Şasi No</th> --}}
         <th scope="col">Otopark</th>
+        <th scope="col">Çekiliş Tarihi</th>
         <th scope="col">Parka Giriş Tarihi</th>
         <th scope="col">Parktan Çıkış Tarihi</th>
         <th scope="col">Durum</th>
@@ -82,22 +83,18 @@
       <tbody>
       {{#each vehicles}}
         <tr>
-          <th class="column1">{{@index}}</th>
+          <th class="column1">{{incrementByOne @index}}</th>
           <td class="column2">{{plate}}</td>
-          <td class="column3">{{lookup this 'Vehicle.chassisNo'}}</td>
+          {{!-- <td class="column3">{{lookup this 'Vehicle.chassisNo'}}</td> --}}
           <td class="column4">{{lookup this 'ParkingLot.name'}}</td>
+          <td class="column5">{{towedDate}}</td>
           <td class="column5">{{entranceParkingLotDate}}</td>
           <td class="column6">{{exitParkingLotDate}}</td>
           <td class="column7">{{lookup this 'VehicleState.description'}}</td>
-          <td class="column8">
-            <a target="_blank" href="https://storage.googleapis.com/atv-arac/{{plate}}-{{towedDate}}/photo1"><i
-                    style="color:lightskyblue;" class="fa fa-file" aria-hidden="true"></i></a>
-            <a target="_blank" href="https://storage.googleapis.com/atv-arac/{{plate}}-{{towedDate}}/photo1"><i
-                    style="color:lightskyblue;" class="fa fa-file" aria-hidden="true"></i></a>
-            <a target="_blank" href="https://storage.googleapis.com/atv-arac/{{plate}}-{{towedDate}}/photo2"><i
-                    style="color:lightskyblue;" class="fa fa-file" aria-hidden="true"></i></a>
-            <a target="_blank" href="https://storage.googleapis.com/atv-arac/{{plate}}-{{towedDate}}/photo3"><i
-                    style="color:lightskyblue;" class="fa fa-file" aria-hidden="true"></i></a>
+          <td class="column8" style="text-align:center; width:20px;">
+             <a target="_blank" href="/vehicle/photos?plate={{plate}}&toweddate={{towedDate}}">
+              <i class="fas fa-camera fa-sm btn btn-info" aria-hidden="true"></i>
+            </a>
           </td>
           {{#ifEquals (lookup this 'VehicleState.description') 'Otoparkta' }}
             <td class="column9">
