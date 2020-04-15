@@ -14,6 +14,16 @@ const statusIdOtopark = async () => {
   return vehicleStatus;
 };
 
+exports.vehiclePhoto = async (req, res) => {
+  const plate = req.query.plate;
+  const toweddate = req.query.toweddate;
+  return res.render('layouts/main', {
+    partialName: 'listVehiclePhotos',
+    plate,
+    toweddate,
+  });
+}
+  
 exports.addVehicleView = async (req, res) => {
   try {
     const vehiclePlates = await DB.TowedVehicle.findAll({
