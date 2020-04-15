@@ -24,11 +24,11 @@
         <div class="form-group row row-cols-3">
           <div class="col">
             <label class="col-form-label">İzin Başlangıç Tarihi</label>
-            <input class="form-control" name="startDate" id="startDate" type="text" >
+            <input class="form-control date datepicker-icon" placeholder="&#xf073" name="startDate" id="startDate" type="text" >
           </div>
           <div class="col">
             <label class="col-form-label">İzin Bitiş Tarihi</label>
-            <input class="form-control" name="endDate" id="endDate" type="text" >
+            <input class="form-control date datepicker-icon" placeholder="&#xf073" name="endDate" id="endDate" type="text" >
           </div>
           <div class="col">
           </div>
@@ -44,3 +44,12 @@
     </div>
   </div>
 </div>  
+<script>
+  $('.date').datepicker({
+    language: "tr",
+    format: "yyyy-mm-dd",
+    autoclose: true,
+    todayHighlight: true,
+    orientation: "bottom left"
+  });
+</script>
