@@ -1,0 +1,46 @@
+<header class="header">
+    <nav class="navbar navbar-expand navbar-light">
+      <div data-toggle="collapse">
+        <a data-toggle="tooltip" data-placement="bottom" title="Menüyü Göster / Gizle" onclick="barToggle()" style="font-size: 0.6rem;">
+          <i class="fas fa-bars fa-2x mr-2"></i>
+        </a>
+        <a class="navbar-brand header-logo" href="/"><b>WINDESK</b><span>CONCENTO</span></a>
+      </div>
+      <div>
+        <!-- Navbar-->
+        <ul class="navbar-nav nav-profile">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="userDropdown" href="#"
+                   role="button" data-toggle="dropdown" aria-haspopup="true">
+                  <i class="fas fa-user fa-lg mr-2"></i> {{session.user.name}} {{session.user.surname}}  
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-profile-icons" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="/profile"> 
+                      <i class="fas fa-user fa-xs"></i>Profil
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/logout">
+                      <i class="fas fa-sign-out-alt fa-xs"></i>Çıkış Yap
+                    </a>
+                </div>
+            </li>
+        </ul>
+      </div>
+    </nav>
+  <script>    
+    // $(document).ready(() => {
+    //   $('[data-toggle="tooltip"]').tooltip();
+    // });
+    // barToggle = () => {
+    //   let element = document.getElementById("sidebar");
+    //   let block = document.querySelector('#sidebar > ul.nav.navbar-nav.nav-collapse');
+    //   if(element.style.width === "240px"){
+    //     block.style.display = "none";
+    //     element.style.width = "0px";
+    //   }else{
+    //     element.style.width = "240px";
+    //     block.style.display = "block";
+    //   }
+    // }
+  </script>
+</header>

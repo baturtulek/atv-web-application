@@ -1,0 +1,130 @@
+<div class="outer-container">
+  <div class="partial-container">
+    <div class="form-container">
+      {{> components/showMessage }}
+      <header class="form-navigation">
+        <div class="d-flex align-items-center">
+          <span><i class="fas fa-angle-right fa-2x"></i></span>
+          <a class="form-navigation-active" style="color: #17a2b8;" href="">
+            {{#ifEquals "add" endPoint}}
+              <i class="fas fa-plus"></i>Ekle
+            {{else}}
+              <i class="fas fa-edit"></i>Düzenle
+            {{/ifEquals}}
+            </a>
+          <a class="form-navigation-passive" href="/user/list">
+            <i class="fas fa-list"></i> Listele
+          </a>
+        </div>
+        <span>Personal İşlemleri</span>
+      </header>
+      <form class="border border-light" id='form' action="/user/{{endPoint}}" method="POST">
+        <div class="form-inside-container">
+          <input type="hidden" name="id" value="{{user.id}}">
+
+          <label class="col-form-label">Kullanıcı Adı</label>
+          <input type="text" class="form-control" name="username" id="username" value="{{user.username}}" required
+                 oninvalid="this.setCustomValidity('Lütfen kullanıcı adını girin.')" oninput="setCustomValidity('')"
+            {{#ifEquals endPoint "update"}}
+                 disabled
+            {{/ifEquals}}
+          >
+
+          <label class="col-form-label">Profil</label>
+          <select class="browser-default custom-select" name="roleId" id="roleId">
+            {{#each userRole}}
+              <option value="{{this.id}}" {{#ifEquals this.id ../user.roleId}} selected {{/ifEquals}}>
+                {{this.role}}
+              </option>
+            {{/each}}
+          </select>
+
+          <label class="col-form-label">Adı</label>
+          <input type="text" class="form-control" name="name" id="name" value="{{user.name}}" required
+                 oninvalid="this.setCustomValidity('Lütfen adını girin.')" oninput="setCustomValidity('')">
+
+          <label class="col-form-label">Email</label>
+          <input type="text" class="form-control" name="email" id="email" value="{{user.email}}" required
+                 oninvalid="this.setCustomValidity('Lütfen mail adresini girin.')" oninput="setCustomValidity('')">
+
+          <label class="col-form-label">Soyadı</label>
+          <input type="text" class="form-control" name="surname" id="surname" value="{{user.surname}}" required
+                 oninvalid="this.setCustomValidity('Lütfen soyadını girin.')" oninput="setCustomValidity('')">
+
+          <label class="col-form-label">Telefon Numarası</label>
+          <input type="tel" class="form-control" name="phoneNumber" id="phoneNumber" value="{{user.phoneNumber}}">
+
+          <label class="col-form-label">Adres</label>
+          <input type="text" class="form-control" name="address" id="address" value="{{user.address}}">
+
+          <label class="col-form-label">Şifre</label>
+          <div class="input-group">
+            <input type="password" class="form-control" name="password" id="password" value="{{user.password}}" required
+                   oninvalid="this.setCustomValidity('Lütfen şifreyi girin.')" oninput="setCustomValidity('')"
+              {{#ifEquals "update" endPoint}}
+                   disabled
+              {{/ifEquals}}
+            >
+            {{#ifEquals "update" endPoint}}
+              <div class="input-group-append">
+              <span class="input-group-text">
+                <input type="checkbox" name="isPasswordActive" id="isPasswordActive"/>
+              </span>
+              </div>
+            {{/ifEquals}}
+          </div>
+
+          <label class="col-form-label">Aktif</label>
+          <label class="switch">
+            <input type="checkbox" name="isActive" id="isActive"
+              {{#if user}}
+                {{#if user.isActive}}
+                   checked
+                {{/if}}
+              {{else}}
+                   checked
+              {{/if}}>
+            <div class="slider round"></div>
+          </label>
+        </div>
+
+        <div class="form-group row row-cols-3">
+          <div class="col-auto grid-button-group ml-auto">
+            <button type="button" class="btn btn-info btn-sm" id="resetButton"><i class="fas fa-sync-alt"></i>Sıfırla
+            </button>
+            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i>
+              {{#ifEquals "add" endPoint}}
+                Ekle
+              {{else}}
+                Güncelle
+              {{/ifEquals}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  let password = $("#password").val();
+  $('#resetButton').on('click', function () {
+    $('#username').val('');
+    $('#name').val('');
+    $('#surname').val('');
+    $('#email').val('');
+    $('#password').val('');
+    $('#address').val('');
+    $('#phoneNumber').val('');
+    $('#roleId').prop('selectedIndex', 0);
+    $("#isActive").prop("checked", true);
+  });
+  $('#isPasswordActive').change(function () {
+    if (this.checked) {
+      $('#password').val('');
+      $("#password").prop('disabled', false);
+    } else {
+      $('#password').val(password);
+      $("#password").prop('disabled', true);
+    }
+  });
+</script>

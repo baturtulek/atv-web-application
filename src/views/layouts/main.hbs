@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Windesk Concento</title>
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/popper-js/popper.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/vendor/datatables/js/jquery.dataTables.js"></script>
+        <script src="/vendor/datatables/js/dataTables.bootstrap4.min.js"></script>
+        <script src="/vendor/bootstrapDatepicker/js/bootstrap-datepicker.js"></script>
+        <script src="/vendor/bootstrapDatepicker/locales/bootstrap-datepicker.tr.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="/vendor/fontawesome/css/all.min.css" />
+        <link rel="stylesheet" type="text/css" href="/vendor/datatables/css/dataTables.bootstrap4.min.css" />
+        <link rel="stylesheet" type="text/css" href="/vendor/bootstrapDatepicker/css/bootstrap-datepicker3.css" />
+        <link rel="stylesheet" type="text/css" href="/styles/style.css" />
+    </head>
+    <body>
+      {{> components/header }}
+        <div class="d-flex">
+          {{> components/sidebar }}
+          {{> (lookup . 'partialName')}}
+        </div>
+    </body>
+    <script>
+      $(document).ready(() => {
+        $('.table').DataTable({
+          "language": {
+            "emptyTable": "Gösterilecek veri yok.",
+            "processing": "Veriler yükleniyor",
+            "sDecimal": ".",
+            "sInfo": "_TOTAL_ kayıttan _START_ - _END_ arasındaki kayıtlar gösteriliyor",
+            "sInfoFiltered": "(_MAX_ kayıt içerisinden bulunan)",
+            "sInfoPostFix": "",
+            "sInfoThousands": ".",
+            "sLengthMenu": "Sayfada _MENU_ kayıt göster",
+            "sLoadingRecords": "Yükleniyor...",
+            "sSearch": "Ara:",
+            "sZeroRecords": "Eşleşen kayıt bulunamadı",
+            "oPaginate": {
+              "sFirst": "İlk",
+              "sLast": "Son",
+              "sNext": "Sonraki",
+              "sPrevious": "Önceki"
+            },
+            "select": {
+              "rows": {
+                "_": "%d kayıt seçildi",
+                "0": "",
+                "1": "1 kayıt seçildi"
+              }
+            }
+          }
+        });
+      });
+    </script>
+</html>

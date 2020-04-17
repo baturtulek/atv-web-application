@@ -1,12 +1,59 @@
+require('dotenv').config();
+const compression = require('compression');
+const express = require('express');
+const session = require('express-session');
+const helmet = require('helmet');
+const path = require('path');
+const hbs = require('express-handlebars');
+const morgan = require('morgan');
+const i18n = require('./services/i18n');
+const hbsHelpers = require('./hbsHelpers');
+const { validateUserSession, validateUserRole } = require('./utils/authentication');
 
-const express   = require('express');
-const app       = express();
-const port      = 3000 ;
+const app = express();
 
-app.get('/', (req, res) => {
-    res.json({app: 'atv'});
+app.use(morgan('dev'));
+app.use(compression());
+app.use(helmet());
+app.use(i18n.init);
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, '/views'));
+app.engine(
+  'hbs',
+  hbs({
+    helpers: hbsHelpers,
+    extname: '.hbs',
+    layoutDir: `${__dirname}/views/layouts`,
+    partialsDir: `${__dirname}/views/partials`,
+  }),
+);
+
+app.use(
+  session({
+    key: process.env.SESSION_KEY,
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: false,
+    resave: false,
+  }),
+);
+
+app.use((req, res, next) => {
+  res.locals.session = req.session;
+  res.locals.flashMessages = req.session.flashMessages;
+  delete req.session.flashMessages;
+  next();
 });
 
-app.listen(port, (err) => {
-    console.log(`Server started at port : ${port}`);
+app.use(validateUserSession);
+app.use(validateUserRole);
+
+require('./routes')(app);
+
+app.get('*', (req, res) => {
+  return res.render('layouts/error', { layout: 'error', partialName: '404' });
 });
+
+module.exports = app;

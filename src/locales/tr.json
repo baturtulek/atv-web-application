@@ -1,0 +1,17 @@
+{
+	"INVALID_CREDENTIALS": "Kullanıcı adı veya şifre hatalı!",
+	"INSUFFICIENT_USER_PRIVILEGES": "Sistemi kullanmaya yetkiniz yok.",
+	"ADDED": "%s başarıyla eklendi.",
+	"UPDATED": "%s başarıyla güncellendi.",
+	"DELETED": "%s başarıyla silindi.",
+	"ADD_ERROR": "%s eklenirken hata oluştu.",
+	"UPDATE_ERROR": "%s güncellenirken hata oluştu.",
+	"DELETE_ERROR": "%s silinirken hata oluştu.",
+	"IN_USE": "%s sistemde zaten kayıtlı.",
+	"SEARCH_ERROR": "%s bulunamadı",
+	"OLD_PASSWORD_INVALID": "Eski şifreniz hatalı.",
+	"NEW_PASSWORDS_NOT_MATCHES": "Girdiğiniz yeni şifreler uyuşmuyor.",
+	"EXIT_VEHICLE_SUCCESS": "%s çıkışı yapıldı.",
+	"EXIT_VEHICLE_ERROR": "%s çıkışı yapılamadı",
+	"INTERNAL_ERROR": "Sistem hatası."
+}

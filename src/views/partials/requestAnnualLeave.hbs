@@ -1,0 +1,55 @@
+<div class="outer-container">
+  <div class="partial-container">
+    <div class="form-container">
+      {{> components/showMessage }}
+      <header class="form-navigation">
+        <a href=""><i class="fas fa-plus"></i>Listele</a>
+        <span>Yıllık İzin İstek İşlemleri</span>
+      </header>
+      <form class="border border-light" action="/annualleave/request" method="POST">
+        <div class="form-group row row-cols-3">
+          <div class="col">
+            <label class="col-form-label">Kişi</label>
+            <input name="user" type="text" class="form-control">
+          </div>
+          <div class="col">
+            <label class="col-form-label">İzin Günü</label>
+             <input name="numberOfDays" type="text" class="form-control">
+          </div>
+          <div class="col">
+            <label class="col-form-label">İzin Tipi</label>
+            <input class="form-control" name="type" id="type" type="text" value="Yıllık İzin" readonly>
+          </div>
+          </div>
+        <div class="form-group row row-cols-3">
+          <div class="col">
+            <label class="col-form-label">İzin Başlangıç Tarihi</label>
+            <input class="form-control date datepicker-icon" placeholder="&#xf073" name="startDate" id="startDate" type="text" >
+          </div>
+          <div class="col">
+            <label class="col-form-label">İzin Bitiş Tarihi</label>
+            <input class="form-control date datepicker-icon" placeholder="&#xf073" name="endDate" id="endDate" type="text" >
+          </div>
+          <div class="col">
+          </div>
+        </div>
+        <div class="form-group row row-cols-2" >
+            <div class="col mr-auto">
+            </div>
+            <div class="col-auto grid-button-group">
+                <button type="button submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i>İstek Gönder</button>
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>  
+<script>
+  $('.date').datepicker({
+    language: "tr",
+    format: "yyyy-mm-dd",
+    autoclose: true,
+    todayHighlight: true,
+    orientation: "bottom left"
+  });
+</script>

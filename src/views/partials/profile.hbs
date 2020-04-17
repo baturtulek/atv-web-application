@@ -1,0 +1,82 @@
+<div class="partial-container" style="margin: 60px 0 0 240px;">
+  <div class="form-container">
+    {{> components/showMessage }}
+    <div class="mt-3">
+      <h4 class="pl-2">Profilim</h4>
+      <hr style="background-color: #41cac0;">
+      <div class="form-inside-container">
+        <label class="col-form-label">Kullanıcı Adı</label>
+        <input type="text" class="form-control" value="{{user.username}}" disabled>
+        <label class="col-form-label">Kullanıcı Profili</label>
+        <input type="text" class="form-control" value="{{user.role}}" disabled>
+      </div>
+    </div>
+    <form class="border border-0 mt-4" id='form' action="/profile/update/info" method="POST">
+      <h4 class="pl-2 pt-1">Temel Bilgiler</h4>
+      <hr style="background-color: #41cac0;">
+      <div class="form-inside-container">
+        <label class="col-form-label">Adı</label>
+        <input type="text" class="form-control" name="name" id="name" value="{{user.name}}">
+
+        <label class="col-form-label">Soyadı</label>
+        <input type="text" class="form-control" name="surname" id="surname" value="{{user.surname}}">
+
+        <label class="col-form-label">E-Mail</label>
+        <input type="email" class="form-control" name="email" id="email" value="{{user.email}}">
+
+        <label class="col-form-label">Telefon Numarası</label>
+        <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" value="{{user.phoneNumber}}">
+
+        <label class="col-form-label">Adres</label>
+        <input type="text" class="form-control" name="address" id="address" value="{{user.address}}">
+      </div>
+      <div class="form-group row row-cols-3">
+        <div class="col-auto grid-button-group ml-auto">
+          <button type="button" class="btn btn-info btn-sm" id="resetButtonInfo"><i class="fas fa-sync-alt"></i>Sıfırla
+          </button>
+          <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i>Güncelle</button>
+        </div>
+      </div>
+    </form>
+
+    <form class="border border-0 mt-4 mb-4" id='form' action="/profile/update/password" method="POST">
+      <h4 class="pl-2 pt-1">Parola</h4>
+      <hr style="background-color: #41cac0;">
+      <div class="form-inside-container">
+        <label class="col-form-label">Yeni Şifre</label>
+        <input type="password" class="form-control" name="newpassword1" id="newpassword1" required
+               oninvalid="this.setCustomValidity('Lütfen yeni şifrenizi girin.')" oninput="setCustomValidity('')">
+        <label class="col-form-label">Yeni Şifre (Tekrar)</label>
+        <input type="password" class="form-control" name="newpassword2" id="newpassword2" required
+               oninvalid="this.setCustomValidity('Lütfen yeni şifrenizi tekrar girin.')"
+               oninput="setCustomValidity('')">
+        <label class="col-form-label">Geçerli Şifre</label>
+        <input type="password" class="form-control" name="currentPassword" id="currentPassword" required
+               oninvalid="this.setCustomValidity('Lütfen şifrenizi girin.')" oninput="setCustomValidity('')">
+      </div>
+      <div class="form-group row row-cols-3">
+        <div class="col-auto grid-button-group ml-auto">
+          <button type="button" class="btn btn-info btn-sm" id="resetButtonPassword"><i
+                  class="fas fa-sync-alt"></i>Sıfırla
+          </button>
+          <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i>Güncelle</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $('#resetButtonInfo').on('click', function () {
+    $('#name').val('');
+    $('#surname').val('');
+    $('#email').val('');
+    $('#address').val('');
+    $('#phoneNumber').val('');
+  });
+  $('#resetButtonPassword').on('click', function () {
+    $('#currentPassword').val('');
+    $('#newpassword1').val('');
+    $('#newpassword2').val('');
+  });
+</script>

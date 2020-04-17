@@ -1,0 +1,252 @@
+<div id="sidebar" class="collapse in" data-toggle="collapse" style="width: 240px;">
+  <ul class="nav navbar-nav nav-collapse">
+
+    <!-- Atestaş -->
+    {{#isUserCompetencyIncludesRoute session.userCompetencyList appCompetencyList.ATESTAS}}
+      <li class="panel panel-default" id="dropdown">
+        <a data-toggle="collapse" href="#atestas">
+          <i class="fas fa-angle-right"></i> Atestaş
+        </a>
+        <div id="atestas" class="panel-collapse collapse">
+          <div class="panel-body">
+            <ul class="nav navbar-nav">
+
+              {{#isUserCompetencyIncludesRoute ../session.userCompetencyList
+                                               ../appCompetencyList.ARAC_GIRIS_CIKIS_ISLEMLERI}}
+                <li class="panel panel-default" id="dropdown">
+                  <a data-toggle="collapse" href="#vehicleOperations">
+                    <i class="fas fa-angle-right"></i> Araç Giriş/Çıkış İşlemleri
+                  </a>
+                  <div id="vehicleOperations" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ul class="nav navbar-nav">
+                        <li><a href="/vehicle/add"><i class="fas fa-circle"></i> Araç Girişi</a></li>
+                        <li><a href="/vehicle/search"><i class="fas fa-circle"></i> Araç Çıkışı</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              {{/isUserCompetencyIncludesRoute}}
+              {{#isUserCompetencyIncludesRoute ../session.userCompetencyList ../appCompetencyList.OTOPARK_ISLEMLERI}}
+                <li class="panel panel-default" id="dropdown">
+                  <a data-toggle="collapse" href="#parkingLotOperations">
+                    <i class="fas fa-angle-right"></i> Otopark İşlemleri
+                  </a>
+                  <div id="parkingLotOperations" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ul class="nav navbar-nav">
+                        <li><a href="/parkinglot/add"><i class="fas fa-circle"></i> Otopark Ekle</a></li>
+                        <li><a href="/parkinglot/list"><i class="fas fa-circle"></i> Otopark Listele</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              {{/isUserCompetencyIncludesRoute}}
+              {{#isUserCompetencyIncludesRoute ../session.userCompetencyList ../appCompetencyList.OTOPARK_ISLEMLERI}}
+                <li class="panel panel-default" id="dropdown">
+                  <a data-toggle="collapse" href="#transferOperations">
+                    <i class="fas fa-angle-right"></i> Transfer İşlemleri
+                  </a>
+                  <div id="transferOperations" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ul class="nav navbar-nav">
+                        <li><a href="/transfer"><i class="fas fa-circle"></i> Araç Transferi</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              {{/isUserCompetencyIncludesRoute}}
+              {{#isUserCompetencyIncludesRoute ../session.userCompetencyList ../appCompetencyList.ARAC_TIPI_ISLEMLERI}}
+                <li class="panel panel-default" id="dropdown">
+                  <a data-toggle="collapse" href="#carTypeOperations">
+                    <i class="fas fa-angle-right"></i> Araç Tipi İşlemleri
+                  </a>
+                  <div id="carTypeOperations" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ul class="nav navbar-nav">
+                        <li><a href="/vehicletype/add"><i class="fas fa-circle"></i> Arac Tipi Ekle</a></li>
+                        <li><a href="/vehicletype/list"><i class="fas fa-circle"></i> Arac Tipi Listele</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              {{/isUserCompetencyIncludesRoute}}
+              {{#isUserCompetencyIncludesRoute ../session.userCompetencyList
+                                               ../appCompetencyList.ICRA_KURUMU_TURLERI_ISLEMLERI}}
+                <li class="panel panel-default" id="dropdown">
+                  <a data-toggle="collapse" href="#enforcementoffice">
+                    <i class="fas fa-angle-right"></i> İcra Kurumu İşlemleri
+                  </a>
+                  <div id="enforcementoffice" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ul class="nav navbar-nav">
+                        <li><a href="/enforcementoffice/add"><i class="fas fa-circle"></i> İcra Kurumu Ekle</a></li>
+                        <li><a href="/enforcementoffice/list"><i class="fas fa-circle"></i> İcra Kurumu Listele</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              {{/isUserCompetencyIncludesRoute}}
+              {{#isUserCompetencyIncludesRoute ../session.userCompetencyList
+                                               ../appCompetencyList.YILLIK_IZIN_ISLEMLERI}}
+                <li class="panel panel-default" id="dropdown">
+                  <a data-toggle="collapse" href="#annualleave">
+                    <i class="fas fa-angle-right"></i> Yıllık İzin İşlemleri
+                  </a>
+                  <div id="annualleave" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ul class="nav navbar-nav">
+                        <li><a href="/annualleave/request"><i class="fas fa-circle"></i> Yıllık İzin İsteği</a></li>
+                         <li><a href="/annualleave/list"><i class="fas fa-circle"></i> Yıllık İzinleri Listele</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              {{/isUserCompetencyIncludesRoute}}
+              {{#isUserCompetencyIncludesRoute ../session.userCompetencyList ../appCompetencyList.EK_UCRET_ISLEMLERI}}
+                <li class="panel panel-default" id="dropdown">
+                  <a data-toggle="collapse" href="#additionalfee">
+                    <i class="fas fa-angle-right"></i> Ek Ücret İşlemleri
+                  </a>
+                  <div id="additionalfee" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ul class="nav navbar-nav">
+                        <li><a href="/additionalfee/add"><i class="fas fa-circle"></i> Ek Ücret Ekle</a></li>
+                        <li><a href="/additionalfee/list"><i class="fas fa-circle"></i> Ek Ücret Listele</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              {{/isUserCompetencyIncludesRoute}}
+              {{#isUserCompetencyIncludesRoute ../session.userCompetencyList ../appCompetencyList.INDIRIM_ISLEMLERI}}
+                <li class="panel panel-default" id="dropdown">
+                  <a data-toggle="collapse" href="#discount">
+                    <i class="fas fa-angle-right"></i> İndirim İşlemleri
+                  </a>
+                  <div id="discount" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ul class="nav navbar-nav">
+                        <li><a href="/discount/add"><i class="fas fa-circle"></i> İndirim Ekle</a></li>
+                        <li><a href="/discount/list"><i class="fas fa-circle"></i> İndirim Listele</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              {{/isUserCompetencyIncludesRoute}}
+            </ul>
+          </div>
+        </div>
+      </li>
+    {{/isUserCompetencyIncludesRoute}}
+
+    {{#isUserCompetencyIncludesRoute session.userCompetencyList appCompetencyList.RAPORLAR}}
+      <!-- Raporlar -->
+      <li class="panel panel-default" id="dropdown">
+        <a data-toggle="collapse" href="#reports">
+          <i class="fas fa-angle-right"></i> Raporlar
+        </a>
+      </li>
+    {{/isUserCompetencyIncludesRoute}}
+
+    {{#isUserCompetencyIncludesRoute session.userCompetencyList appCompetencyList.TEKNIK_YONETIM}}
+      <!-- Teknik Yönetim -->
+      <li class="panel panel-default" id="dropdown">
+        <a data-toggle="collapse" href="#technicalManagement">
+          <i class="fas fa-angle-right"></i> Teknik Yönetim
+        </a>
+
+        <div id="technicalManagement" class="panel-collapse collapse">
+          <div class="panel-body">
+            <ul class="nav navbar-nav">
+
+              {{#isUserCompetencyIncludesRoute ../session.userCompetencyList ../appCompetencyList.PERSONEL_ISLEMLERI}}
+                <li class="panel panel-default" id="dropdown">
+                  <a data-toggle="collapse" href="#userOperations">
+                    <i class="fas fa-angle-right"></i> Personel İşlemleri
+                  </a>
+                  <div id="userOperations" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ul class="nav navbar-nav">
+                        <li><a href="/user/add"><i class="fas fa-circle"></i> Personel Ekle</a></li>
+                        <li><a href="/user/list"><i class="fas fa-circle"></i> Personel Listele</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                {{/isUserCompetencyIncludesRoute}}
+
+                {{#isUserCompetencyIncludesRoute ../session.userCompetencyList ../appCompetencyList.DUYURU_YONETIMI}}
+                <li class="panel panel-default" id="dropdown">
+                  <a data-toggle="collapse" href="#announcementOperations">
+                    <i class="fas fa-angle-right"></i> Duyuru Yönetimi
+                  </a>
+                  <div id="announcementOperations" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ul class="nav navbar-nav">
+                        <li><a href="/announcement/add"><i class="fas fa-circle"></i> Duyuru Ekle</a></li>
+                        <li><a href="/announcement/list"><i class="fas fa-circle"></i> Duyuru Listele</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              {{/isUserCompetencyIncludesRoute}}
+              {{#isUserCompetencyIncludesRoute ../session.userCompetencyList ../appCompetencyList.PROFIL_ISLEMLERI}}
+                <li class="panel panel-default" id="dropdown">
+                  <a data-toggle="collapse" href="#roleOperations">
+                    <i class="fas fa-angle-right"></i> Profil İşlemleri
+                  </a>
+                  <div id="roleOperations" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ul class="nav navbar-nav">
+                        <li><a href="/role/add"><i class="fas fa-circle"></i> Profil Ekle</a></li>
+                        <li><a href="/role/list"><i class="fas fa-circle"></i> Profil Listele</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              {{/isUserCompetencyIncludesRoute}}
+              {{#isUserCompetencyIncludesRoute ../session.userCompetencyList
+                                               ../appCompetencyList.CEKICI_FIRMA_ISLEMLERI}}
+                <li class="panel panel-default" id="dropdown">
+                  <a data-toggle="collapse" href="#towfirm">
+                    <i class="fas fa-angle-right"></i> Çekici Firma
+                  </a>
+                  <div id="towfirm" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <ul class="nav navbar-nav">
+                        <li><a href="/towfirm/add"><i class="fas fa-circle"></i> Firma Ekle</a></li>
+                        <li><a href="/towfirm/list"><i class="fas fa-circle"></i> Firma Listele</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              {{/isUserCompetencyIncludesRoute}}
+            </ul>
+          </div>
+        </div>
+      </li>
+    {{/isUserCompetencyIncludesRoute}}
+
+  </ul>
+  <!--  <ul id="sidebar-collapse" onclick="hideF()">-->
+  <!--    <span>-->
+  <!--      <i class="fas fa-angle-double-left"></i>-->
+  <!--    </span>-->
+  <!--  </ul>-->
+</div>
+
+<script>
+  $(document).ready(() => {
+    $('#sidebar .navbar-nav li a').on('click', function () {
+      $('#sidebar .navbar-nav').find('li.active').removeClass('active');
+      $(this).parent('li').addClass('active');
+    });
+  });
+  
+  hideF = () => {
+    document.getElementById("sidebar").style.width = "48px";
+    document.querySelector('.panel-default').classList.add('sidebar-hide-ul');
+    document.querySelector("#sidebar-collapse > span > i").classList.remove('fa-angle-double-left');
+    document.querySelector("#sidebar-collapse > span > i").classList.add('fa-angle-double-right');
+  }
+</script>

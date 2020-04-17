@@ -1,0 +1,43 @@
+<div class="outer-container">
+  <div class="table-container">
+    <table class="table table-striped">
+      {{> components/showMessage }}
+      <header class="form-navigation">
+        <div class="d-flex align-items-center">
+          <span><i class="fas fa-angle-right fa-2x"></i></span>
+          <a class="form-navigation-passive" href="/user/add"><i class="fas fa-plus"></i> Ekle</a>
+          <a class="form-navigation-active" style="color: #17a2b8;" href="/user/list">
+            <i class="fas fa-list"></i> Listele
+          </a>
+        </div>
+        <span>Personal İşlemleri</span>
+      </header>
+      <thead>
+      <tr>
+        <th scope="col">Kullancı Adı</th>
+        <th scope="col">Adı</th>
+        <th scope="col">Soyadı</th>
+        <th scope="col">Mail</th>
+        <th scope="col">Profil</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#each userList}}
+        <tr class="">
+          <td class="column2"> {{this.username}} </td>
+          <td class="column3"> {{this.name}} </td>
+          <td class="column4"> {{this.surname}} </td>
+          <td class="column5"> {{this.email}}</td>
+          <td class="column6"> {{this.[UserRole.role]}}</td>
+          <td class="column7" style="text-align:center; width:85px;">
+            <a href="/user/update/{{this.id}}">
+              <i class="far fa-edit fa-sm btn btn-success" aria-hidden="true"></i>
+            </a>
+          </td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div> 

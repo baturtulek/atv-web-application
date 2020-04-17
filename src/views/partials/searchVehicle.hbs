@@ -1,0 +1,130 @@
+<div class="outer-container">
+  <div>
+    <div class="form-container">
+      {{> components/showMessage }}
+      <header class="form-navigation">
+        <div class="d-flex align-items-center">
+          <span><i class="fas fa-angle-right fa-2x"></i></span>
+          <a class="form-navigation-passive" href="/vehicle/add"><i class="fas fa-plus"></i> Ekle</a>
+          <a class="form-navigation-active" style="color: #17a2b8;" href="/vehicle/search">
+            <i class="fas fa-search"></i> Ara
+          </a>
+        </div>
+        <span>Araç Giriş/Çıkış İşlemleri</span>
+      </header>
+      <form class="border border-light" action="/vehicle/search" method="POST">
+        <div class="form-group row row-cols-2">
+          <div class="col">
+            <label class="col-form-label">Araç Plakası</label>
+            <input name="plate" type="text" class="form-control">
+          </div>
+          <div class="col">
+            <label class="col-form-label">Transfer Durumu</label>
+            <select class="browser-default custom-select" name="stateId" id="stateId">
+              <option value="">
+                Transfer Durumu
+              </option>
+              {{#each vehicleStates}}
+                <option value="{{this.id}}">
+                  {{this.description}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="col">
+
+          </div>
+        </div>
+        <div class="form-group row row-cols-2">
+          <div class="col">
+            <label class="col-form-label">Parka Giriş Tarihi Başlangıç</label>
+            <input name="parkingLotEntranceBegin" type="text" class="form-control date datepicker-icon" placeholder="&#xf073">
+          </div>
+          <div class="col">
+            <label class="col-form-label">Parktan Giriş Tarihi Bitiş</label>
+            <input name="parkingLotEntranceEnd" type="text" class="form-control date datepicker-icon" placeholder="&#xf073">
+          </div>
+        </div>
+        <div class="form-group row row-cols-2">
+          <div class="col">
+            <label class="col-form-label">Parktan Çıkış Tarihi Başlangıç</label>
+            <input name="parkingLotExitBegin" type="text" class="form-control date datepicker-icon" placeholder="&#xf073">
+          </div>
+          <div class="col">
+            <label class="col-form-label">Parktan Çıkış Tarihi Bitiş</label>
+            <input name="parkingLotExitEnd" type="text" class="form-control date datepicker-icon" placeholder="&#xf073">
+          </div>
+        </div>
+        <div class="form-group row row-cols-2">
+          <div class="col-auto grid-button-group ml-auto">
+            <button type="button submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  {{#if vehicles}}
+  <div class="table-container">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Plaka</th>
+        {{!-- <th scope="col">Şasi No</th> --}}
+        <th scope="col">Otopark</th>
+        <th scope="col">Çekiliş Tarihi</th>
+        <th scope="col">Parka Giriş Tarihi</th>
+        <th scope="col">Parktan Çıkış Tarihi</th>
+        <th scope="col">Durum</th>
+        <th scope="col">Fotoğraflar</th>
+        <th scope="col">Çıkış</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#each vehicles}}
+        <tr>
+          <th class="column1">{{incrementByOne @index}}</th>
+          <td class="column2">{{plate}}</td>
+          {{!-- <td class="column3">{{lookup this 'Vehicle.chassisNo'}}</td> --}}
+          <td class="column4">{{lookup this 'ParkingLot.name'}}</td>
+          <td class="column5">{{towedDate}}</td>
+          <td class="column5">{{entranceParkingLotDate}}</td>
+          <td class="column6">{{exitParkingLotDate}}</td>
+          <td class="column7">{{lookup this 'VehicleState.description'}}</td>
+          <td class="column8" style="text-align:center; width:20px;">
+             <a target="_blank" href="/vehicle/photos?plate={{plate}}&toweddate={{towedDate}}">
+              <i class="fas fa-camera fa-sm btn btn-info" aria-hidden="true"></i>
+            </a>
+          </td>
+          {{#ifEquals (lookup this 'VehicleState.description') 'Otoparkta' }}
+            <td class="column9">
+              <a href="/vehicle/exit?plate={{../this.plate}}">
+              <i class="far fa-edit fa-sm btn btn-primary" aria-hidden="true"></i>
+              </a>
+            </td>
+          {{/ifEquals}}
+          {{#ifNotEquals (lookup this 'VehicleState.description') 'Otoparkta' }}
+            <td class="column9">
+              <a style="pointer-events: none; cursor: default;">
+                <i class="far fa-edit fa-sm btn btn-secondary" aria-hidden="true"></i>
+              </a>
+            </td>
+          {{/ifNotEquals}}
+          <script>
+          </script>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  {{/if}}
+</div>
+</div>
+<script>
+  $('.date').datepicker({
+    language: "tr",
+    format: "yyyy-mm-dd",
+    autoclose: true,
+    todayHighlight: true,
+    orientation: "bottom left"
+  });
+</script>
