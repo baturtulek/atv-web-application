@@ -1,7 +1,7 @@
 <div class="outer-container">
     <div class="form-container">
       {{> components/showMessage }}
-      <form class="border border-light" action="/vehicle/exit" method="POST">
+      <form id="exitForm" class="border border-light" action="/vehicle/exit" method="POST">
         <div class="form-group row row-cols-3">
           <div class="col">
             <label class="col-form-label">Plate</label>
@@ -59,7 +59,7 @@
         <div class="form-group row row-cols-3">
           <div class="col">
             <label class="col-form-label">Teslim Alan Kişi</label>
-            <input class="form-control" name="receiver" id="receiver">
+            <input class="form-control" id="receiver" name="receiver" id="receiver" required>
           </div>
           <div class="col">
             <label class="col-form-label">Çekici Bilgisi</label>
@@ -84,22 +84,28 @@
               {{/each}}
             </select>
           </div>
+          <div class="col">
+            <label class="col-form-label">Tam Ücret</label>
+            <input class="form-control" name="fullPrice" id="fullPrice" readonly>
+          </div>
+          <div class="col">
+            <label class="col-form-label">İndirimli Ücret</label>
+            <input class="form-control" name="discountPrice" id="discountPrice" readonly>
+          </div>
         </div>
         <div class="form-group row row-cols-3">
           <div class="col mr-auto">
           </div>
           <div class="col-auto grid-button-group">
-            <button type="button" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i>Sıfırla</button>
+            <button type="button" class="btn btn-info btn-sm" onclick="restart()"><i class="fas fa-sync-alt"></i>Sıfırla</button>
             <button type="button" onclick="calculate();" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i>Ücret
               Hesaplama
             </button>
-            <button type="button submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i>Çıkış</button>
+            <button type="button submit" id="exitButton" class="btn btn-secondary btn-sm" disabled><i class="fas fa-save"></i>Çıkış</button>
           </div>
         </div>
       </form>
     </div>
-  <div id="price" style="display: flex;  margin: auto; width: 25%; height:25%; border-radius:200px; padding: 10px; text-align: center; justify-content: center;
-  align-items: center;"></div>
   </div>
 <script>
   function calculate() {
@@ -112,9 +118,14 @@
     let exitDate = $("#exitDate").val()
     let additionalFee = $("#additionalFee").val()
 
+    $("select").css("pointer-events","none");
+
     $(document).ready(function () {
       const endPoint = "/vehicle/calculate";
-      $.ajax({
+      if(!$("#receiver").val()) {
+        alert("Lütfen alıcı giriniz");
+      } else {
+        $.ajax({
         url: endPoint,
         type: "POST",
         dataType: 'json',
@@ -129,18 +140,28 @@
           additionalFee: additionalFee
         },
         success: function (result) {
-          var priceDiv = document.getElementById("price");
-          priceDiv.style["border"] = "2px outset";
-          priceDiv.style["box-shadow"] = "5px 10px 18px grey"
-          priceDiv.innerHTML = `<p class='display-4 lead'>${result.price} ₺</p>`
+          $('#exitForm :input').prop('readonly', true);
+          var fullPrice = document.getElementById("fullPrice");
+          var discountPrice = document.getElementById("discountPrice");
+          var exitButton = document.getElementById("exitButton");
+          exitButton.disabled = false;
+          fullPrice.value = result.fullPrice
+          discountPrice.value = result.discountPrice
+          if(result.discountPrice === null) {
+            discountPrice.disabled = true;
+          }
+          $("#DiscountYes").css("pointer-events","none");
+          $("#DiscountNo").css("pointer-events","none");
+
+          exitButton.classList.add('btn-success');
+          exitButton.classList.remove('btn-secondary');
         },
         error: function (error) {
-          var priceDiv = document.getElementById("price");
-          priceDiv.style["border"] = "2px outset";
-          priceDiv.style["box-shadow"] = "5px 10px 18px grey"
-          priceDiv.innerHTML = `<p class='display-5 lead'>Maalesef bir hata oluştu</p>`
+          
         }
       });
+      }
+
     });
   }
 </script>
@@ -155,4 +176,24 @@
       $('#discountRoleId').prop('selectedIndex', 0);
     }
   }
+</script>
+
+<script>
+  function restart() {
+    $("select").css("pointer-events","auto");
+    $("#DiscountYes").css("pointer-events","auto");
+    $("#DiscountNo").css("pointer-events","auto");
+    $("#receiver").removeAttr("readonly")
+
+    var exitButton = document.getElementById("exitButton");
+    exitButton.disabled = true;
+    exitButton.classList.add('btn-secondary');
+    exitButton.classList.remove('btn-success');
+  }
+</script>
+<script>
+  $(document).ready(function() {
+    var discountNo = document.getElementById("DiscountNo");
+    discountNo.checked = true;
+});
 </script>

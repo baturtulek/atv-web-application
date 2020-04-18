@@ -36,14 +36,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      receiver: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-      },
-      price: {
-        type: DataTypes.DOUBLE(),
-        allowNull: true,
-      },
     },
     {
       timestamps: false,

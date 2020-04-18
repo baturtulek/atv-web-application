@@ -22,8 +22,8 @@ exports.vehiclePhoto = async (req, res) => {
     plate,
     toweddate,
   });
-}
-  
+};
+
 exports.addVehicleView = async (req, res) => {
   try {
     const vehiclePlates = await DB.TowedVehicle.findAll({
@@ -295,7 +295,7 @@ exports.exitVehicleView = async (req, res) => {
 
 exports.exitVehicle = async (req, res) => {
   const {
-    plate, exitDate, towedDate, receiver, 
+    plate, exitDate, towedDate, discount, discountRoleId, receiver, fullPrice, discountPrice,
   } = req.body;
   try {
     const vehicleStatusExit = await DB.VehicleState.findOne({
@@ -304,20 +304,35 @@ exports.exitVehicle = async (req, res) => {
       },
     });
     const vehicleStatus = await statusIdOtopark();
-    await DB.TowedVehicle.update(
-      {
-        stateId: parseInt(vehicleStatusExit.id),
-        exitParkingLotDate: exitDate,
-        receiver,
-      },
-      {
-        where: {
-          plate, towedDate, stateId: parseInt(vehicleStatus.id),
-        },
-        raw: true,
-      },
-    );
 
+    await Promise.all([
+      DB.TowedVehicle.update(
+        {
+          stateId: parseInt(vehicleStatusExit.id),
+          exitParkingLotDate: exitDate,
+        },
+        {
+          where: {
+            plate, towedDate, stateId: parseInt(vehicleStatus.id),
+          },
+          raw: true,
+        },
+      ),
+      DB.Price.create(
+        {
+          plate,
+          towedDate,
+          roleId: discountRoleId,
+          discount,
+          receiver,
+          fullPrice,
+          discountPrice,
+        },
+        {
+          raw: true,
+        },
+      ),
+    ]);
     req.session.flashMessages = {
       message: i18n.__('EXIT_VEHICLE_SUCCESS', routeNames.VEHICLE),
       type: 'success',
@@ -328,6 +343,7 @@ exports.exitVehicle = async (req, res) => {
       message: i18n.__('EXIT_VEHICLE_ERROR', routeNames.VEHICLE),
       type: 'danger',
     };
+    console.log('errror', err);
     return res.redirect(`/vehicle/exit?plate=${plate}`);
   }
 };
@@ -361,28 +377,16 @@ exports.calculatePrice = async (req, res) => {
     }
 
     // eslint-disable-next-line max-len
-    let resultPrice = +((dayDiff) * (vehicleFee.fee)) + +(vehicle.additionalFee);
-
+    const fullPrice = +((dayDiff) * (vehicleFee.fee)) + +(vehicle.additionalFee);
+    let discountPrice = null;
     if (roleDiscount) {
       // eslint-disable-next-line max-len
-      resultPrice -= ((resultPrice) * (roleDiscount.parkDiscount)) / (100);
+      discountPrice = (fullPrice) - ((fullPrice) * (roleDiscount.parkDiscount)) / (100);
     }
-    console.log('vehicle', vehicle);
-    console.log('result price', resultPrice);
-    await DB.TowedVehicle.update(
-      {
-        price: resultPrice,
-      },
-      {
-        where: {
-          plate: vehicle.plate, towedDate: vehicle.towedDate,
-        },
-        raw: true,
-      },
-    );
 
     return res.status(200).json({
-      price: resultPrice,
+      fullPrice,
+      discountPrice,
     });
   } catch (err) {
     return res.status(500).json({

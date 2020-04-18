@@ -28,5 +28,7 @@ exports.getRouteCompetencyId = async (route) => {
       return competencyList.DUYURU_YONETIMI;
     case 'annualleave':
       return competencyList.YILLIK_IZIN_ISLEMLERI;
+    case 'reports':
+      return competencyList.RAPORLAR;
   }
 };
