@@ -15,7 +15,7 @@
         <div class="form-group row row-cols-3">
           <div class="col">
             <label class="col-form-label">Plaka</label>
-            <select class="browser-default custom-select" name="plate" id="plate" required>
+            <select class="browser-default custom-select" onchange="getVehicleData()" name="plate" id="plate" required>
               {{#each vehiclePlates}}
                 <option value="{{this.plate}}">
                   {{this.plate}}
@@ -35,7 +35,7 @@
           </div>
           <div class="col">
             <label class="col-form-label">Şasi No</label>
-            <input name="chassisNo" type="text" class="form-control" required>
+            <input name="chassisNo" id="chassisNo" type="text" class="form-control" required>
           </div>
         </div>
 
@@ -52,7 +52,7 @@
           </div>
           <div class="col">
             <label class="col-form-label">Model Yılı</label>
-            <input name="modelYear" type="text" class="form-control" required>
+            <input name="modelYear" id="modelYear" type="text" class="form-control" required>
           </div>
           <div class="col">
             <label class="col-form-label">Kasa Tipi</label>
@@ -65,7 +65,6 @@
             </select>
           </div>
         </div>
-
         <div class="form-group row row-cols-3">
           <div class="col">
             <label class="col-form-label">Renk</label>
@@ -79,7 +78,7 @@
           </div>
           <div class="col">
             <label class="col-form-label">Motor No</label>
-            <input name="engineNo" type="text" class="form-control">
+            <input name="engineNo" id="engineNo" type="text" class="form-control">
           </div>
           <div class="col">
             <label class="col-form-label">Transfer Durumu</label>
@@ -93,6 +92,16 @@
           </div>
         </div>
         <div class="form-group row row-cols-3">
+          <div class="col">
+            <label class="col-form-label">Otopark</label>
+            <select class="browser-default custom-select" name="parkingLotId" id="parkingLotId" required>
+              {{#each parkingLots}}
+                <option value="{{this.id}}">
+                  {{this.name}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
           <div class="col-auto grid-button-group ml-auto">
             <button type="button" class="btn btn-info btn-sm" id="resetButtonPassword"><i
                     class="fas fa-sync-alt"></i>Sıfırla
@@ -104,3 +113,93 @@
     </div>
   </div>
 </div>  
+<div hidden class="loading" >
+    <div class="spinner-grow text-info"></div>
+    <div class="spinner-grow text-info"></div>
+    <div class="spinner-grow text-info"></div>
+    <div class="spinner-grow text-info"></div>
+    <div class="spinner-grow text-info"></div>
+    <div class="spinner-grow text-info"></div>
+    <div class="spinner-grow text-info"></div>
+    <div class="spinner-grow text-info"></div>
+    <div class="spinner-grow text-info"></div>
+  </div>
+<script>
+      function getVehicleData(){
+      $('#vehicleTypeId').prop('selectedIndex', 0);
+      $('#chassisNo').val('');
+      $('#brandId').prop('selectedIndex', 0);
+      $('#modelYear').val('');
+      $('#bodyTypeId').prop('selectedIndex', 0);
+      $('#colorId').prop('selectedIndex', 0);
+      $('#engineNo').val('');
+
+
+      $(".loading").css("animation", "1s fadeIn");
+      $(".loading").removeAttr("hidden");
+      $("#DiscountYes").css("pointer-events","none");
+      let plate = $("#plate").val()
+      $(document).ready(function () {
+      const endPoint = `/vehicle/${plate}`;
+        $.ajax({
+        url: endPoint,
+        type: "POST",
+        dataType: 'json',
+        data: {
+          plate: plate,
+        },
+        success: function (result) {
+            $('#vehicleTypeId').val(result.data.vehicleTypeId);
+            $('#chassisNo').val(result.data.chassisNo);
+            $('#brandId').val(result.data.brandId);
+            $('#modelYear').val(result.data.modelYear);
+            $('#bodyTypeId').val(result.data.bodyTypeId);
+            $('#colorId').val(result.data.colorId);
+            $('#engineNo').val(result.data.engineNo);
+            $(".loading").css("animation", "1s fadeOut");
+            setTimeout(function() {
+              $(".loading").attr("hidden", "hidden");
+            }, 1000)
+        },
+        error: function (error) {
+            $(".loading").css("animation", "1s fadeOut");
+            setTimeout(function() {
+              $(".loading").attr("hidden", "hidden");
+            }, 1000)
+        }
+      });
+
+    });
+      }
+</script>
+
+<style>
+  .loading{
+    position:absolute; 
+    z-index:1; 
+    display: flex;   
+    justify-content: center; 
+    align-items: center; 
+    width: 100%; 
+    height: 100%;  
+    background-color:rgba(50, 50, 50, 0.7);
+}
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+</style>

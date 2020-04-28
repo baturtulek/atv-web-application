@@ -1,4 +1,5 @@
 <div class="outer-container">
+  <div>
     <div class="form-container">
       {{> components/showMessage }}
       <form id="exitForm" class="border border-light" action="/vehicle/exit" method="POST">
@@ -71,6 +72,8 @@
             <input class="form-control" name="parkingLot" id="parkingLot"
                    value="{{lookup towVehicle 'ParkingLot.name'}}" readonly>
           </div>
+            <input type="hidden" class="form-control" name="parkingLotId" id="parkingLotId"
+                   value={{towVehicle.parkingLotId}}>
         </div>
         <div class="form-group row row-cols-3">
           <div class="col">
@@ -107,6 +110,43 @@
       </form>
     </div>
   </div>
+  <div class="table-container">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Plaka</th>
+          <th scope="col">Çekiliş Tarihi</th>
+          <th scope="col">Otopark</th>
+          <th scope="col">Görevli</th>
+          <th scope="col">Parka Giriş Tarihi</th>
+          <th scope="col">Parktan Çıkış Tarihi</th>
+          <th scope="col">Otopark Durumu</th>
+        </tr>
+      </thead>
+       <tbody>
+      {{#each transfers}}
+        <tr>
+          <th class="column1">{{incrementByOne @index}}</th>
+          <td class="column2">{{plate}}</td>
+          {{!-- <td class="column3">{{lookup this 'Vehicle.chassisNo'}}</td> --}}
+          <td class="column3">{{towedDate}}</td>
+          <td class="column4">{{lookup this 'ParkingLot.name'}}</td>
+          <td class="column5">{{lookup this 'User.name'}} {{lookup this 'User.surname'}} </td>
+          <td class="column6">{{entranceParkingLotDate}}</td>
+          <td class="column7">{{exitParkingLotDate}}</td>
+          {{#ifEquals isInParkingLot 1 }}
+            <td class="column8">Otoparka Giriş Yapılmış</td>
+          {{/ifEquals}}
+          {{#ifEquals isInParkingLot 0 }}
+            <td class="column8">Otoparka Giriş Yapılmamış</td>
+          {{/ifEquals}}
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
 <script>
   function calculate() {
     let plate = $("#plate").val()

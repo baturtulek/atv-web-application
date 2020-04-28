@@ -13,5 +13,7 @@
 	"NEW_PASSWORDS_NOT_MATCHES": "Girdiğiniz yeni şifreler uyuşmuyor.",
 	"EXIT_VEHICLE_SUCCESS": "%s çıkışı yapıldı.",
 	"EXIT_VEHICLE_ERROR": "%s çıkışı yapılamadı",
+	"COMPLETED": "%s başarıyla tamamlandı",
+	"INCOMPLETED": "%s maalesef tamamlanamadı",
 	"INTERNAL_ERROR": "Sistem hatası."
 }

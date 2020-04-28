@@ -6,15 +6,15 @@
         <a href=""><i class="fas fa-plus"></i> Listele</a>
         <span>Araç Transfer İşlemleri</span>
       </header>
-      <form class="border border-light" action="" method="POST">
+      <form class="border border-light" action="/transfer" method="POST">
         <div class="form-group row row-cols-3">
           <div class="col">
             <label class="col-form-label">Araç Plakası</label>
-            <input name="plate" type="text" class="form-control">
+            <input name="plate" type="text" class="form-control" required>
           </div>
           <div class="col">
             <label class="col-form-label">Bulunduğu Otopark</label>
-            <select class="browser-default custom-select" name="parkingLotId" id="stateId">
+            <select class="browser-default custom-select" name="previousParkingLotId" id="previousParkingLotId" required>
               <option value="">
                 Otopark
               </option>
@@ -26,17 +26,48 @@
             </select>
           </div>
           <div class="col">
-            <label class="col-form-label">Parka Giriş</label>
-            <input name="parkingLotEntranceDate" type="text" class="form-control">
+            <label class="col-form-label">Gideceği Otopark</label>
+            <select class="browser-default custom-select" name="nextParkingLotId" id="nextParkingLotId" required>
+              <option value="">
+                Otopark
+              </option>
+              {{#each parkingLots}}
+              <option value="{{this.id}}">
+                {{this.description}}
+              </option>
+              {{/each}}
+            </select>
           </div>
         </div>
         <div class="form-group row row-cols-3">
           <div class="col">
-            <label class="col-form-label">Araç Durumu</label>
-            <select class="browser-default custom-select" name="stateId" id="stateId">
-              <option value="">
-                Transfer Durumu
+            <label class="col-form-label">Çalışan Bilgisi</label>
+            <select class="browser-default custom-select" name="staffId" id="staffId">
+              {{#each staffs}}
+              <option value="{{this.id}}">
+                {{this.id}} {{this.name}} {{this.surname}}
               </option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="col">
+            <label class="col-form-label">Aracın Otoparka Girişi </label>
+            <div class="form-control">
+              <input type="radio" name="isInParkingLot" id="isInParkingLotYes" value="1" onclick="showExitDate()" required>
+              Otoparkta
+              <input type="radio" name="isInParkingLot" id="isInParkingLotNo" value="0" onclick="showExitDate()" required>
+              Otoparka Değil
+            </div>
+          </div>
+          <div class="col">
+            <label class="col-form-label">Araç Çıkış Tarihi</label>
+            <input class="form-control" name="exitDate" id="exitDate" value="{{exitDate}}" type="text" disabled="true" readonly>
+          </div>
+        </div>
+        <div class="form-group row row-cols-3">
+          <div class="col">
+            <label class="col-form-label">Transfer Durumu</label>
+            <select class="browser-default custom-select" name="stateId" id="statId" required>
               {{#each vehicleStates}}
               <option value="{{this.id}}">
                 {{this.description}}
@@ -44,17 +75,25 @@
               {{/each}}
             </select>
           </div>
-          <div class="col">
-          </div>
-          <div class="col">
-          </div>
         </div>
         <div class="form-group row row-cols-2" >
           <div class="col-auto grid-button-group ml-auto">
-            <button type="button submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+            <button type="button submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i> Kaydet</button>
           </div>
         </div>
       </form>
     </div>
   </div>
 </div>  
+
+<script>
+  function showExitDate() {
+    if ($("#isInParkingLotYes").is(":checked")) {
+      $("#exitDate").removeAttr("disabled");
+    }
+
+    if ($("#isInParkingLotNo").is(":checked")) {
+      $("#exitDate").attr("disabled", "disabled");
+    }
+  }
+</script>

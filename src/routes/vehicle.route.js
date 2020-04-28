@@ -10,10 +10,10 @@ const routes = (app) => {
     .route('/vehicle/search')
     .get(vehicleController.searchVehicleView)
     .post(vehicleController.searchVehicle);
-    
+
   app
     .route('/vehicle/photos')
-    .get(vehicleController.vehiclePhoto)
+    .get(vehicleController.vehiclePhoto);
 
   app
     .route('/vehicle/exit')
@@ -22,6 +22,9 @@ const routes = (app) => {
   app
     .route('/vehicle/calculate')
     .post(vehicleController.calculatePrice);
+  app
+    .route('/vehicle/:plate')
+    .post(vehicleController.getVehicleByPlate);
 };
 
 module.exports = routes;

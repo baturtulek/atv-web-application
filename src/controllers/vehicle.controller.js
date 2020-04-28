@@ -1,17 +1,31 @@
 const moment = require('moment');
-const httpStatus = require('http-status');
 const i18n = require('../services/i18n');
 const routeNames = require('../locales/routeNamesTR.json');
 const { DB } = require('../services/sequelize');
 const { getFormattedTimeStamp } = require('../utils/timezoneHelpers');
 
-const statusIdOtopark = async () => {
-  const vehicleStatus = await DB.VehicleState.findOne({
-    where: {
-      description: 'Otoparkta',
-    },
+// const statusIdOtopark = async () => {
+//   const vehicleStatus = await DB.VehicleState.findOne({
+//     where: {
+//       description: 'Otoparkta',
+//     },
+//   });
+//   return vehicleStatus;
+// };
+
+const upsertVehicle = async (vehicle) => {
+  await DB.Vehicle.upsert({
+    plate: vehicle.plate,
+    chassisNo: vehicle.chassisNo,
+    trusteeNo: vehicle.trusteeNo,
+    vehicleTypeId: parseInt(vehicle.vehicleTypeId),
+    engineNo: vehicle.engineNo,
+    colorId: parseInt(vehicle.colorId),
+    modelYear: parseInt(vehicle.modelYear),
+    bodyTypeId: parseInt(vehicle.bodyTypeId),
+    brandId: parseInt(vehicle.brandId),
+    ownerProfileId: parseInt(vehicle.ownerProfileId),
   });
-  return vehicleStatus;
 };
 
 exports.vehiclePhoto = async (req, res) => {
@@ -29,11 +43,11 @@ exports.addVehicleView = async (req, res) => {
     const vehiclePlates = await DB.TowedVehicle.findAll({
       raw: true,
       where: {
-        stateId: 2,
+        active: 1,
       },
     });
 
-    const [vehicleTypes, vehicleColors, vehicleBodyTypes, vehicleBrands, vehicleStates] = await Promise.all([
+    const [vehicleTypes, vehicleColors, vehicleBodyTypes, vehicleBrands, vehicleStates, parkingLots] = await Promise.all([
       DB.VehicleType.findAll({
         raw: true,
       }),
@@ -49,6 +63,9 @@ exports.addVehicleView = async (req, res) => {
       DB.VehicleState.findAll({
         raw: true,
       }),
+      DB.ParkingLot.findAll({
+        raw: true,
+      }),
     ]);
     return res.render('layouts/main', {
       partialName: 'entranceVehicle',
@@ -58,9 +75,12 @@ exports.addVehicleView = async (req, res) => {
       vehicleBodyTypes,
       vehicleBrands,
       vehicleStates,
+      parkingLots,
     });
   } catch (error) {
-    console.log('error');
+    return res.render('layouts/main', {
+      partialName: 'entranceVehicle',
+    });
   }
 };
 
@@ -69,42 +89,39 @@ exports.addVehicle = async (req, res) => {
   try {
     const towedVehicle = await DB.TowedVehicle.findOne({
       where: {
-        plate: vehicle.plate,
+        plate: vehicle.plate, active: 1,
       },
     });
     if (!towedVehicle) {
-      const result = {
-        message: `There is no record with the plate = ${vehicle.plate} added by tow driver`,
-        success: false,
+      req.session.flashMessages = {
+        message: i18n.__('SEARCH_ERROR', routeNames.VEHICLE),
+        type: 'danger',
       };
-      // return no record with given plate view
-      return res.status(httpStatus.NOT_FOUND).json(result);
+      return res.redirect('/vehicle/add');
     }
 
     const date = getFormattedTimeStamp('YYYY-MM-DD HH:mm:ss');
+    if (!towedVehicle.entranceParkingLotDate) {
+      console.log('even if there is entrance parking lot date', towedVehicle.entranceParkingLotDate);
+      await upsertVehicle(vehicle);
+      await DB.TowedVehicle.update(
+        { stateId: vehicle.stateId, entranceParkingLotDate: date, parkingLotId: vehicle.parkingLotId },
+        { where: { active: 1, plate: vehicle.plate } },
+      );
+    } else {
+      await DB.TowedVehicle.update(
+        { stateId: vehicle.stateId, parkingLotId: vehicle.parkingLotId },
+        { where: { active: 1, plate: vehicle.plate } },
+      );
+    }
 
-    await DB.Vehicle.upsert({
-      plate: vehicle.plate,
-      chassisNo: vehicle.chassisNo,
-      trusteeNo: vehicle.trusteeNo,
-      vehicleTypeId: parseInt(vehicle.vehicleTypeId),
-      engineNo: vehicle.engineNo,
-      colorId: parseInt(vehicle.colorId),
-      modelYear: parseInt(vehicle.modelYear),
-      bodyTypeId: parseInt(vehicle.bodyTypeId),
-      brandId: parseInt(vehicle.brandId),
-      ownerProfileId: parseInt(vehicle.ownerProfileId),
-    });
-
-    const vehicleStatus = await DB.VehicleState.findOne({
-      where: {
-        description: 'Transfer Halinde',
+    await DB.Transfer.update(
+      { entranceParkingLotDate: date },
+      {
+        where: {
+          parkingLotId: vehicle.parkingLotId, towedDate: towedVehicle.towedDate, plate: vehicle.plate, entranceParkingLotDate: null,
+        },
       },
-    });
-
-    await DB.TowedVehicle.update(
-      { stateId: vehicle.stateId, entranceParkingLotDate: date },
-      { where: { stateId: parseInt(vehicleStatus.id), plate: vehicle.plate } },
     );
 
     req.session.flashMessages = {
@@ -141,7 +158,7 @@ exports.searchVehicle = async (req, res) => {
 
   try {
     const { Op } = DB.Sequelize;
-
+    whereStatement.active = 1;
     whereStatement.plate = {
       [Op.like]: `%${plate}%`,
     };
@@ -237,8 +254,6 @@ exports.exitVehicleView = async (req, res) => {
   try {
     const exitDate = getFormattedTimeStamp('YYYY-MM-DD HH:mm:ss');
 
-    const vehicleStatus = await statusIdOtopark();
-
     const [towVehicle, vehicle, additionalFee, vehicleTypes] = await Promise.all([
       DB.TowedVehicle.findOne({
         include: [
@@ -252,7 +267,7 @@ exports.exitVehicleView = async (req, res) => {
           },
         ],
         where: {
-          plate, stateId: parseInt(vehicleStatus.id),
+          plate, active: 1,
         },
         raw: true,
       }),
@@ -270,6 +285,25 @@ exports.exitVehicleView = async (req, res) => {
       }),
     ]);
 
+    const transfers = await DB.Transfer.findAll({
+      include: [
+        {
+          model: DB.User,
+          attributes: ['name', 'surname'],
+        },
+        {
+          model: DB.ParkingLot,
+          attributes: ['name'],
+        },
+      ],
+      where: {
+        plate, towedDate: towVehicle.towedDate,
+      },
+      raw: true,
+    });
+
+    console.log('TRANSFERS', transfers);
+
     if (!vehicle) {
       return res.redirect('/vehicle/search');
     }
@@ -286,6 +320,7 @@ exports.exitVehicleView = async (req, res) => {
       vehicleTypes,
       exitDate,
       additionalFee,
+      transfers,
     });
   } catch (err) {
     console.log('ERROR', err);
@@ -295,7 +330,7 @@ exports.exitVehicleView = async (req, res) => {
 
 exports.exitVehicle = async (req, res) => {
   const {
-    plate, exitDate, towedDate, discount, discountRoleId, receiver, fullPrice, discountPrice,
+    plate, exitDate, towedDate, discount, discountRoleId, receiver, fullPrice, discountPrice, parkingLotId,
   } = req.body;
   try {
     const vehicleStatusExit = await DB.VehicleState.findOne({
@@ -303,7 +338,6 @@ exports.exitVehicle = async (req, res) => {
         description: 'Çıkış Yaptı',
       },
     });
-    const vehicleStatus = await statusIdOtopark();
 
     await Promise.all([
       DB.TowedVehicle.update(
@@ -313,7 +347,7 @@ exports.exitVehicle = async (req, res) => {
         },
         {
           where: {
-            plate, towedDate, stateId: parseInt(vehicleStatus.id),
+            plate, active: 1,
           },
           raw: true,
         },
@@ -332,6 +366,14 @@ exports.exitVehicle = async (req, res) => {
           raw: true,
         },
       ),
+      DB.Transfer.update(
+        { exitParkingLotDate: exitDate, isInParkingLot: 1 },
+        {
+          where: {
+            plate, towedDate, parkingLotId, isInParkingLot: null,
+          },
+        },
+      ),
     ]);
     req.session.flashMessages = {
       message: i18n.__('EXIT_VEHICLE_SUCCESS', routeNames.VEHICLE),
@@ -343,7 +385,6 @@ exports.exitVehicle = async (req, res) => {
       message: i18n.__('EXIT_VEHICLE_ERROR', routeNames.VEHICLE),
       type: 'danger',
     };
-    console.log('errror', err);
     return res.redirect(`/vehicle/exit?plate=${plate}`);
   }
 };
@@ -391,6 +432,32 @@ exports.calculatePrice = async (req, res) => {
   } catch (err) {
     return res.status(500).json({
       error: err,
+    });
+  }
+};
+
+exports.getVehicleByPlate = async (req, res) => {
+  const { plate } = req.params;
+
+  try {
+    const vehicle = await DB.Vehicle.findOne({
+      raw: true,
+      where: {
+        plate,
+      },
+    });
+
+    if (vehicle) {
+      return res.status(200).json({
+        data: vehicle,
+      });
+    }
+    return res.status(404).json({
+      data: vehicle,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      result: 'Error',
     });
   }
 };
