@@ -43,7 +43,7 @@ exports.addVehicleView = async (req, res) => {
     const vehiclePlates = await DB.TowedVehicle.findAll({
       raw: true,
       where: {
-        active: 1,
+        active: 1, stateId: 2,
       },
     });
 
