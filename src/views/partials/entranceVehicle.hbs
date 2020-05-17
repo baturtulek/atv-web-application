@@ -15,7 +15,7 @@
         <div class="form-group row row-cols-3">
           <div class="col">
             <label class="col-form-label">Plaka</label>
-            <select class="browser-default custom-select" onchange="getVehicleData()" name="plate" id="plate" required>
+            <select class="selectpicker " data-live-search="true" onchange="getVehicleData()" name="plate" id="plate" required>
               {{#each vehiclePlates}}
                 <option value="{{this.plate}}">
                   {{this.plate}}
@@ -125,7 +125,9 @@
     <div class="spinner-grow text-info"></div>
   </div>
 <script>
-      function getVehicleData(){
+
+
+  function getVehicleData(){
       $('#vehicleTypeId').prop('selectedIndex', 0);
       $('#chassisNo').val('');
       $('#brandId').prop('selectedIndex', 0);

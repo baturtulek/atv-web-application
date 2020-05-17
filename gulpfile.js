@@ -33,6 +33,9 @@ const prepareVendorFiles = () => {
   const bootstrapDatepicker = gulp
     .src(vendorFiles.src.bootstrapDatepicker)
     .pipe(gulp.dest(vendorFiles.public.bootstrapDatepicker));
+  const bootstrapSelect = gulp
+    .src(vendorFiles.src.bootstrapSelect)
+    .pipe(gulp.dest(vendorFiles.public.bootstrapSelect));
   return merge(
     jquery,
     popperJs,
@@ -42,7 +45,8 @@ const prepareVendorFiles = () => {
     datatablesJquery,
     datatablesJs,
     datatablesCss,
-    bootstrapDatepicker
+    bootstrapDatepicker,
+    bootstrapSelect
   );
 };
 
