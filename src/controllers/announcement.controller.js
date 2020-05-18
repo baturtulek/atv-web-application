@@ -1,7 +1,39 @@
+/* eslint-disable no-await-in-loop */
+const moment = require('moment');
 const i18n = require('../services/i18n');
 const routeNames = require('../locales/routeNamesTR.json');
 const { DB } = require('../services/sequelize');
 
+const { Op } = DB.Sequelize;
+
+exports.getActiveAnnouncements = async () => {
+  const announcementList = await DB.Announcement.findAll({
+    raw: true,
+    where: {
+      isActive: 1,
+    },
+  });
+  return announcementList;
+};
+exports.checkExpiredAnnouncements = async (req, res) => {
+  const announcementList = await DB.Announcement.findAll({
+    raw: true,
+    where: {
+      endDate: { [Op.lte]: moment(new Date()).format('DD-MM-YYYY') },
+    },
+  });
+  for (let i = 0; i < announcementList.length; i++) {
+    if (announcementList[i].isActive) {
+      await DB.Announcement.update({
+        isActive: 0,
+      }, {
+        where: {
+          id: announcementList[i].id,
+        },
+      });
+    }
+  }
+};
 exports.listAnnouncements = async (req, res) => {
   const announcementList = await DB.Announcement.findAll({
     raw: true,

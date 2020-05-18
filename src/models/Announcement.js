@@ -24,10 +24,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(45),
         allowNull: false,
       },
-      isFlash: {
-        type: DataTypes.TINYINT(1),
-        allowNull: false,
-      },
       showAt: {
         type: DataTypes.STRING(45),
         allowNull: true,
@@ -39,10 +35,6 @@ module.exports = (sequelize, DataTypes) => {
       languageId: {
         type: DataTypes.INTEGER(11),
         allowNull: true,
-      },
-      roleId: {
-        type: DataTypes.INTEGER(11),
-        allowNull: false,
       },
       content: {
         type: DataTypes.TEXT,
@@ -57,10 +49,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Announcement.associate = (DB) => {
-    DB.Announcement.belongsTo(DB.UserRole, {
-      foreignKey: 'id',
-      sourceKey: 'roleId',
-    });
+
   };
   return Announcement;
 };
