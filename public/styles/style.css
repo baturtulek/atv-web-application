@@ -569,12 +569,6 @@ input:checked + .slider:before {
   background-color:#DBDBDB;
 }
 
-.datepicker-icon {
-  font-family: "Font Awesome 5 Free";
-  font-weight: 400;
-  content: "\f073";
-}
-
 .datepicker-icon:focus {
   outline: none;
 }
@@ -612,4 +606,22 @@ input:checked + .slider:before {
   .carousel-indicators li:hover:not(.active) {
     background-color: #7A7A7A;
   }
+}
+
+.announcement-button-group {
+  margin-top: 32px;
+  text-align: right;
+}
+
+.announcement-form {
+  padding: 0 24px;
+}
+
+.date {
+  border-left: none;
+  border-radius: 0 .25rem .25rem 0;
+}
+
+.date-icon-border {
+  border-radius: 0.25rem 0 0 0.25rem;
 }
