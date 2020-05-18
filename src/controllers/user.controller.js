@@ -54,8 +54,9 @@ exports.addUser = async (req, res) => {
       username: user.username,
       roleId: user.roleId,
       password: hashedPassword,
-      email: getNullableInput(user.email),
+      email: user.email,
       phoneNumber: getNullableInput(user.phoneNumber),
+      address: getNullableInput(user.address),
       isActive: getCheckboxStatus(user.isActive),
     });
     req.session.flashMessages = {
@@ -126,7 +127,7 @@ const createUserObject = async (user) => {
     name: user.name,
     surname: user.surname,
     roleId: user.roleId,
-    email: getNullableInput(user.email),
+    email: user.email,
     phoneNumber: getNullableInput(user.phoneNumber),
     address: getNullableInput(user.address),
     isActive: getCheckboxStatus(user.isActive),
