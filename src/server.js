@@ -17,3 +17,5 @@ server.on('error', (error) => {
   console.log(chalk.red.bold(error));
   process.exit();
 });
+
+module.exports = server;

@@ -1,7 +1,7 @@
 const i18n = require('../services/i18n');
 const { DB } = require('../services/sequelize');
 const { comparePasswords } = require('../utils/authentication');
-const { getRoleCompetencies } = require('../controllers/competency.controller');
+const { getRoleCompetencies } = require('./competency.controller');
 const { getFormattedTimeStamp } = require('../utils/timezoneHelpers');
 
 exports.loginView = (req, res) => {
