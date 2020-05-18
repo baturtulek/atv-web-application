@@ -46,27 +46,7 @@
               </option>
             </select>
           </div>
-          <div class="col" style="margin-bottom: 24px;">
-            <label class="col-form-label">Flash Anons</label>
-            <select class="browser-default custom-select" name="isFlash" id="isFlash" required>
-              <option value="0">
-                Hayır
-              </option>
-              <option value="1">
-                Evet
-              </option>
-            </select>
-          </div>
-          <div class="col" style="margin-bottom: 16px;">
-            <label class="col-form-label">Profil Adi</label>
-            <select class="browser-default custom-select" name="roleId" id="roleId" required>
-              {{#each roles}}
-                <option value="{{this.id}}">
-                  {{this.role}}
-                </option>
-              {{/each}}
-            </select>
-          </div>
+          
           <div class="col" style="margin-bottom: 16px;">
             <label class="col-form-label">Duyuru Başlangıç</label>
             <input type="text" class="form-control date datepicker-icon" name="startDate" id="startDate" placeholder="&#xf073"
