@@ -48,8 +48,5 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  Announcement.associate = (DB) => {
-
-  };
   return Announcement;
 };
