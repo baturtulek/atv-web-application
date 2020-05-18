@@ -8,7 +8,7 @@ const { DB } = require('../services/sequelize');
 const { vehicleStates } = require('../services/enums');
 
 exports.createReportByDayView = async (req, res) => {
-  res.render('layouts/main', {
+  return res.render('layouts/main', {
     partialName: 'createReportByDay',
   });
 };
@@ -27,28 +27,30 @@ exports.createReportByDay = async (req, res) => {
     const [rows] = await bigqueryClient.query(options);
     report = rows;
     console.log('ROWS', rows);
+    return res.render('layouts/main', {
+      partialName: 'createReportByDay',
+      report,
+    });
   } catch (err) {
     console.log('ERROR', err);
+    return res.redirect('/reports/byday');
   }
-
-
-  res.render('layouts/main', {
-    partialName: 'createReportByDay',
-    report,
-  });
 };
 
 exports.towedByReportView = async (req, res) => {
   const parkingLots = await DB.ParkingLot.findAll({
     raw: true,
   });
-  res.render('layouts/main', {
+  return res.render('layouts/main', {
     partialName: 'towedByReport',
     parkingLots,
   });
 };
 
 exports.towedByReport = async (req, res) => {
+  const parkingLots = await DB.ParkingLot.findAll({
+    raw: true,
+  });
   const { date, date2, parkingLotId } = req.body;
   const bigqueryClient = new BigQuery();
   let report;
@@ -69,15 +71,15 @@ exports.towedByReport = async (req, res) => {
     }
     report = rows;
     console.log('ROWS', rows);
+    return res.render('layouts/main', {
+      partialName: 'towedByReport',
+      parkingLots,
+      report,
+    });
   } catch (err) {
     console.log('ERROR', err);
+    return res.redirect('/reports/towedBy');
   }
-
-
-  res.render('layouts/main', {
-    partialName: 'towedByReport',
-    report,
-  });
 };
 exports.vehiclesInParkingLotReportView = async (req, res) => {
   const parkingLots = await DB.ParkingLot.findAll({
@@ -87,14 +89,22 @@ exports.vehiclesInParkingLotReportView = async (req, res) => {
     raw: true,
   });
 
-  res.render('layouts/main', {
+  return res.render('layouts/main', {
     partialName: 'vehiclesInParkingLotReport',
     parkingLots,
     vehicleTypes,
   });
 };
 exports.vehiclesInParkingLotReport = async (req, res) => {
-  const { vehicleTypeId, parkingLotId, date, date2 } = req.body;
+  const parkingLots = await DB.ParkingLot.findAll({
+    raw: true,
+  });
+  const vehicleTypes = await DB.VehicleType.findAll({
+    raw: true,
+  });
+  const {
+    vehicleTypeId, parkingLotId, date, date2,
+  } = req.body;
   const bigqueryClient = new BigQuery();
   let report;
   const sqlQuery = `SELECT * FROM EXTERNAL_QUERY("atvsignum.us.atv", "select v.chassisNo, v.modelYear, c.description, t.plate, p.receiver, t.entranceParkingLotDate, t.exitParkingLotDate from TOWED_VEHICLE t INNER JOIN PRICE p ON t.plate = p.plate INNER JOIN VEHICLE v ON t.plate = v.plate INNER JOIN VEHICLE_COLOR c ON v.colorId = c.id WHERE v.vehicleTypeId = ${vehicleTypeId} AND t.parkingLotId = ${parkingLotId} AND DATE_FORMAT(t.towedDate, '%Y %m %d') BETWEEN DATE_FORMAT('${date}', '%Y %m %d') AND DATE_FORMAT('${date2}', '%Y %m %d');");`;
@@ -107,27 +117,31 @@ exports.vehiclesInParkingLotReport = async (req, res) => {
     const [rows] = await bigqueryClient.query(options);
     report = rows;
     console.log('ROWS', rows);
+    return res.render('layouts/main', {
+      partialName: 'vehiclesInParkingLotReport',
+      report,
+      parkingLots,
+      vehicleTypes,
+    });
   } catch (err) {
     console.log('ERROR', err);
+    return res.redirect('/reports/vehiclesInParkingLot');
   }
-
-
-  res.render('layouts/main', {
-    partialName: 'vehiclesInParkingLotReport',
-    report,
-  });
 };
 
 exports.outgoingVehiclesReportView = async (req, res) => {
   const parkingLots = await DB.ParkingLot.findAll({
     raw: true,
   });
-  res.render('layouts/main', {
+  return res.render('layouts/main', {
     partialName: 'outgoingVehicles',
     parkingLots,
   });
 };
 exports.outgoingVehiclesReport = async (req, res) => {
+  const parkingLots = await DB.ParkingLot.findAll({
+    raw: true,
+  });
   const { parkingLotId, date, date2 } = req.body;
   const bigqueryClient = new BigQuery();
   let report;
@@ -141,27 +155,30 @@ exports.outgoingVehiclesReport = async (req, res) => {
     const [rows] = await bigqueryClient.query(options);
     report = rows;
     console.log('ROWS', rows);
+    return res.render('layouts/main', {
+      partialName: 'outgoingVehicles',
+      report,
+      parkingLots,
+    });
   } catch (err) {
     console.log('ERROR', err);
+    return res.redirect('/reports/outgoingVehicles');
   }
-
-
-  res.render('layouts/main', {
-    partialName: 'outgoingVehicles',
-    report,
-  });
 };
 
 exports.parkingLotZReportView = async (req, res) => {
   const parkingLots = await DB.ParkingLot.findAll({
     raw: true,
   });
-  res.render('layouts/main', {
+  return res.render('layouts/main', {
     partialName: 'parkingLotZ',
     parkingLots,
   });
 };
 exports.parkingLotZReport = async (req, res) => {
+  const parkingLots = await DB.ParkingLot.findAll({
+    raw: true,
+  });
   const { parkingLotId, date, date2 } = req.body;
   const bigqueryClient = new BigQuery();
   let report;
@@ -175,19 +192,20 @@ exports.parkingLotZReport = async (req, res) => {
     const [rows] = await bigqueryClient.query(options);
     report = rows;
     console.log('ROWS', rows);
+    let totalPrice = 0;
+    report.forEach((rep) => {
+      console.log(rep);
+      totalPrice += rep.discountPrice;
+    });
+    console.log(totalPrice);
+    return res.render('layouts/main', {
+      partialName: 'parkingLotZ',
+      report,
+      totalPrice,
+      parkingLots,
+    });
   } catch (err) {
     console.log('ERROR', err);
+    return res.redirect('/reports/parkingLotZ');
   }
-  let totalPrice = 0;
-  report.forEach(rep => {
-    console.log(rep);
-    totalPrice += rep.discountPrice;
-  });
-  console.log(totalPrice);
-
-  res.render('layouts/main', {
-    partialName: 'parkingLotZ',
-    report,
-    totalPrice,
-  });
 };
