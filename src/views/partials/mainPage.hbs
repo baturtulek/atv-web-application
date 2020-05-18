@@ -1,12 +1,11 @@
 <div class="outer-container">
   <div class="table-container" style="padding-bottom: 24px; border-radius: 20px 20px;">
-
     <header class="form-navigation">
       <span>
-        <h3>Otopark Yönetim Sistemi'ne Hoşgeldiniz</h3>
+        <h6>Otopark Yönetim Sistemi'ne Hoşgeldiniz</h6>
       </span>
     </header>
-    <span style="display: flex; justify-content: center;  margin: 48px 24px; color: #17a2b8">
+    <span style="display: flex; justify-content: center;  margin: 40px 24px; color: #17a2b8">
       <i style="margin-right: 5px;" class="fas fa-bullhorn fa-2x"></i>
       <h3>Güncel Duyurular</h3>
     </span>
@@ -14,13 +13,14 @@
       {{#each announcementList}}
         {{#if this.isActive}}
           <div style="margin: 22px; padding: 5px; font-size: 16px;">
-            <h4 style="color: #78CD51"> {{this.title}} </h4>
-            <h5> {{this.content}} </h5>
+            <h5 style="color: #78CD51"> {{this.title}} </h5>
+            <h6> {{this.content}} </h6>
           </div>
         {{/if}}
+        {{#isNextElementNotNull ../announcementList @index }}
+          <hr /> 
+        {{/isNextElementNotNull}}
       {{/each}}
     </div>
-
-    
   </div>
 </div>

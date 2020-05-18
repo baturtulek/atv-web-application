@@ -7,4 +7,5 @@ module.exports = {
   ifIdInArr: hbsHelpers.ifIdInArr,
   isUserCompetencyIncludesRoute: hbsHelpers.isUserCompetencyIncludesRoute,
   isActive: hbsHelpers.isActive,
+  isNextElementNotNull: hbsHelpers.isNextElementNotNull,
 };

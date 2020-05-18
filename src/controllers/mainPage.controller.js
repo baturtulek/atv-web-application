@@ -1,4 +1,3 @@
-const { DB } = require('../services/sequelize');
 const { checkExpiredAnnouncements, getActiveAnnouncements } = require('./announcement.controller');
 
 exports.listAnnouncements = async (req, res) => {

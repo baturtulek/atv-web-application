@@ -1,6 +1,6 @@
 {
   "ADDITIONAL_FEE": "Ek ücret",
-  "ANNOUNCEMENT": "Duyuru Yönetimi",
+  "ANNOUNCEMENT": "Duyuru",
   "DISCOUNT": "İndirim",
   "ENFORCEMENT_OFFICE": "İcra kurumu",
   "PARKING_LOT": "Otopark",
@@ -10,6 +10,6 @@
   "USER_ROLE": "Profil",
   "VEHICLE": "Araç",
   "VEHICLE_TYPE": "Araç tipi",
-  "ANNUAL_LEAVE": "Yıllık İzin",
+  "ANNUAL_LEAVE": "Yıllık izin",
   "TRANSFER": "Transfer işlemi"
 }

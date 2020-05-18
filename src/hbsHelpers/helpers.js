@@ -39,3 +39,11 @@ exports.isActive = (status) => {
   }
   return 'Pasif';
 };
+
+exports.isNextElementNotNull = (arr, index, options) => {
+  let nextIndex = index + 1;
+  if (arr[nextIndex] === null || arr[nextIndex] === undefined) {
+    return options.inverse(this);
+  }
+  return options.fn(this)
+};
