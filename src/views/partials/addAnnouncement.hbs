@@ -11,7 +11,7 @@
             {{else}}
               <i class="fas fa-edit"></i>Düzenle
             {{/ifEquals}}
-            </a>
+          </a>
           <a class="form-navigation-passive" href="/announcement/list">
             <i class="fas fa-list"></i> Listele
           </a>
@@ -19,7 +19,7 @@
         <span>Duyuru Yönetimi</span>
       </header>
       <form class="border border-light" id='form' action="/announcement/{{endPoint}}" method="POST">
-        <div class="form-announcement-container" style="margin-bottom: 8px;"> 
+        <div class="form-announcement-container" style="margin-bottom: 8px;">
           <input type="hidden" name="id" value="{{announcement.id}}">
 
           <label class="col-form-label">Duyuru Başlığı</label>
@@ -32,10 +32,10 @@
           <textarea class="form-control" name="content" id="content" required
                     oninvalid="this.setCustomValidity('Lütfen duyuru içeriğini girin.')"
                     oninput="setCustomValidity('')">{{announcement.content}}</textarea>
-          
+
         </div>
-        <div class="form-group row row-cols-3">
-          <div class="col" style="margin-bottom: 24px;">
+        <div class="form-group row row-cols-3 announcement-form">
+          <div class="col-4">
             <label class="col-form-label">Aktif</label>
             <select class="browser-default custom-select" name="isActive" id="isActive" required>
               <option value="0">
@@ -46,25 +46,34 @@
               </option>
             </select>
           </div>
-          
-          <div class="col" style="margin-bottom: 16px;">
+
+          <div class="col-4">
             <label class="col-form-label">Duyuru Başlangıç</label>
-            <input type="text" class="form-control date datepicker-icon" name="startDate" id="startDate" placeholder="&#xf073"
-                   value="{{announcement.startDate}}" 
-                   oninvalid="this.setCustomValidity('Lütfen duyuru başlangıcini girin.')"
-                   oninput="setCustomValidity('')">
+            <div class="input-group-prepend">
+              <span class="input-group-text date-icon-border"><i class="far fa-calendar-alt"></i></span>
+              <input type="text" class="form-control date" name="startDate" id="startDate"
+                     value="{{announcement.startDate}}"
+                     oninvalid="this.setCustomValidity('Lütfen duyuru başlangıcini girin.')"
+                     oninput="setCustomValidity('')">
+            </div>
           </div>
-          <div class="col" style="margin-bottom: 16px;">
+          
+          <div class="col-4">
             <label class="col-form-label">Duyuru Bitiş</label>
-            <input type="text" class="form-control date datepicker-icon" 
-                   name="endDate" id="endDate" placeholder="&#xf073"
-                   value="{{announcement.endDate}}" 
-                   oninvalid="this.setCustomValidity('Lütfen duyuru bitişini girin.')"
-                   oninput="setCustomValidity('')">
+            <div class="input-group-prepend">
+              <span class="input-group-text date-icon-border"><i class="far fa-calendar-alt"></i></span>
+              <input type="text" class="form-control date"
+                     name="endDate" id="endDate" 
+                     value="{{announcement.endDate}}"
+                     oninvalid="this.setCustomValidity('Lütfen duyuru bitişini girin.')"
+                     oninput="setCustomValidity('')">
+            </div>
           </div>
-          <div class="form-group row row-cols-3">
+          
+          <div class="col-12 announcement-button-group">
             <div class="col-auto grid-button-group ml-auto">
-              <button type="button" class="btn btn-info btn-sm" id="resetButton"><i class="fas fa-sync-alt"></i>Sıfırla</button>
+              <button type="button" class="btn btn-info btn-sm" id="resetButton"><i class="fas fa-sync-alt"></i>Sıfırla
+              </button>
               <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i>
                 {{#ifEquals "add" endPoint}}
                   Ekle
@@ -74,6 +83,7 @@
               </button>
             </div>
           </div>
+          
         </div>
       </form>
     </div>
@@ -87,7 +97,7 @@
     todayHighlight: true,
     orientation: "bottom left"
   });
-  
+
   $('#resetButton').on('click', function () {
     $('#title').val('');
     $('#content').val('');
