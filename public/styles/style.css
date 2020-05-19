@@ -101,21 +101,23 @@ p {
 
 #login, .logo {
   display: flex;
-  width: 40%;
 }
 
 #login {
   border-right: 1px solid #fff;
   width: 59%;
   justify-content: center;
-
+  padding-right: 30px;
 }
 
-.logo {
-  color: #fff;
-  font-size: 50px;
-  line-height: 125px;
-  padding: 0 22px;
+.logo {  
+  border-radius: 4px;
+  margin-left: 30px;
+  height: 200px;
+}
+
+.logo img {
+  height: 100%;
 }
 
 #login form span.fas {
