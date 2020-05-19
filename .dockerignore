@@ -1,0 +1,11 @@
+Documentation/
+node_modules/
+public/vendor/
+README.md
+airbnb-javascript-guide.md
+.env
+.git/
+.gitignore
+.gitattributes
+.editorconfig
+.eslintrc.json
