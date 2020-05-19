@@ -115,10 +115,8 @@ exports.updateAnnouncement = async (req, res) => {
         title: announcement.title,
         content: announcement.content,
         isActive: announcement.isActive,
-        isFlash: announcement.isFlash,
         startDate: announcement.startDate,
         endDate: announcement.endDate,
-        roleId: announcement.roleId,
       },
       {
         where: {
@@ -131,6 +129,7 @@ exports.updateAnnouncement = async (req, res) => {
       message: i18n.__('UPDATED', routeNames.ANNOUNCEMENT),
       type: 'success',
     };
+    this.checkExpiredAnnouncements();
     return res.redirect(`/announcement/update/${announcement.id}`);
   } catch (error) {
     req.session.flashMessages = {

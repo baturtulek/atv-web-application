@@ -36,12 +36,21 @@
           <div class="col-4">
             <label class="col-form-label">Aktif</label>
             <select class="browser-default custom-select" name="isActive" id="isActive" required>
+              {{#unless announcement.isActive}}
+              <option value="0" selected>
+                Hayır
+              </option>
+              <option value="1">
+                Evet
+              </option>
+              {{else}}
               <option value="0">
                 Hayır
               </option>
               <option value="1" selected>
                 Evet
               </option>
+              {{/unless}}
             </select>
           </div>
 
