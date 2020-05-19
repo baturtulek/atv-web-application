@@ -5,13 +5,16 @@
       <header class="form-navigation">
         <div class="d-flex align-items-center">
         </div>
-        <span>Araç Giriş/Çıkış İşlemleri</span>
+        <span>Günlük Çekilen Araçlar</span>
       </header>
       <form class="border border-light" action="/reports/byday" method="POST">
         <div class="form-group row row-cols-2">
           <div class="col">
               <label class="col-form-label">Tarih seçiniz</label>
-              <input name="date" type="text" class="form-control date datepicker-icon" placeholder="&#xf073">
+              <div class="input-group-prepend">
+                <span class="input-group-text date-icon-border"><i class="far fa-calendar-alt"></i></span>
+                <input name="date" type="text" class="form-control date">
+              </div>
           </div>
           <div class="col">
           </div>
