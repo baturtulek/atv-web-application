@@ -11,21 +11,36 @@
         </div>
         <span>Araç Giriş/Çıkış İşlemleri</span>
       </header>
-      <form class="border border-light" action="" method="POST">
+      <form class="border border-light" action= 
+      {{#ifEquals 'insystem' isSystem}}
+      "/vehicle/add"
+      {{else}}
+      {{/ifEquals}}
+      method="POST">
         <div class="form-group row row-cols-3">
-          <div class="col">
-            <label class="col-form-label">Plaka</label>
-            <select class="selectpicker " data-live-search="true" onchange="getVehicleData()" name="plate" id="plate" required>
-              {{#each vehiclePlates}}
-                <option value="{{this.plate}}">
+          {{#ifEquals 'insystem' isSystem}}
+            <div class="col">
+              <label class="col-form-label">Plaka</label>
+              <select class="selectpicker form-control" data-live-search="true" title="Plaka Seçiniz" onchange="getVehicleData()" name="plate" id="plateSelect" required>
+              {{#each ../vehiclePlates}}
+                <option data-tokens="{{this.plate}}" value="{{this.plate}}">
                   {{this.plate}}
                 </option>
               {{/each}}
             </select>
-          </div>
+            <a href="/vehicle/add?other=true" >Başka Bir Araç Eklemek için Tıklayın</a>
+            </div>
+            {{else}}
+            <div class="col">
+              <label class="col-form-label">Plaka</label>
+              <input class="form-control" type="text" name="plate", id="plateText">
+              <a href="/vehicle/add" >Sistem Aracı Eklemek için Tıklayın</a>
+            </div>
+            {{/ifEquals}}
           <div class="col">
             <label class="col-form-label">Tip</label>
             <select class="browser-default custom-select" name="vehicleTypeId" id="vehicleTypeId" required>
+              <option value=""></option>
               {{#each vehicleTypes}}
                 <option value="{{this.id}}">
                   {{this.name}}
@@ -43,6 +58,7 @@
           <div class="col">
             <label class="col-form-label">Marka</label>
             <select class="browser-default custom-select" name="brandId" id="brandId" required>
+              <option value=""></option>
               {{#each vehicleBrands}}
                 <option value="{{this.id}}">
                   {{this.description}}
@@ -57,6 +73,7 @@
           <div class="col">
             <label class="col-form-label">Kasa Tipi</label>
             <select class="browser-default custom-select" name="bodyTypeId" id="bodyTypeId" required>
+              <option value=""></option>
               {{#each vehicleBodyTypes}}
                 <option value="{{this.id}}">
                   {{this.description}}
@@ -69,6 +86,7 @@
           <div class="col">
             <label class="col-form-label">Renk</label>
             <select class="browser-default custom-select" name="colorId" id="colorId" required>
+              <option value=""></option>
               {{#each vehicleColors}}
                 <option value="{{this.id}}">
                   {{this.description}}
@@ -83,6 +101,7 @@
           <div class="col">
             <label class="col-form-label">Transfer Durumu</label>
             <select class="browser-default custom-select" name="stateId" id="stateId" required>
+              <option value=""></option>
               {{#each vehicleStates}}
                 <option value="{{this.id}}">
                   {{this.description}}
@@ -95,7 +114,8 @@
           <div class="col">
             <label class="col-form-label">Otopark</label>
             <select class="browser-default custom-select" name="parkingLotId" id="parkingLotId" required>
-              {{#each parkingLots}}
+             <option value=""></option>
+             {{#each parkingLots}}
                 <option value="{{this.id}}">
                   {{this.name}}
                 </option>
@@ -103,7 +123,7 @@
             </select>
           </div>
           <div class="col-auto grid-button-group ml-auto">
-            <button type="button" class="btn btn-info btn-sm" id="resetButtonPassword"><i
+            <button type="button" class="btn btn-info btn-sm" onclick="reset()" id="resetButtonPassword"><i
                     class="fas fa-sync-alt"></i>Sıfırla
             </button>
             <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i>Kaydet</button>
@@ -125,9 +145,7 @@
     <div class="spinner-grow text-info"></div>
   </div>
 <script>
-
-
-  function getVehicleData(){
+      function getVehicleData(){
       $('#vehicleTypeId').prop('selectedIndex', 0);
       $('#chassisNo').val('');
       $('#brandId').prop('selectedIndex', 0);
@@ -140,7 +158,7 @@
       $(".loading").css("animation", "1s fadeIn");
       $(".loading").removeAttr("hidden");
       $("#DiscountYes").css("pointer-events","none");
-      let plate = $("#plate").val()
+      let plate = $("#plateSelect").val()
       $(document).ready(function () {
       const endPoint = `/vehicle/${plate}`;
         $.ajax({
@@ -173,6 +191,22 @@
 
     });
       }
+</script>
+<script>
+    function reset(){
+    $('#plateText').val('');
+    $('#plateSelect').prop('selectedIndex', 0);
+    $('#vehicleTypeId').prop('selectedIndex', 0);
+    $('#chassisNo').val('');
+    $('#brandId').prop('selectedIndex', 0);
+    $('#modelYear').val('');
+    $('#bodyTypeId').prop('selectedIndex', 0);
+    $('#colorId').prop('selectedIndex', 0);
+    $('#engineNo').val('');
+    $('#stateId').prop('selectedIndex', 0);
+    $('#parkingLotId').prop('selectedIndex', 0);
+    
+  }
 </script>
 
 <style>

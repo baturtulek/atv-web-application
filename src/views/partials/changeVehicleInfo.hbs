@@ -1,0 +1,99 @@
+<div class="outer-container">
+  <div class="partial-container">
+    <div class="form-container">
+      {{> components/showMessage }}
+      <header class="form-navigation">
+      </header>
+      <form class="border border-light" action="/vehicle/edit/{{vehicle.plate}}" method="POST">
+        <div class="form-group row row-cols-3">
+          <div id="plateInput" class="col">
+            <label class="col-form-label">Plaka</label>
+            <input name="plate" id="plateText" type="text" class="form-control inputPlate" value="{{vehicle.plate}}" readonly>
+          </div>
+          <div class="col">
+            <label class="col-form-label">Tip</label>
+            <select class="browser-default custom-select" name="vehicleTypeId" id="vehicleTypeId" required>
+              <option value=""></option>
+              {{#each vehicleTypes}}
+                <option value="{{this.id}}"
+                {{#ifEquals this.id ../vehicle.vehicleTypeId}}
+                        selected
+                  {{/ifEquals}}
+                >
+                  {{this.name}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="col">
+            <label class="col-form-label">Şasi No</label>
+            <input name="chassisNo" id="chassisNo" type="text" class="form-control" value="{{vehicle.chassisNo}}" required>
+          </div>
+        </div>
+
+        <div class="form-group row row-cols-3">
+          <div class="col">
+            <label class="col-form-label">Marka</label>
+            <select class="browser-default custom-select" name="brandId" id="brandId" required>
+              <option value=""></option>
+              {{#each vehicleBrands}}
+                <option value="{{this.id}}"
+                {{#ifEquals this.id ../vehicle.brandId}}
+                        selected
+                  {{/ifEquals}}
+                >
+                  {{this.description}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="col">
+            <label class="col-form-label">Model Yılı</label>
+            <input name="modelYear" id="modelYear" type="text" class="form-control" value="{{vehicle.modelYear}}" required>
+          </div>
+          <div class="col">
+            <label class="col-form-label">Kasa Tipi</label>
+            <select class="browser-default custom-select" name="bodyTypeId" id="bodyTypeId" value="{{vehicle.bodyTypeId}}" required>
+              <option value=""></option>
+              {{#each vehicleBodyTypes}}
+                <option value="{{this.id}}"
+                {{#ifEquals this.id ../vehicle.bodyTypeId}}
+                        selected
+                  {{/ifEquals}}
+                >
+                  {{this.description}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+        <div class="form-group row row-cols-3">
+          <div class="col">
+            <label class="col-form-label">Renk</label>
+            <select class="browser-default custom-select" name="colorId" id="colorId" required>
+              <option value=""></option>
+              {{#each vehicleColors}}
+                <option value="{{this.id}}"
+                {{#ifEquals this.id ../vehicle.colorId}}
+                        selected
+                  {{/ifEquals}}
+                >
+                  {{this.description}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="col">
+            <label class="col-form-label">Motor No</label>
+            <input name="engineNo" id="engineNo" type="text" class="form-control" value="{{vehicle.engineNo}}" >
+          </div>
+          </div>
+        <div class="form-group row row-cols-3">
+          <div class="col-auto grid-button-group ml-auto">
+            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i>Güncelle</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>  

@@ -2,12 +2,12 @@ const vehicleController = require('../controllers/vehicle.controller');
 
 const routes = (app) => {
   app
-    .route('/vehicle/add')
+    .route(['/vehicle/add', '/vehicle/add/:status'])
     .get(vehicleController.addVehicleView)
     .post(vehicleController.addVehicle);
 
   app
-    .route('/vehicle/search')
+    .route(['/vehicle/search', '/vehicle/search/:state'])
     .get(vehicleController.searchVehicleView)
     .post(vehicleController.searchVehicle);
 
@@ -19,12 +19,19 @@ const routes = (app) => {
     .route('/vehicle/exit')
     .get(vehicleController.exitVehicleView)
     .post(vehicleController.exitVehicle);
+
   app
     .route('/vehicle/calculate')
     .post(vehicleController.calculatePrice);
+
   app
     .route('/vehicle/:plate')
     .post(vehicleController.getVehicleByPlate);
+
+  app
+    .route('/vehicle/edit/:plate')
+    .get(vehicleController.editVehicleView)
+    .post(vehicleController.editVehicle);
 };
 
 module.exports = routes;
