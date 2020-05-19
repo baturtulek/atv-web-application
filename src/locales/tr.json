@@ -15,5 +15,6 @@
 	"EXIT_VEHICLE_ERROR": "%s çıkışı yapılamadı",
 	"COMPLETED": "%s başarıyla tamamlandı",
 	"INCOMPLETED": "%s maalesef tamamlanamadı",
-	"INTERNAL_ERROR": "Sistem hatası."
+	"INTERNAL_ERROR": "Sistem hatası.",
+	"INFO_ERROR" : "%s bilgisi sistemde bulunamadı."
 }

@@ -89,7 +89,7 @@
         <th scope="col">Parktan Çıkış Tarihi</th>
         <th scope="col">Durum</th>
         <th scope="col">Fotoğraflar</th>
-        <th scope="col">Çıkış</th>
+        <th scope="col">Düzenle/Çıkış</th>
       </tr>
       </thead>
       <tbody>
@@ -108,20 +108,21 @@
               <i class="fas fa-camera fa-sm btn btn-info" aria-hidden="true"></i>
             </a>
           </td>
+          <td class="column9">
+            <a href="/vehicle/edit/{{this.plate}}">
+              <i class="far fa-edit fa-sm btn btn-success" aria-hidden="true"></i>
+            </a>
           {{#ifEquals (lookup this 'VehicleState.description') 'Otoparkta' }}
-            <td class="column9">
-              <a href="/vehicle/exit?plate={{../this.plate}}">
+            <a href="/vehicle/exit?plate={{../this.plate}}">
               <i class="far fa-edit fa-sm btn btn-primary" aria-hidden="true"></i>
-              </a>
-            </td>
+            </a>
           {{/ifEquals}}
           {{#ifNotEquals (lookup this 'VehicleState.description') 'Otoparkta' }}
-            <td class="column9">
               <a style="pointer-events: none; cursor: default;">
                 <i class="far fa-edit fa-sm btn btn-secondary" aria-hidden="true"></i>
               </a>
-            </td>
           {{/ifNotEquals}}
+          </td>
           <script>
           </script>
         </tr>

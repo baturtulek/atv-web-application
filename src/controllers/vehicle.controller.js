@@ -4,14 +4,14 @@ const routeNames = require('../locales/routeNamesTR.json');
 const { DB } = require('../services/sequelize');
 const { getFormattedTimeStamp } = require('../utils/timezoneHelpers');
 
-// const statusIdOtopark = async () => {
-//   const vehicleStatus = await DB.VehicleState.findOne({
-//     where: {
-//       description: 'Otoparkta',
-//     },
-//   });
-//   return vehicleStatus;
-// };
+const statusIdOtopark = async () => {
+  const vehicleStatus = await DB.VehicleState.findOne({
+    where: {
+      description: 'Otoparkta',
+    },
+  });
+  return vehicleStatus;
+};
 
 const upsertVehicle = async (vehicle) => {
   await DB.Vehicle.upsert({
@@ -39,6 +39,8 @@ exports.vehiclePhoto = async (req, res) => {
 };
 
 exports.addVehicleView = async (req, res) => {
+  const { other } = req.query;
+  const isSystem = other ? 'notsystem' : 'insystem';
   try {
     const vehiclePlates = await DB.TowedVehicle.findAll({
       raw: true,
@@ -76,6 +78,7 @@ exports.addVehicleView = async (req, res) => {
       vehicleBrands,
       vehicleStates,
       parkingLots,
+      isSystem,
     });
   } catch (error) {
     return res.render('layouts/main', {
@@ -86,6 +89,7 @@ exports.addVehicleView = async (req, res) => {
 
 exports.addVehicle = async (req, res) => {
   const vehicle = req.body;
+  console.log('Req. body', req.body);
   try {
     const towedVehicle = await DB.TowedVehicle.findOne({
       where: {
@@ -130,6 +134,7 @@ exports.addVehicle = async (req, res) => {
     };
     return res.redirect('/vehicle/add');
   } catch (exception) {
+    console.log('Exception', exception);
     req.session.flashMessages = {
       message: i18n.__('ADD_ERROR', routeNames.VEHICLE),
       type: 'danger',
@@ -251,10 +256,14 @@ exports.searchVehicle = async (req, res) => {
 
 exports.exitVehicleView = async (req, res) => {
   const { plate } = req.query;
+  const parkingLotState = await statusIdOtopark();
   try {
     const exitDate = getFormattedTimeStamp('YYYY-MM-DD HH:mm:ss');
-
-    const [towVehicle, vehicle, additionalFee, vehicleTypes] = await Promise.all([
+    console.log("STATUS ID OTOPARK", parkingLotState.id);
+    const [enforcementOffices, towVehicle, vehicle, additionalFee, vehicleTypes] = await Promise.all([
+      DB.EnforcementOffice.findAll({
+        raw: true,
+      }),
       DB.TowedVehicle.findOne({
         include: [
           {
@@ -267,7 +276,7 @@ exports.exitVehicleView = async (req, res) => {
           },
         ],
         where: {
-          plate, active: 1,
+          plate, active: 1, stateId: parkingLotState.id,
         },
         raw: true,
       }),
@@ -302,8 +311,6 @@ exports.exitVehicleView = async (req, res) => {
       raw: true,
     });
 
-    console.log('TRANSFERS', transfers);
-
     if (!vehicle) {
       return res.redirect('/vehicle/search');
     }
@@ -321,10 +328,10 @@ exports.exitVehicleView = async (req, res) => {
       exitDate,
       additionalFee,
       transfers,
+      enforcementOffices,
     });
   } catch (err) {
-    console.log('ERROR', err);
-    return res.redirect('/vehicle/search');
+    return res.redirect('/vehicle/search/list');
   }
 };
 
@@ -379,7 +386,7 @@ exports.exitVehicle = async (req, res) => {
       message: i18n.__('EXIT_VEHICLE_SUCCESS', routeNames.VEHICLE),
       type: 'success',
     };
-    return res.redirect('/vehicle/search');
+    return res.redirect('/vehicle/search/list');
   } catch (err) {
     req.session.flashMessages = {
       message: i18n.__('EXIT_VEHICLE_ERROR', routeNames.VEHICLE),
@@ -459,5 +466,75 @@ exports.getVehicleByPlate = async (req, res) => {
     return res.status(500).json({
       result: 'Error',
     });
+  }
+};
+
+exports.editVehicleView = async (req, res) => {
+  const { plate } = req.params;
+
+  try {
+    const vehicle = await DB.Vehicle.findOne({
+      raw: true,
+      where: {
+        plate,
+      },
+    });
+
+    const [vehicleTypes, vehicleColors, vehicleBodyTypes, vehicleBrands] = await Promise.all([
+      DB.VehicleType.findAll({
+        raw: true,
+      }),
+      DB.VehicleColor.findAll({
+        raw: true,
+      }),
+      DB.VehicleBodyStyle.findAll({
+        raw: true,
+      }),
+      DB.VehicleBrand.findAll({
+        raw: true,
+      }),
+    ]);
+
+
+    if (vehicle) {
+      return res.render('layouts/main', {
+        partialName: 'changeVehicleInfo',
+        vehicle,
+        vehicleTypes,
+        vehicleColors,
+        vehicleBodyTypes,
+        vehicleBrands,
+      });
+    }
+    req.session.flashMessages = {
+      message: i18n.__('INFO_ERROR', routeNames.VEHICLE),
+      type: 'danger',
+    };
+    return res.redirect('/vehicle/search');
+  } catch (error) {
+    req.session.flashMessages = {
+      message: i18n.__('INFO_ERROR', routeNames.VEHICLE),
+      type: 'danger',
+    };
+    return res.redirect('/vehicle/search');
+  }
+};
+
+exports.editVehicle = async (req, res) => {
+  const vehicle = req.body;
+
+  try {
+    await upsertVehicle(vehicle);
+    req.session.flashMessages = {
+      message: i18n.__('UPDATED', routeNames.VEHICLE),
+      type: 'success',
+    };
+    return res.redirect(`/vehicle/edit/${vehicle.plate}`);
+  } catch (err) {
+    req.session.flashMessages = {
+      message: i18n.__('"UPDATE_ERROR"', routeNames.VEHICLE),
+      type: 'danger',
+    };
+    return res.redirect(`/vehicle/edit/${vehicle.plate}`);
   }
 };

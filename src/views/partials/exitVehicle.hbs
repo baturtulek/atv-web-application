@@ -2,6 +2,14 @@
   <div>
     <div class="form-container">
       {{> components/showMessage }}
+      <div hidden id="warningText" class="alert alert-warning" role="alert">
+        Bu aracın üzerine icra işlemi bulunmaktadır
+      </div>
+      <header class="form-navigation">
+        <div class="d-flex align-items-center">
+        </div>
+        <span>Araç Çıkış İşlemi</span>
+      </header>
       <form id="exitForm" class="border border-light" action="/vehicle/exit" method="POST">
         <div class="form-group row row-cols-3">
           <div class="col">
@@ -22,7 +30,7 @@
         <div class="form-group row row-cols-3">
           <div class="col">
             <label class="col-form-label">Tip</label>
-            <select class="browser-default custom-select" name="vehicleTypeId" id="vehicleTypeId" required>
+            <select class="browser-default custom-select" name="vehicleTypeId" id="vehicleTypeId">
               {{#each vehicleTypes}}
                 <option value="{{this.id}}"
                   {{#ifEquals this.id ../vehicle.vehicleTypeId}}
@@ -97,7 +105,24 @@
           </div>
         </div>
         <div class="form-group row row-cols-3">
+          <div class="col">
+            <label class="col-form-label">İcra Kurumları</label>
+            <select class="browser-default custom-select" onchange="showWarning()" name="enforcementOfficeId" id="enforcementOfficeId">
+              <option value=""></option>
+              {{#each enforcementOffices}}
+                <option value="{{this.id}}">
+                  {{this.name}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
+          
+        </div>
+        <div class="form-group row row-cols-3">
           <div class="col mr-auto">
+            <div  hidden id="warningText">
+              <p style="color: red; font-family:verdana; text-align:center; font-weight:500;">Bu aracın çıkışı yapılmamalı</p>
+          </div>
           </div>
           <div class="col-auto grid-button-group">
             <button type="button" class="btn btn-info btn-sm" onclick="restart()"><i class="fas fa-sync-alt"></i>Sıfırla</button>
@@ -135,19 +160,32 @@
           <td class="column5">{{lookup this 'User.name'}} {{lookup this 'User.surname'}} </td>
           <td class="column6">{{entranceParkingLotDate}}</td>
           <td class="column7">{{exitParkingLotDate}}</td>
+          <td class="column8">
           {{#ifEquals isInParkingLot 1 }}
-            <td class="column8">Otoparka Giriş Yapılmış</td>
+            Otoparka Giriş Yapılmış
           {{/ifEquals}}
           {{#ifEquals isInParkingLot 0 }}
-            <td class="column8">Otoparka Giriş Yapılmamış</td>
+            Otoparka Giriş Yapılmamış
           {{/ifEquals}}
-        </tr>
+          </td>
       {{/each}}
+      </tr>
       </tbody>
     </table>
   </div>
 </div>
 <script>
+  function makeInputChange(change){
+    if(change === true) {
+      $('#exitForm :input').prop('readonly', false);
+      $("select").css("pointer-events","auto");
+      $("#vehicleTypeId").css("pointer-events","none");
+    } else {
+       $('#exitForm :input').prop('readonly', true);
+      $("select").css("pointer-events","none");
+    }
+  }
+
   function calculate() {
     let plate = $("#plate").val()
     let entranceParkingLotDate = $("#entranceParkingLotDate").val()
@@ -158,13 +196,18 @@
     let exitDate = $("#exitDate").val()
     let additionalFee = $("#additionalFee").val()
 
-    $("select").css("pointer-events","none");
+    makeInputChange(false);
 
     $(document).ready(function () {
       const endPoint = "/vehicle/calculate";
       if(!$("#receiver").val()) {
         alert("Lütfen alıcı giriniz");
-      } else {
+        makeInputChange(true);
+      } else if (discount && !discountRoleId) {
+        alert("Rol Seçmelisiniz");
+        makeInputChange(true);
+      } 
+      else {
         $.ajax({
         url: endPoint,
         type: "POST",
@@ -180,7 +223,7 @@
           additionalFee: additionalFee
         },
         success: function (result) {
-          $('#exitForm :input').prop('readonly', true);
+          makeInputChange(false);
           var fullPrice = document.getElementById("fullPrice");
           var discountPrice = document.getElementById("discountPrice");
           var exitButton = document.getElementById("exitButton");
@@ -197,7 +240,7 @@
           exitButton.classList.remove('btn-secondary');
         },
         error: function (error) {
-          
+          makeInputChange(true);
         }
       });
       }
@@ -220,7 +263,13 @@
 
 <script>
   function restart() {
+    $("#fullPrice").val('');
+    $("#discountPrice").val('');
+    $("#receiver").val('');
+    
+
     $("select").css("pointer-events","auto");
+    $("#vehicleTypeId").css("pointer-events","none");
     $("#DiscountYes").css("pointer-events","auto");
     $("#DiscountNo").css("pointer-events","auto");
     $("#receiver").removeAttr("readonly")
@@ -231,9 +280,20 @@
     exitButton.classList.remove('btn-success');
   }
 </script>
+
+<script>
+  function showWarning(){
+     if($("#enforcementOfficeId").val() !== "") {
+       document.getElementById("warningText").hidden = false;
+     } else {
+       document.getElementById("warningText").hidden = true;
+     }
+  }
+</script>
 <script>
   $(document).ready(function() {
     var discountNo = document.getElementById("DiscountNo");
     discountNo.checked = true;
+    $("#vehicleTypeId").css("pointer-events","none");
 });
 </script>
