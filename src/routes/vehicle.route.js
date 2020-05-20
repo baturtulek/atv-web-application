@@ -2,10 +2,13 @@ const vehicleController = require('../controllers/vehicle.controller');
 
 const routes = (app) => {
   app
-    .route(['/vehicle/add', '/vehicle/add/:status'])
+    .route('/vehicle/add')
     .get(vehicleController.addVehicleView)
     .post(vehicleController.addVehicle);
 
+  app
+    .route('/vehicle/add/private')
+    .post(vehicleController.addPrivateVehicle);
   app
     .route(['/vehicle/search', '/vehicle/search/:state'])
     .get(vehicleController.searchVehicleView)

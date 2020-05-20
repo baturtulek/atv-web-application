@@ -36,6 +36,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
+      active: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+      },
     },
     {
       timestamps: false,

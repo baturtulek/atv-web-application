@@ -41,6 +41,7 @@ exports.vehiclePhoto = async (req, res) => {
 exports.addVehicleView = async (req, res) => {
   const { other } = req.query;
   const isSystem = other ? 'notsystem' : 'insystem';
+  let users;
   try {
     const vehiclePlates = await DB.TowedVehicle.findAll({
       raw: true,
@@ -69,6 +70,13 @@ exports.addVehicleView = async (req, res) => {
         raw: true,
       }),
     ]);
+
+    if (isSystem === 'notsystem') {
+      users = await DB.User.findAll({
+        raw: true,
+      });
+    }
+
     return res.render('layouts/main', {
       partialName: 'entranceVehicle',
       vehiclePlates,
@@ -79,6 +87,7 @@ exports.addVehicleView = async (req, res) => {
       vehicleStates,
       parkingLots,
       isSystem,
+      users,
     });
   } catch (error) {
     return res.render('layouts/main', {
@@ -259,7 +268,7 @@ exports.exitVehicleView = async (req, res) => {
   const parkingLotState = await statusIdOtopark();
   try {
     const exitDate = getFormattedTimeStamp('YYYY-MM-DD HH:mm:ss');
-    console.log("STATUS ID OTOPARK", parkingLotState.id);
+    console.log('STATUS ID OTOPARK', parkingLotState.id);
     const [enforcementOffices, towVehicle, vehicle, additionalFee, vehicleTypes] = await Promise.all([
       DB.EnforcementOffice.findAll({
         raw: true,
@@ -536,5 +545,52 @@ exports.editVehicle = async (req, res) => {
       type: 'danger',
     };
     return res.redirect(`/vehicle/edit/${vehicle.plate}`);
+  }
+};
+
+exports.addPrivateVehicle = async (req, res) => {
+  // This is used for accepting car thats towed by private staff
+  const vehicle = req.body;
+  console.log('Vehicle Private', req.body);
+
+  try {
+    const a = await DB.TowedVehicle.update(
+      { active: parseInt(0) },
+      {
+        where: {
+          plate: vehicle.plate,
+        },
+      },
+    );
+    console.log('RESULT', a);
+    const entranceDate = getFormattedTimeStamp('YYYY-MM-DD HH:mm:ss');
+    console.log('entrance date', entranceDate);
+    await DB.TowedVehicle.create(
+      {
+        plate: vehicle.plate,
+        towedDate: entranceDate,
+        note: vehicle.note,
+        staffId: vehicle.staffId,
+        parkingLotId: vehicle.parkingLotId,
+        stateId: vehicle.stateId,
+        entranceParkingLotDate: entranceDate,
+        active: 1,
+      },
+      {
+        raw: true,
+      },
+    );
+    await upsertVehicle(vehicle);
+    req.session.flashMessages = {
+      message: i18n.__('ADDED', routeNames.VEHICLE),
+      type: 'success',
+    };
+    return res.redirect('/vehicle/add?other=true');
+  } catch (err) {
+    req.session.flashMessages = {
+      message: i18n.__('ADD_ERROR', routeNames.VEHICLE),
+      type: 'danger',
+    };
+    return res.redirect('/vehicle/add');
   }
 };

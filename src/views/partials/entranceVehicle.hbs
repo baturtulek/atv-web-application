@@ -15,6 +15,7 @@
       {{#ifEquals 'insystem' isSystem}}
       "/vehicle/add"
       {{else}}
+      "/vehicle/add/private"
       {{/ifEquals}}
       method="POST">
         <div class="form-group row row-cols-3">
@@ -33,7 +34,7 @@
             {{else}}
             <div class="col">
               <label class="col-form-label">Plaka</label>
-              <input class="form-control" type="text" name="plate", id="plateText">
+              <input class="form-control" type="text" name="plate", id="plateText" required>
               <a href="/vehicle/add" >Sistem Aracı Eklemek için Tıklayın</a>
             </div>
             {{/ifEquals}}
@@ -73,7 +74,7 @@
           <div class="col">
             <label class="col-form-label">Kasa Tipi</label>
             <select class="browser-default custom-select" name="bodyTypeId" id="bodyTypeId" required>
-              <option value=""></option>
+              <option></option>
               {{#each vehicleBodyTypes}}
                 <option value="{{this.id}}">
                   {{this.description}}
@@ -122,6 +123,19 @@
               {{/each}}
             </select>
           </div>
+            {{#ifEquals 'notsystem' isSystem}}
+             <div class="col">
+            <label class="col-form-label">Çekici Bilgisi</label>
+            <select class="browser-default custom-select" name="staffId" id="staffId" required>
+             <option value=""></option>
+             {{#each ../users}}
+                <option value="{{this.id}}">
+                  {{this.name}} {{this.surname}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
+            {{/ifEquals}}
           <div class="col-auto grid-button-group ml-auto">
             <button type="button" class="btn btn-info btn-sm" onclick="reset()" id="resetButtonPassword"><i
                     class="fas fa-sync-alt"></i>Sıfırla
@@ -153,6 +167,7 @@
       $('#bodyTypeId').prop('selectedIndex', 0);
       $('#colorId').prop('selectedIndex', 0);
       $('#engineNo').val('');
+      $('#staffId').prop('selectedIndex', 0);
 
 
       $(".loading").css("animation", "1s fadeIn");
