@@ -13,9 +13,7 @@
           <div class="col">
             <label class="col-form-label">Bulunduğu Otopark</label>
             <select class="browser-default custom-select" name="previousParkingLotId" id="previousParkingLotId" required>
-              <option value="">
-                Otopark
-              </option>
+              <option value=""></option>
               {{#each parkingLots}}
               <option value="{{this.id}}">
                 {{this.description}}
@@ -26,9 +24,7 @@
           <div class="col">
             <label class="col-form-label">Gideceği Otopark</label>
             <select class="browser-default custom-select" name="nextParkingLotId" id="nextParkingLotId" required>
-              <option value="">
-                Otopark
-              </option>
+              <option value=""></option>
               {{#each parkingLots}}
               <option value="{{this.id}}">
                 {{this.description}}
@@ -41,6 +37,7 @@
           <div class="col">
             <label class="col-form-label">Çalışan Bilgisi</label>
             <select class="browser-default custom-select" name="staffId" id="staffId">
+              <option value=""></option>
               {{#each staffs}}
               <option value="{{this.id}}">
                 {{this.id}} {{this.name}} {{this.surname}}
@@ -66,6 +63,7 @@
           <div class="col">
             <label class="col-form-label">Transfer Durumu</label>
             <select class="browser-default custom-select" name="stateId" id="statId" required>
+              <option val=""></option>
               {{#each vehicleStates}}
               <option value="{{this.id}}">
                 {{this.description}}
